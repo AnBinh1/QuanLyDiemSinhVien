@@ -1,0 +1,38 @@
+﻿@model UserRoleViewModel
+
+<div style="margin-left:30px;padding-top:20px">
+    <h3>Gán quyền cho tài khoản: @Model.UserName</h3>
+</div>
+<div class="col-sm-12" style="margin-left:5px">
+<form asp-action="Manage" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="UserId" />
+
+    <table class="table table-bordered table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th>Chọn</th>
+                <th>Quyền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Roles.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" asp-for="Roles[i].IsSelected" />
+                        <input type="hidden" asp-for="Roles[i].RoleName" />
+                    </td>
+                    <td>
+                        @Model.Roles[i].RoleName
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Lưu Thay Đổi</button>
+    <a asp-action="Index" class="btn btn-Secondary">Quay Lại</a>
+
+</form>
+</div>

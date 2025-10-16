@@ -1,0 +1,29 @@
+﻿@model IdentityRole
+@{
+    ViewData["title"] = "Create Role";
+
+}
+<h3 style="padding:10px 0px 0px 10px">Thêm Vai Trò</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <form asp-action="Create" asp-controller="Role" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label>Tên Vai Trò</label>
+            <input asp-for="Name" required class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Thêm Vai Trò</button>
+        </div>
+    </form>
+    <a asp-action="Index">Back to list User</a>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

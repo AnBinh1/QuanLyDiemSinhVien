@@ -1,0 +1,213 @@
+﻿@using QuanLyDiemSinhVien.Models.ViewModel
+@model LoginViewModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập hệ thống quản lý điểm</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #74b9ff, #00cec9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: #fff;
+            width: 400px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            animation: fadeIn 0.8s ease;
+        }
+
+            .login-container::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(0, 206, 201, 0.15), transparent 70%);
+                z-index: 0;
+            }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        h2 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdde1;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #0984e3;
+            box-shadow: 0 0 5px rgba(9, 132, 227, 0.3);
+            outline: none;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(90deg, #0984e3, #00cec9);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+            .btn-login:hover {
+                background: linear-gradient(90deg, #00b894, #0984e3);
+                transform: translateY(-2px);
+            }
+
+        .login-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #636e72;
+            position: relative;
+            z-index: 1; /* đảm bảo không bị ::before che */
+        }
+
+            .login-footer label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .login-footer input[type="checkbox"] {
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+            .login-footer a {
+                color: #0984e3;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .login-footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+            .logo img {
+                width: 80px;
+                height: 80px;
+            }
+
+        @@media (max-width: 480px) {
+            .login-container
+
+        {
+            width: 90%;
+            padding: 30px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    @Html.Partial("_NotificationPartial")
+    <div class="login-container">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Student Icon">
+        </div>
+        <h2>Đăng nhập hệ thống</h2>
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label>UserName</label>
+                <input asp-for="UserName" class="form-control" placeholder="Xin mời nhập UserName" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input asp-for="Password" class="form-control" placeholder="Xin mời nhập Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="login-footer">
+                <label>
+                    <input asp-for="RememberMe" type="checkbox" /> Ghi nhớ đăng nhập
+                    <span asp-validation-for="RememberMe" class="text-danger"></span>
+                </label>
+                <a href="#">Quên mật khẩu?</a>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-login">Đăng Nhập</button>
+            </div>
+        </form>
+
+       
+    </div>
+</body>
+</html>

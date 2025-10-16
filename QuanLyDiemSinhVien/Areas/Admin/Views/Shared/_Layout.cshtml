@@ -37,7 +37,7 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+            <img class="animation__shake" src="~/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
         </div>
 
         <!-- Navbar -->
@@ -166,7 +166,7 @@
                 </li>
                 <li>
                     <div class="image" style="margin:0px -10px 0px 10px; padding-top:3px">
-                        <img height="30px" width="30px" src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img height="30px" width="30px" src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     
                 </li>
@@ -216,7 +216,7 @@
 
            </div>
             <!-- Sidebar -->
-            <div class="sidebar" style="background-color:white">
+            <div class="sidebar" style="background-color:rgb(249,249,249">
                 <!-- Sidebar user panel (optional) -->
     
                 <!-- Sidebar Menu -->
@@ -227,7 +227,25 @@
                         <li class="nav-item">
                             <a style="color:black" href="pages/calendar.html" class="nav-link">
                                 <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>Calendar</p>
+                                Calendar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-action="Index" asp-controller="User" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Tài Khoản
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-action="Index" asp-controller="Role" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Vai Trò
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="UserRole" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Phân Quyền TàI Khoản
                             </a>
                         </li>
                         <li class="nav-item">
@@ -276,6 +294,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
+            @Html.Partial("_NotificationPartial")
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
@@ -295,9 +314,9 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
@@ -328,5 +347,7 @@
     <script src="~/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/dist/js/pages/dashboard.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

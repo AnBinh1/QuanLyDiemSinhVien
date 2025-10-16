@@ -1,4 +1,20 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using QuanLyDiemSinhVien.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<DataContext>(options =>
+{
+	options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
+});
+
+//Add Identity
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+	options.SignIn.RequireConfirmedAccount = false)
+	.AddRoles<IdentityRole>()
+	.AddEntityFrameworkStores<DataContext>(); // <--- dùng DataContext c?a b?n
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,6 +34,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -26,6 +44,8 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+
 
 app.Run();
