@@ -172,7 +172,6 @@
     </style>
 </head>
 <body>
-    @Html.Partial("_NotificationPartial")
     <div class="login-container">
         <div class="logo">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="Student Icon">
@@ -211,3 +210,10 @@
     </div>
 </body>
 </html>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

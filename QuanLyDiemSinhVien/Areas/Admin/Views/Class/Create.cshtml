@@ -1,0 +1,74 @@
+﻿@model QuanLyDiemSinhVien.Models.ClassModel
+
+@{
+    ViewData["Title"] = "Thêm Lớp Học";
+}
+
+<h3 style="padding:10px 0px 0px 10px">Thêm Lớp Học</h3>
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
+
+    <form asp-action="Create" method="post" asp-controller="Class" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+
+        <!-- Khoa -->
+        <div class="form-group">
+            <label for="FacultyId">Chọn Khoa/Viện *</label>
+            <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
+                <option value="">-- Chọn Khoa/Viện --</option>
+            </select>
+            <span asp-validation-for="Major.Faculty.Id" class="text-danger"></span>
+        </div>
+
+        <!-- Ngành -->
+        <div class="form-group">
+            <label for="MajorId">Chọn Ngành Học *</label>
+            <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
+                <option value="">-- Chọn Ngành Học --</option>
+            </select>
+            <span asp-validation-for="MajorId" class="text-danger"></span>
+        </div>
+
+        <!-- Tên lớp -->
+        <div class="form-group">
+            <label asp-for="ClassName">Tên Lớp *</label>
+            <input asp-for="ClassName" class="form-control" />
+            <span asp-validation-for="ClassName" class="text-danger"></span>
+        </div>
+
+        <!-- Mô tả -->
+        <div class="form-group">
+            <label asp-for="ClassDescription">Mô tả lớp *</label>
+            <textarea asp-for="ClassDescription" class="form-control"></textarea>
+            <span asp-validation-for="ClassDescription" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Thêm Lớp Học</button>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Khi chọn khoa thì load ngành tương ứng
+        $('#FacultyId').on('change', function () {
+            var facultyId = $(this).val();
+            var majorSelect = $('#MajorId');
+            majorSelect.empty();
+            majorSelect.append('<option value="">-- Chọn Ngành Học --</option>');
+
+            if (facultyId) {
+                $.getJSON('/Admin/Class/GetMajorsByFaculty?facultyId=' + facultyId, function (data) {
+                    $.each(data, function (i, item) {
+                        majorSelect.append('<option value="' + item.majorId + '">' + item.majorName + '</option>');
+                    });
+                });
+            }
+        });
+    </script>
+}
+

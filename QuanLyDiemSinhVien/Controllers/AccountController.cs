@@ -40,6 +40,12 @@ namespace QuanLyDiemSinhVien.Controllers
 			
 			return View();
 		}
+		public async Task<IActionResult> Logout(string returnUrl = "/")
+		{
+			await _signInManager.SignOutAsync();
+			
+			return Redirect("/account/login");
+		}
 
 	}
 }

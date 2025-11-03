@@ -1,0 +1,72 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.StudentModel>
+
+@{
+    ViewData["Title"] = "Thông tin sinh viên";
+}
+
+<div style="margin-left:25px;padding-top:20px">
+    <h3>Danh sách sinh viên</h3>
+
+    <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="Student">Thêm sinh viên</a>
+
+</div>
+
+<div >
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>STT</th>
+                <th>Mã SV</th>
+                <th>Họ và tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Tên lớp</th>
+                <th>Ngành học</th>
+                <th>Khoa</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                foreach (var student in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@student.StudentCode</td>
+                        <td>@student.FullName</td>
+                        <td>@student.Gender</td>
+                        <td>@student.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                        <td>@student.PhoneNumber</td>
+                        <td>@student.Email</td>
+                        <td>@student.Class?.ClassName</td>
+                        <td>@student.Class?.Major?.MajorName</td>
+                        <td>@student.Class?.Major?.Faculty?.FacultyName</td>
+                        <td>
+                            @if (student.IsActive)
+                            {
+                                <span class="badge bg-success">Đang học</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Ngừng học</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@student.StudentId" class="btn btn-info btn-sm">Xem</a>
+                            <a asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-warning btn-sm">Sửa</a>
+                            <form asp-action="Delete" asp-route-id="@student.StudentId" method="post" style="display:inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sinh viên này không?')">
+                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+</div>

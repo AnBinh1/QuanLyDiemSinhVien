@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ClassModel>
+
+@{
+    ViewData["Title"] = "Danh Sách Lớp Học";
+}
+
+<div style="margin-left:30px;padding-top:20px">
+    <h3>Quản lý Lớp Học</h3>
+
+    <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="Class">Thêm Lớp Học</a>
+
+</div>
+<div class="col-sm-12" style="margin-left:5px">
+    <table class="table table-bordered table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên Lớp Học</th>
+                <th>Mô Tả Lớp Học</th>
+                <th>Tên Ngành Học</th>
+                <th>Tên Khoa-Viện Học</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td width="20">@user.ClassId</td>
+                    <td>@user.ClassName</td>
+                    <td width="350px">@user.ClassDescription</td>
+                    <td>@user.Major.MajorName</td>
+                    <td>@user.Major?.Faculty?.FacultyName</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Class" asp-route-id="@user.ClassId">Sửa</a>
+                        <form asp-action="Delete" asp-controller="Class" asp-route-id="@user.ClassId" method="post" onsubmit=" return confirm('bạn có chắc chắn xoá lớp học này không?')" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,42 @@
+﻿@model FacultyModel
+@{
+    ViewData["title"] = "Cập nhật khoa viện";
+
+}
+
+<h3 style="padding:10px 0px 0px 10px">Cập Nhật Khoa-Viện</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập(không đươc để trống)</h6>
+    <form asp-action="Edit" asp-controller="Faculty" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label>Mã Khoa-Viện*</label>
+            <input asp-for="FacultyCode" required class="form-control" placeholder="Mời nhập mã khoa-viện" />
+            <span asp-validation-for="FacultyCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Tên Khoa-Viện*</label>
+            <input asp-for="FacultyName" required class="form-control" placeholder="Mời nhập tên khoa-viện" />
+            <span asp-validation-for="FacultyName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Mô Tả Khoa-Viện*</label>
+            <input asp-for="FacultyDescription" class="form-control" placeholder="Yêu cầu nhập mô tả khoa-viện" />
+            <span asp-validation-for="FacultyDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Cập nhật Khoa-Viện</button>
+            <a asp-action="Index" class="btn btn-secondary ml-2">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

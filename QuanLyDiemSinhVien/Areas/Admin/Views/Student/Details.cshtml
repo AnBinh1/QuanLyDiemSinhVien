@@ -1,0 +1,89 @@
+﻿@model QuanLyDiemSinhVien.Models.StudentModel
+
+@{
+    ViewData["Title"] = "Thông tin chi tiết sinh viên";
+}
+
+
+<div style="margin-left:25px;padding-top:20px">
+    <h3 class="mb-3 text-primary">Thông tin sinh viên</h3>
+</div>
+<div class="container mt-4">
+    
+
+    <div class="card shadow-sm p-4" style="font-size:16px">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                @if(Model.Gender == "Nam"){
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsagjXsTpkIi3TvjeiWP641MqS1noU-QuaaA&s" alt="Ảnh sinh viên" class="img-fluid rounded-circle mb-3" width="150" />
+                }
+                else{
+                <img src="https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-female-student-icon-png-image_326761.jpg" alt="Ảnh sinh viên" class="img-fluid rounded-circle mb-3" width="150" />
+                }
+                <p><strong>@Model.FullName</strong></p>
+            </div>
+            <div class="col-md-9">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <strong>Mã sinh viên:</strong> @Model.StudentCode
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Ngày sinh:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Giới tính:</strong> @Model.Gender
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Địa chỉ:</strong> @Model.Address
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Số điện thoại:</strong> @Model.PhoneNumber
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Email:</strong> @Model.Email
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Lớp:</strong> @Model.Class?.ClassName
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Ngành học:</strong> @Model.Class?.Major?.MajorName
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Khoa:</strong> @Model.Class?.Major?.Faculty?.FacultyName
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Năm học:</strong> @Model.YearOfStudy
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Ngày nhập học:</strong> @Model.EnrollmentDate.ToString("dd/MM/yyyy")
+                    </div>
+                    <br /><br />
+                    <div class="col-sm-6">
+                        <strong>Trạng thái:</strong>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Đang học</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Ngừng học</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-end mt-3">
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+</div>

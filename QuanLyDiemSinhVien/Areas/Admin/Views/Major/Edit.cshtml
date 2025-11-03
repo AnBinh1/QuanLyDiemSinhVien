@@ -1,0 +1,50 @@
+﻿@model MajorModel
+@{
+    ViewData["title"] = "Cập nhật ngành học";
+
+}
+
+<h3 style="padding:10px 0px 0px 10px">Cập Nhật Ngành Học</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập(không đươc để trống)</h6>
+    <form asp-action="Edit" asp-controller="Major" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="MajorId" />
+        <div class="form-group">
+            <label>Mã Ngành Học*</label>
+            <input asp-for="MajorCode" required class="form-control" placeholder="Mời nhập mã khoa-viện" />
+            <span asp-validation-for="MajorCode" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>MajorName</label>
+            <input asp-for="MajorName" required class="form-control" placeholder="Mời nhập mã khoa-viện" />
+            <span asp-validation-for="MajorName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>MajorDescription*</label>
+            <input asp-for="MajorDescription" class="form-control" placeholder="Yêu cầu nhập mô tả khoa-viện" />
+            <span asp-validation-for="MajorDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Khoa-Viện</label>
+            <select asp-for="FacultyId" asp-items="ViewBag.FacultyList" class="form-control">
+                <option value="">--Chọn Khoa-Viện--</option>
+            </select>
+            <span asp-validation-for="FacultyId" class="text-danger" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Cập nhật Ngành Học</button>
+        </div>
+    </form>
+    <a asp-action="Index">Quay Lại</a>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

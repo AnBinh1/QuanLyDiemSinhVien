@@ -1,0 +1,52 @@
+﻿@model ClassModel
+@{
+    ViewData["title"] = "Cập nhật lớp học";
+
+}
+
+<h3 style="padding:10px 0px 0px 10px">Cập Nhật Ngành Học</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập(không đươc để trống)</h6>
+    <form asp-action="Edit" asp-controller="Class" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ClassId" />
+        <div class="form-group">
+            <label>Tên Lớp Học*</label>
+            <input asp-for="ClassName" required class="form-control" placeholder="Mời nhập tên lớp học" />
+            <span asp-validation-for="ClassName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Mô tả Lớp Học*</label>
+            <input asp-for="ClassDescription" class="form-control" placeholder="Yêu cầu nhập mô tả lớp học" />
+            <span asp-validation-for="ClassDescription" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="FacultyId">Chọn Khoa/Viện *</label>
+            <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
+                <option value="">-- Chọn Khoa/Viện --</option>
+            </select>
+            <span asp-validation-for="Major.Faculty.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="MajorId">Chọn Ngành Học *</label>
+            <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
+                <option value="">-- Chọn Ngành Học --</option>
+            </select>
+            <span asp-validation-for="MajorId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Cập nhật Ngành Học</button>
+        </div>
+    </form>
+    <a asp-action="Index">Quay Lại</a>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

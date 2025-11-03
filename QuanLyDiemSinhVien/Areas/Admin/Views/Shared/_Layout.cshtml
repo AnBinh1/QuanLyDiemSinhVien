@@ -172,15 +172,15 @@
                 </li>
                 <li class="nav-item dropdown">     
                     @* <img height="30px" width="30px" src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> *@
-                    <a href="#" class="nav-link" data-toggle="dropdown" style="color:white;">   
-                        Alexander Pierce
+                    <a href="#" class="nav-link" data-toggle="dropdown" style="color:white;">
+                        @User.Identity.Name
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item" style="font-size:18px;">
                             <i class="fa-regular fa-circle-user"></i>
                             Trang cá nhân
                         </a>
-                        <a href="#" class="dropdown-item" style="font-size:18px;">
+                        <a href=" @Url.Action("Logout", "Account", new { area = "" })" class="dropdown-item" style="font-size:18px;">
                             <i class="fa-solid fa-right-to-bracket"></i>
                             Đăng xuất
                         </a>
@@ -246,6 +246,36 @@
                             <a style="color:black" asp-controller="UserRole" asp-action="Index" class="nav-link">
                                 <i class="nav-icon far fa-calendar-alt"></i>
                                 Phân Quyền TàI Khoản
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Faculty" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Khoa-Viện
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Major" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Ngành Học
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Class" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Lớp Học
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Student" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Sinh Viên
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Class" asp-action="Index" class="nav-link">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                Quản Lý Giảng Viên
                             </a>
                         </li>
                         <li class="nav-item">

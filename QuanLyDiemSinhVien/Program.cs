@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuanLyDiemSinhVien.Repository;
 
@@ -9,12 +9,16 @@ builder.Services.AddDbContext<DataContext>(options =>
 	options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
 });
 
+builder.Services.ConfigureApplicationCookie(option =>
+{
+	option.AccessDeniedPath = "/Account/AccessDenied";
+});
 //Add Identity
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 	options.SignIn.RequireConfirmedAccount = false)
 	.AddRoles<IdentityRole>()
-	.AddEntityFrameworkStores<DataContext>(); // <--- d�ng DataContext c?a b?n
+	.AddEntityFrameworkStores<DataContext>(); // <--- dùng DataContext c?a b?n
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -30,6 +34,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

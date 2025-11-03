@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuanLyDiemSinhVien.Repository;
 
@@ -11,9 +12,11 @@ using QuanLyDiemSinhVien.Repository;
 namespace QuanLyDiemSinhVien.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20251106151352_InitStudent")]
+    partial class InitStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,8 +355,7 @@ namespace QuanLyDiemSinhVien.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
@@ -362,16 +364,14 @@ namespace QuanLyDiemSinhVien.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -386,12 +386,10 @@ namespace QuanLyDiemSinhVien.Migrations
 
                     b.Property<string>("StudentCode")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("YearOfStudy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YearOfStudy")
+                        .HasColumnType("int");
 
                     b.HasKey("StudentId");
 
@@ -476,17 +474,12 @@ namespace QuanLyDiemSinhVien.Migrations
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.StudentModel", b =>
                 {
                     b.HasOne("QuanLyDiemSinhVien.Models.ClassModel", "Class")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Class");
-                });
-
-            modelBuilder.Entity("QuanLyDiemSinhVien.Models.ClassModel", b =>
-                {
-                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.FacultyModel", b =>

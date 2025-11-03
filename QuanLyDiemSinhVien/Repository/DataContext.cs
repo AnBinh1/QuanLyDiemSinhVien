@@ -12,5 +12,9 @@ namespace QuanLyDiemSinhVien.Repository
 
 		}
 		public DbSet<CourseModel> Courses { get; set; }
+		public DbSet<FacultyModel> Faculties { get; set; }
+		public DbSet<MajorModel> Majors { get; set; }
+		public DbSet<ClassModel> Classes { get; set; }
+		public DbSet<StudentModel> Students { get; set; }
 	}
 }

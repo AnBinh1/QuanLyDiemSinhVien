@@ -6,7 +6,7 @@ using QuanLyDiemSinhVien.Models.ViewModel;
 
 namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 {
-	[Authorize]
+	[Authorize(Roles ="Admin")]
 	[Area("Admin")]
 	public class UserController : Controller
 	{
