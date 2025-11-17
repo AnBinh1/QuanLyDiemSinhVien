@@ -4,7 +4,7 @@
     ViewData["Title"] = "Cập nhật Sinh Viên";
 }
 
-<h3 style="padding:10px 0px 0px 10px">Thêm Sinh Viên</h3>
+<h3 style="padding:10px 0px 0px 10px">Cập nhật Sinh Viên</h3>
 
 <div class="col-md-11" style="margin-left:30px">
     <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
@@ -61,7 +61,7 @@
 
         <div class="form-group">
             <label asp-for="YearOfStudy">Khoá đào tạo *</label>
-            <input asp-for="YearOfStudy" type="number" class="form-control" />
+            <input asp-for="YearOfStudy" type="text" class="form-control" />
             <span asp-validation-for="YearOfStudy" class="text-danger"></span>
         </div>
         <div class="form-group">

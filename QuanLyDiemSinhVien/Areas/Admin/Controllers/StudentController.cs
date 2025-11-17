@@ -27,6 +27,39 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 
 			return View(students);
 		}
+		[HttpGet]
+		public async Task<IActionResult> Search(string searchString)
+		{
+			if (string.IsNullOrWhiteSpace(searchString))
+			{
+				TempData["error"] = "Vui lòng nhập mã hoặc tên sinh viên để tìm kiếm.";
+				return RedirectToAction("Index");
+			}
+
+			searchString = searchString.Trim().ToLower();
+
+			var students = await _context.Students
+				.Include(c => c.Class)
+					.ThenInclude(m => m.Major)
+						.ThenInclude(f => f.Faculty)
+				.Where(s => s.StudentCode.ToLower().Contains(searchString)
+						 || s.FullName.ToLower().Contains(searchString))
+				.OrderByDescending(s => s.StudentId)
+				.ToListAsync();
+
+			if (students.Count == 0)
+			{
+				TempData["error"] = $"Không tìm thấy sinh viên với từ khóa '{searchString}'";
+			}
+			else
+			{
+				TempData["success"] = $"Tìm thấy {students.Count} sinh viên với từ khóa '{searchString}'";
+			}
+
+			ViewBag.SearchString = searchString;
+			return View("Index", students); // trả về cùng view Index
+		}
+
 
 		[HttpGet]
 		public async Task<IActionResult> Details(int id)

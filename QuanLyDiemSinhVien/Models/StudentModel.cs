@@ -52,21 +52,23 @@ namespace QuanLyDiemSinhVien.Models
 		public string? Email { get; set; }
 
 		[Required(ErrorMessage = "Yêu cầu nhập khoá đào tạo")]
-		//[RegularExpression(@"^\d{4}-\d{4}$", ErrorMessage = "Năm học phải theo định dạng 2022-2027")]
-		//[StringLength(9, ErrorMessage = "Năm học phải theo dạng xxxx-yyyy, tối đa 9 ký tự")]
+		[RegularExpression(@"^\d{4}-\d{4}$", ErrorMessage = "Năm học phải theo định dạng yyyy-yyyy")]
+		[StringLength(9, ErrorMessage = "Năm học phải theo dạng yyyy-yyyy, tối đa 9 ký tự")]
 		public string YearOfStudy { get; set; }
 
 
 		[Required(ErrorMessage = "Yêu cầu nhập ngày nhập học")]
 		[DataType(DataType.Date)]
-		[CustomValidation(typeof(StudentModel), nameof(ValidateAge))]
+		[CustomValidation(typeof(StudentModel), nameof(ValidateEnrollmentDate))]
 		public DateTime EnrollmentDate { get; set; }
+
 		public static ValidationResult? ValidateEnrollmentDate(DateTime date, ValidationContext context)
 		{
 			if (date > DateTime.Now)
 				return new ValidationResult("Ngày nhập học không được lớn hơn ngày hiện tại");
 			return ValidationResult.Success;
 		}
+
 
 		[Required(ErrorMessage = "Yêu cầu nhập ngày nhập học")]
 		public bool IsActive { get; set; } = true;

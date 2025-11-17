@@ -1,0 +1,117 @@
+﻿@model QuanLyDiemSinhVien.Models.LecturerModel
+
+@{
+    ViewData["Title"] = "Thông tin chi tiết giảng viên";
+}
+
+<div style="margin-left:25px;padding-top:20px">
+    <h3 class="mb-3 text-primary">Thông tin giảng viên</h3>
+</div>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4" style="font-size:16px">
+        <div class="row">
+            <!-- Ảnh đại diện và thông tin cơ bản -->
+            <div class="col-md-3 text-center" style="padding-top:50px">
+                @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                {
+                    <img src="@Model.AvatarUrl" alt="Ảnh giảng viên" class="img-fluid rounded-circle mb-3" width="180" height="100" />
+                }
+                else
+                {
+                    var defaultMale = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+                    var defaultFemale = "https://cdn-icons-png.flaticon.com/512/3135/3135716.png";
+                    <img src="@(Model.Gender == "Nam" ? defaultMale : defaultFemale)" alt="Ảnh mặc định" class="img-fluid rounded-circle mb-3" width="150" />
+                }
+                <p><strong>@Model.FullName</strong></p>
+                <p class="text-muted">@Model.LecturerCode</p>
+            </div>
+
+            <!-- Thông tin chi tiết -->
+            <div class="col-md-9">
+                <div class="row mb-2">
+                    <div class="col-sm-6"><strong>Họ và tên:</strong> @Model.FullName</div>
+                    <div class="col-sm-6"><strong>Mã giảng viên:</strong> @Model.LecturerCode</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Ngày sinh:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</div>
+                    <div class="col-sm-6 mt-2"><strong>Giới tính:</strong> @Model.Gender</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Nơi sinh:</strong> @Model.PlaceOfBirth</div>
+                    <div class="col-sm-6 mt-2"><strong>Dân tộc:</strong> @Model.Ethnicity</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Tôn giáo:</strong> @Model.Religion</div>
+                    <div class="col-sm-6 mt-2"><strong>Quốc tịch:</strong> @Model.Nationality</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Số CMND/CCCD:</strong> @Model.IdentityNumber</div>
+                    <div class="col-sm-6 mt-2"><strong>Ngày cấp:</strong> @(Model.IdentityDate.HasValue? Model.IdentityDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Nơi cấp:</strong> @Model.IdentityPlace</div>
+                    <div class="col-sm-6 mt-2"><strong>Địa chỉ hiện tại:</strong> @Model.Address</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Số điện thoại:</strong> @Model.PhoneNumber</div>
+                    <div class="col-sm-6 mt-2"><strong>Email:</strong> @Model.Email</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Khoa/Viện:</strong> @Model.Faculty?.FacultyName</div>
+                    <div class="col-sm-6 mt-2"><strong>Bộ môn / Ngành:</strong> @Model.Major?.MajorName</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Chức danh:</strong> @Model.Position</div>
+                    <div class="col-sm-6 mt-2"><strong>Học hàm / Học vị:</strong> @Model.AcademicPosition @(!string.IsNullOrEmpty(Model.AcademicDegree) ? (" - " + Model.AcademicDegree) : "-")</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Ngày vào trường:</strong> @(Model.JoinDate.HasValue? Model.JoinDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+                    <div class="col-sm-6 mt-2"><strong>Ngày bắt đầu giảng dạy:</strong> @(Model.StartTeachingDate.HasValue? Model.StartTeachingDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Ngày nghỉ / Thôi việc:</strong> @(Model.RetireDate.HasValue? Model.RetireDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+                    <div class="col-sm-6 mt-2"><strong>Loại hợp đồng:</strong> @Model.ContractType</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Hợp đồng từ:</strong> @(Model.ContractStartDate.HasValue? Model.ContractStartDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+                    <div class="col-sm-6 mt-2"><strong>Đến:</strong> @(Model.ContractEndDate.HasValue? Model.ContractEndDate.Value.ToString("dd/MM/yyyy") : "-")</div>
+
+                    <div class="col-sm-6 mt-2"><strong>Hình thức công tác:</strong> @Model.EmploymentType</div>
+                    <div class="col-sm-6 mt-2">
+                        <strong>Trạng thái hoạt động:</strong>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Đang công tác</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Đã Nghỉ</span>
+                        }
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <strong>Ghi chú:</strong>
+                        <div class="border rounded p-2">@Html.Raw(Model.Notes)</div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <strong>Tài khoản hệ thống:</strong>
+                        @if (Model.User != null)
+                        {
+                            <span>@Model.User.UserName</span>
+                            <small class="text-muted d-block">(*Tài khoản liên kết; thông tin đăng nhập quản lý trong AspNetUsers*)</small>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Chưa liên kết tài khoản</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end mt-3">
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+            <a asp-action="Edit" asp-route-id="@Model.LecturerId" class="btn btn-warning">Sửa</a>
+            <form asp-action="Delete" asp-route-id="@Model.LecturerId" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa giảng viên này?');">
+                <button type="submit" class="btn btn-danger">Xóa</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card p {
+        margin-bottom: 0.25rem;
+    }
+</style>

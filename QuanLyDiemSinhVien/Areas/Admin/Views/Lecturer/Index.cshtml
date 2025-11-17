@@ -1,0 +1,79 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.LecturerModel>
+
+@{
+    ViewData["Title"] = "Thông tin giảng viên";
+}
+
+<div style="margin-left:25px;padding-top:20px">
+    <h3>Danh sách giảng viên</h3>
+
+    <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="Lecturer">Thêm giảng viên</a>
+</div>
+
+<div>
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>STT</th>
+                <th>Mã GV</th>
+                <th>Họ và tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Khoa</th>
+                <th>Bộ môn / Ngành</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+                <th>Chức danh</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                if (Model != null && Model.Any())
+                {
+                    foreach (var lecturer in Model)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@lecturer.LecturerCode</td>
+                            <td>@lecturer.FullName</td>
+                            <td>@lecturer.Gender</td>
+                            <td>@lecturer.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                            <td>@lecturer.Faculty?.FacultyName</td>
+                            <td>@lecturer.Major?.MajorName</td>
+                            <td>@lecturer.Email</td>
+                            <td>@lecturer.PhoneNumber</td>
+                            <td>@lecturer.Position</td>
+                            <td>
+                                @if (lecturer.IsActive)
+                                {
+                                    <span class="badge bg-success">Đang công tác</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Đã nghỉ</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@lecturer.LecturerId" class="btn btn-info btn-sm">Xem</a>
+                                <a asp-action="Edit" asp-route-id="@lecturer.LecturerId" class="btn btn-warning btn-sm">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@lecturer.LecturerId" method="post" style="display:inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa giảng viên này không?')">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="12">Không có dữ liệu giảng viên nào.</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
