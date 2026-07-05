@@ -27,14 +27,11 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3 style="padding-left:80px;color:red">@ViewBag.TotalStudents</h3>
 
-                        <p>New Orders</p>
+                        <p style="padding-left:50px">Tổng số Sinh viên</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
                 </div>
             </div>
             <!-- ./col -->
@@ -42,14 +39,11 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalLecturers</h3>
 
-                        <p>Bounce Rate</p>
+                        <p style="padding-left:50px">Tổng số Giảng viên</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    
                 </div>
             </div>
             <!-- ./col -->
@@ -57,14 +51,11 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalFaculties </h3>
 
-                        <p>User Registrations</p>
+                        <p style="padding-left:50px">Tổng số Khoa-viện</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+ 
                 </div>
             </div>
             <!-- ./col -->
@@ -72,14 +63,11 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalMajors </h3>
 
-                        <p>Unique Visitors</p>
+                        <p style="padding-left:50px">Tổng số Ngành học</p>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                   
                 </div>
             </div>
             <!-- ./col -->
@@ -94,31 +82,35 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-chart-pie mr-1"></i>
-                            Sales
+                            Thống kê sinh viên
                         </h3>
                         <div class="card-tools">
                             <ul class="nav nav-pills ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Theo khoa</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Giới tính</a>
                                 </li>
                             </ul>
                         </div>
-                    </div><!-- /.card-header -->
+                    </div>
+
                     <div class="card-body">
                         <div class="tab-content p-0">
-                            <!-- Morris chart - Sales -->
-                            <div class="chart tab-pane active" id="revenue-chart"
-                                 style="position: relative; height: 300px;">
-                                <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+
+                            <!-- Biểu đồ sinh viên theo khoa -->
+                            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
+                                <canvas id="revenue-chart-canvas" height="300"></canvas>
                             </div>
+
+                            <!-- Biểu đồ giới tính -->
                             <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                                <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                <canvas id="sales-chart-canvas" height="300"></canvas>
                             </div>
+
                         </div>
-                    </div><!-- /.card-body -->
+                    </div>
                 </div>
                 <!-- /.card -->
                 <!-- DIRECT CHAT -->
@@ -593,3 +585,44 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Dữ liệu từ controller
+    var facultyLabels = @Html.Raw(Json.Serialize(ViewBag.FacultyLabels));
+    var facultyCounts = @Html.Raw(Json.Serialize(ViewBag.FacultyCounts));
+
+    var genderLabels = @Html.Raw(Json.Serialize(ViewBag.GenderLabels));
+    var genderCounts = @Html.Raw(Json.Serialize(ViewBag.GenderCounts));
+
+    // Biểu đồ AREA / BAR theo khoa
+    new Chart(document.getElementById('revenue-chart-canvas'), {
+        type: 'bar',
+        data: {
+            labels: facultyLabels,
+            datasets: [{
+                label: 'Số lượng sinh viên',
+                data: facultyCounts
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Biểu đồ Donut giới tính
+    new Chart(document.getElementById('sales-chart-canvas'), {
+        type: 'doughnut',
+        data: {
+            labels: genderLabels,
+            datasets: [{
+                data: genderCounts
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>

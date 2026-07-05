@@ -1,0 +1,66 @@
+﻿@model QuanLyDiemSinhVien.Models.CourseModel
+@{
+    ViewData["Title"] = "Thêm học phần";
+}
+
+<h3 style="padding:10px 0px 0px 10px">Thêm học phần</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
+    <form asp-action="Create" asp-controller="Course" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label>Mã Học Phần*</label>
+            <input asp-for="CourseCode" class="form-control" maxlength="20" placeholder="Mời nhập mã học phần" />
+            <span asp-validation-for="CourseCode" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tên Học Phần*</label>
+            <input asp-for="CourseName" class="form-control" maxlength="200" placeholder="Mời nhập tên học phần" />
+            <span asp-validation-for="CourseName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Số Tín Chỉ*</label>
+            <input asp-for="Credits" type="number" class="form-control" placeholder="Mời nhập số tín chỉ" />
+            <span asp-validation-for="Credits" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Loại Học Phần*</label>
+            <select asp-for="CourseType" asp-items="ViewBag.CourseTypes" class="form-control">
+                <option value="">-- Chọn loại học phần --</option>
+            </select>
+            <span asp-validation-for="CourseType" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Học Phần Tiên Quyết</label>
+            <select asp-for="PrerequisiteCourseId" asp-items="ViewBag.Courses" class="form-control">
+                <option value="">-- Không có --</option>
+            </select>
+            <span asp-validation-for="PrerequisiteCourseId" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label>Mô Tả Học Phần*</label>
+            <textarea asp-for="Description" class="form-control" rows="4" maxlength="500" placeholder="Mời nhập mô tả học phần"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Thêm Học Phần</button>
+            <a asp-action="Index" class="btn btn-secondary ml-2">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

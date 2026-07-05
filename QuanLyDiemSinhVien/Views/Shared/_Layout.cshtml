@@ -164,26 +164,26 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
+                
                 <li>
-                    <div class="image" style="margin:0px -10px 0px 10px; padding-top:3px">
-                        <img height="30px" width="30px" src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <div>
+                        <a asp-action="Login" asp-controller="Account" class="nav-link" style="color:white">
+                            Đăng nhập | Đăng ký
+                        </a>
                     </div>
 
                 </li>
                 <li class="nav-item dropdown">
                     @* <img height="30px" width="30px" src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> *@
-                    <a href="#" class="nav-link" data-toggle="dropdown" style="color:white;">
+                    @* <a href="#" class="nav-link" data-toggle="dropdown" style="color:white;">
                         @User.Identity.Name
-                    </a>
+                    </a> *@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item" style="font-size:18px;">
                             <i class="fa-regular fa-circle-user"></i>
                             Trang cá nhân
                         </a>
-                        <a asp-action="Login" asp-controller="Account" class="dropdown-item" style="font-size:18px;">
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            Đăng xuất
-                        </a>
+                       
 
                     </div>
                 </li>

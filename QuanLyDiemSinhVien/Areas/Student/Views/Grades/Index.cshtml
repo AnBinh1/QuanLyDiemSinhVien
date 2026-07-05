@@ -1,0 +1,58 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.StudentGradesViewModel
+
+
+
+@{
+    ViewData["Title"] = "Bảng điểm của tôi";
+}
+
+<h3 style="padding:10px 0 0 20px">@ViewData["Title"]</h3>
+
+
+<div class="card shadow-sm p-4">
+    <h5>Danh sách điểm</h5>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã lớp học phần</th>
+                <th>Lớp học phần</th>
+                <th>Tín chỉ</th>
+                <th>Điểm quá trình</th>
+                <th>Điểm cuối kỳ</th>
+                <th>Tổng điểm</th>
+                <th>Điểm chữ</th>
+                <th>Tham gia xét tốt nghiệp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Grades != null && Model.Grades.Any())
+            {
+                int i = 1;
+                foreach (var g in Model.Grades)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@g.Enrollment?.CourseSection?.Course?.CourseCode</td>
+                        <td>@g.Enrollment?.CourseSection?.SectionCode</td>
+                        <td>@g.Enrollment?.CourseSection?.Course?.Credits</td>
+                        <td>@g.ContinuousAssessment</td>
+                        <td>@g.FinalExam</td>
+                        <td>@g.TotalScore</td>
+                        <td>@g.LetterGrade</td>
+                        <td>@g.IsGraduationEligible</td>
+                    </tr>
+                    i++;
+                }
+                
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center">Chưa có điểm</td>
+                </tr>
+            }
+        
+        </tbody>
+    </table>
+</div>

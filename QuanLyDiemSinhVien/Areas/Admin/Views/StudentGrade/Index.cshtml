@@ -1,0 +1,71 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.StudentGradeModel>
+
+@{
+    ViewData["Title"] = "Danh sách điểm sinh viên";
+}
+
+<div style="padding:20px 0 0 20px">
+    <h3>@ViewData["Title"]</h3>
+
+    <div style="margin-left:25px; margin-bottom:15px">
+        <a asp-action="Create" class="btn btn-success mb-3">Thêm điểm</a>
+        <a style="margin-left:10px" asp-action="ExportToExcel" asp-route-status="all" class="btn btn-warning mb-3">Xuất file excel điểm sinh viên</a>
+       
+
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã sinh viên</th>
+                <th>Họ tên sinh viên</th>
+                <th>Mã học phần</th>
+                <th>Lớp học phần</th>
+                <th>Số tín chỉ</th>
+                <th>Điểm quá trình</th>
+                <th>Điểm cuối kỳ</th>
+                <th>Tổng điểm</th>
+                <th>Điểm chữ</th>
+                <th>Người nhập</th>
+                <th>Ngày nhập</th>
+                <th>Tham gia xét tốt nghiệp</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int stt = 1;
+                foreach (var grade in Model)
+                {
+                    <tr>
+                        <td>@stt</td>
+                        <td>@grade.Enrollment?.Student?.StudentCode</td>
+                        <td>@grade.Enrollment?.Student?.FullName</td>
+                        <td>@grade.Enrollment?.CourseSection?.Course.CourseCode</td>
+                        <td>@grade.Enrollment?.CourseSection?.SectionCode</td>
+                        <td>@grade.Enrollment?.CourseSection?.Course?.Credits</td>
+                        <td>@grade.ContinuousAssessment</td>
+                        <td>@grade.FinalExam</td>
+                        <td>@grade.TotalScore</td>
+                        <td>@grade.LetterGrade</td>
+                        <td>@grade.User?.UserName</td>
+                        <td>@grade.UpdatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>@grade.IsGraduationEligible</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@grade.GradeId" class="btn btn-sm btn-primary">Sửa</a>
+                        </td>
+                    </tr>
+                    stt++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">Chưa có dữ liệu</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -4,53 +4,51 @@ using QuanLyDiemSinhVien.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// DbContext
 builder.Services.AddDbContext<DataContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectedDb"]);
 });
 
-builder.Services.ConfigureApplicationCookie(option =>
-{
-	option.AccessDeniedPath = "/Account/AccessDenied";
-});
-//Add Identity
-
+// Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 	options.SignIn.RequireConfirmedAccount = false)
 	.AddRoles<IdentityRole>()
-	.AddEntityFrameworkStores<DataContext>(); // <--- dùng DataContext c?a b?n
+	.AddEntityFrameworkStores<DataContext>();
 
-// Add services to the container.
+// Cookie login
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/Account/Login";
+	options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
+// MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
+// Area routes
 app.MapControllerRoute(
 	name: "Areas",
-	pattern: "{Area:exists}/{controller=Home}/{action=Index}/{id?}");
+	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+// Default route
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
-
-
+	name: "default",
+	pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

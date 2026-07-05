@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CourseModel>
+
+@{
+    ViewData["Title"] = "Danh sách học phần";
+}
+
+<div>
+    <div class="d-flex align-items-center justify-content-between" style="margin:0px 70px 15px 30px; padding-top:20px;">
+        <h3 class="mb-0">Quản lý học phần</h3>
+
+        <form asp-action="Search" method="get" class="d-flex" style="max-width:400px;">
+            <input type="text" name="searchString" class="form-control me-2" placeholder="Tìm kiếm theo mã hoặc tên học phần" value="@ViewBag.SearchString" />
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+    </div>
+    <div style="margin-left:30px;padding-top:20px">
+       
+        <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="Course">Thêm học phần</a>
+
+    </div>
+    <div class="col-sm-12" style="margin-left:5px">
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Mã Học Phần</th>
+                    <th>Tên Học Phần</th>
+                    <th>Số Tín Chỉ</th>
+                    <th>Mô Tả</th>
+                    <th>loại Học Phần</th>
+                    <th>Học Phần tiên quyết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td width="50">@item.CourseId</td>
+                        <td style="text-align:end">@item.CourseCode</td>
+                        <td>@item.CourseName</td>
+                        <td>@item.Credits</td>
+                        <td width="300px">@item.Description</td>
+                        <td>@item.CourseType</td>
+                        <td>
+                            @(item.PrerequisiteCourse != null
+                                                    ? $"{item.PrerequisiteCourse.CourseId} - {item.PrerequisiteCourse.CourseName}"
+                                                    : "Không có")
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Course" asp-route-id="@item.CourseId">Sửa</a>
+                        <form asp-action="Delete" asp-controller="Course" asp-route-id="@item.CourseId" method="post" onsubmit=" return confirm('bạn có chắc chắn xoá học phần này không?')" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                        </form>
+                    </td>
+
+                    </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

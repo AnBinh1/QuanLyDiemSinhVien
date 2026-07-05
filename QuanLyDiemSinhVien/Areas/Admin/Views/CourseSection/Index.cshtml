@@ -1,0 +1,92 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.CourseSectionModel>
+
+@{
+    ViewData["Title"] = "Danh sách lớp học phần";
+}
+
+<div>
+    <div class="d-flex align-items-center justify-content-between" style="margin:0px 70px 15px 30px; padding-top:20px;">
+        <h3 class="mb-0">Danh sách lớp học phần</h3>
+
+        <form asp-action="Search" method="get" class="d-flex" style="max-width:400px;">
+            <input type="text" name="searchString" class="form-control me-2" placeholder="Tìm kiếm theo mã hoặc tên lớp học phần" value="@ViewBag.SearchString" />
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+    </div>
+
+    <div style="margin-left:30px; margin-bottom:20px">
+        <a asp-action="Create" asp-controller="CourseSection" class="btn btn-primary mb-3">Thêm mới lớp học phần</a>
+    </div>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>STT</th>
+                <th>Mã học phần</th>
+                <th>Lớp học phần</th>
+                <th>Năm học</th>
+                <th>Học kỳ</th>
+                <th>Số lượng tối đa</th>
+                <th>Số sinh viên đã đăng ký</th>
+                <th>Giảng viên phụ trách</th>
+                @* <th>Ngành học</th> *@
+                <th>Phòng học</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                if (Model != null && Model.Any())
+                {
+                    foreach (var Section in Model)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@Section.Course?.CourseCode</td>
+                            <td>@Section.SectionCode</td>
+                            <td>@Section.AcademicYear</td>
+                            <td>@Section.Semester</td>
+                            <td>@Section.MaxStudents</td>
+                            <td>@Section.RegisteredStudents</td>
+                            <td>@Section.Lecturer?.FullName</td>
+                            <td>@Section.Room</td>
+                            <td>
+                                @if(Section.Status == "Open")
+                                {
+                                    <span class="badge bg-success">Mở</span>
+                                }
+                                else if(Section.Status == "Closed")
+                                {
+                                    <span class="badge bg-danger">Đóng</span>
+                                }
+                                else if (Section.Status == "Postponed")
+                                {
+                                    <span class="badge bg-warning">Tạm Hoãn</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">@Section.Status</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@Section.SectionId" class="btn btn-warning btn-sm">Sửa</a>
+                                <form asp-action="Delete" asp-route-id="@Section.SectionId" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lớp học phần này không?')">
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="11">Không có dữ liệu lớp học phần nào.</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

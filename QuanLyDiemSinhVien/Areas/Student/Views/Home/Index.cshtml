@@ -1,0 +1,25 @@
+﻿@model StudentModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="center-box">
+    <img width="230px" height="150px" src="https://euni.vn/wp-content/uploads/2024/01/DHV.png" alt="Alternate Text" />
+    <h5>Chào mừng @Model.FullName đến với cổng sinh viên</h5>
+</div>
+
+<style>
+    .center-box {
+        
+        height: 80vh;
+        display: flex;
+        flex-direction: column; /* ĐỂ IMG TRÊN – TEXT DƯỚI */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 600;
+        gap: 12px; /* khoảng cách giữa img và h5 */
+
+    }
+</style>

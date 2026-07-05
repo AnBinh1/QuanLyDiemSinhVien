@@ -16,8 +16,12 @@
 
     <div style="margin-left:25px; margin-bottom:15px">
         <a asp-action="Create" class="btn btn-primary mb-3">Thêm sinh viên mới</a>
-</div>
+        <a style="margin-left:10px" asp-action="ExportToExcel" asp-route-status="all" class="btn btn-warning mb-3">Xuất tất cả sinh viên</a>
+        <a style="margin-left:10px" asp-action="ExportToExcel" asp-route-status="active" class="btn btn-warning mb-3">Xuất sinh viên còn học</a>
+        <a style="margin-left:10px" asp-action="ExportToExcel" asp-route-status="inactive" class="btn btn-warning mb-3">Xuất sinh viên nghỉ học</a>
 
+    </div>
+    
 
 <div >
 

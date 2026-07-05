@@ -1,0 +1,67 @@
+﻿@* @model IEnumerable<QuanLyDiemSinhVien.Models.CourseSectionModel>
+
+@{
+    ViewData["Title"] = "Quản lý đăng ký học";
+}
+
+<div>
+    <h3 class="mb-4" style="margin-left: 20px; padding-top: 15px;">Danh sách lớp học phần đang mở</h3>
+
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>STT</th>
+                <th>Lớp học phần</th>
+                <th>Tên học phần</th>
+                <th>Năm học</th>
+                <th>Học kỳ</th>
+                <th>Số lượng tối đa</th>
+                <th>Số sinh viên đã đăng ký</th>
+                <th>Giảng viên phụ trách</th>
+                <th>Phòng học</th>
+                <th>Trạng thái</th>
+                <th>Đăng ký</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                if (Model != null && Model.Any())
+                {
+                    foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@s.SectionCode</td>
+                            <td>@s.Course?.CourseName</td>
+                            <td>@s.AcademicYear</td>
+                            <td>@s.Semester</td>
+                            <td>@s.MaxStudents</td>
+                            <td>@s.RegisteredStudents</td>
+                            <td>@s.Lecturer?.FullName</td>
+                            <td>@s.Room</td>
+                            <td>
+                                <span class="badge bg-success">Mở</span>
+                            </td>
+                            <td>
+                                <a asp-controller="Enrollment"
+                                   asp-action="Manage"
+                                   asp-route-sectionId="@s.SectionId"
+                                   class="btn btn-primary btn-sm">
+                                    Quản lý đăng ký
+                                </a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="11">Không có lớp học phần mở nào.</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div> *@

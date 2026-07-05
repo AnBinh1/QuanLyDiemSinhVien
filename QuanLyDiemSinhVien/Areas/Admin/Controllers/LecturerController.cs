@@ -10,7 +10,7 @@ using QuanLyDiemSinhVien.Repository;
 namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin,Lecturer")]
 	public class LecturerController : Controller
 	{
 		private readonly DataContext _context;
@@ -24,7 +24,6 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			_webHostEnvironment = webHostEnvironment;
 		}
 
-		// ================== Index ==================
 		public async Task<IActionResult> Index()
 		{
 			var lecturers = await _context.Lecturers
@@ -36,7 +35,6 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			return View(lecturers);
 		}
 
-		// ================== Details ==================
 		[HttpGet]
 		public async Task<IActionResult> Details(int id)
 		{
@@ -53,8 +51,35 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			}
 			return View(lecturer);
 		}
+		[HttpGet]
+		public async Task<IActionResult> Search(string searchString)
+		{
+			// Lưu giá trị tìm kiếm để hiển thị lại trong input
+			ViewBag.SearchString = searchString;
 
-		// ================== Create ==================
+			// Lấy danh sách sinh viên, include Class -> Major -> Faculty và User
+			var LecturersQuery = _context.Lecturers
+					.Include(c => c.Major)
+					.Include(m => m.Faculty)
+					.Include(s => s.User)
+					.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				searchString = searchString.Trim().ToLower();
+				LecturersQuery = LecturersQuery.Where(s =>
+					(s.LecturerCode != null && s.LecturerCode.ToLower().Contains(searchString)) ||
+					(s.FullName != null && s.FullName.ToLower().Contains(searchString))
+				);
+			}
+
+			var lecturer = await LecturersQuery
+				.OrderByDescending(s => s.LecturerId)
+				.ToListAsync();
+
+			return View("Index", lecturer); // Trả về View Index với danh sách đã lọc
+		}
+
 		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
@@ -95,7 +120,7 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			}
 		}
 
-		// ================== Edit ==================
+		
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
@@ -124,16 +149,16 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			var lecturerInDb = await _context.Lecturers.FindAsync(id);
 			if (lecturerInDb == null) return RedirectToAction("Index");
 
-			// 🔹 Lưu avatar cũ trước
+			//Lưu avatar cũ trước
 			var currentAvatar = lecturerInDb.AvatarUrl;
 
 			// Cập nhật các field ngoại trừ AvatarUrl
 			_context.Entry(lecturerInDb).CurrentValues.SetValues(lecturer);
 
-			// 🔹 Giữ avatar cũ nếu không upload mới
+			//Giữ avatar cũ nếu không upload mới
 			lecturerInDb.AvatarUrl = currentAvatar;
 
-			// 🔹 Upload avatar nếu có file mới
+			//Upload avatar nếu có file mới
 			if (lecturer.AvatarFile?.Length > 0)
 			{
 				lecturerInDb.AvatarUrl = await SaveAvatarAsync(lecturer.AvatarFile);
@@ -153,7 +178,6 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 		}
 
 
-		// ================== Delete ==================
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Delete(int id)
@@ -178,7 +202,6 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		// ================== Helper ==================
 		private async Task LoadDropdownsAsync(int? majorId = null)
 		{
 			int? facultyId = null;
@@ -222,7 +245,6 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			return "/uploads/lecturers/" + fileName;
 		}
 
-		// ================== AJAX ==================
 		[HttpGet]
 		public async Task<IActionResult> GetMajorsByFaculty(int facultyId)
 		{

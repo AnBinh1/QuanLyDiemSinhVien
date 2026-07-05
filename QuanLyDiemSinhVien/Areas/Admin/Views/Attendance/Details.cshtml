@@ -1,0 +1,42 @@
+﻿@using QuanLyDiemSinhVien.Models
+@model List<AttendanceModel>
+
+<div style="padding-top:20px;margin-left:20px">
+    <h3>Chi tiết điểm danh - @Model.First().AttendanceSession.CourseSection.SectionCode</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ tên</th>
+                <th>Trạng thái</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@Model[i].Student.FullName</td>
+                    <td>
+                        @{
+                            var status = (AttendanceStatusEnum)Model[i].AttendanceStatus;
+                            string statusText = status switch
+                            {
+                                AttendanceStatusEnum.Present => "Có mặt",
+                                AttendanceStatusEnum.Excused => "Vắng phép",
+                                AttendanceStatusEnum.Unexcused => "Vắng không phép",
+                                AttendanceStatusEnum.Late => "Muộn",
+                                _ => "Chưa điểm danh"
+                            };
+                        }
+                        @statusText
+                    </td>
+                    <td>@Model[i].Note</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

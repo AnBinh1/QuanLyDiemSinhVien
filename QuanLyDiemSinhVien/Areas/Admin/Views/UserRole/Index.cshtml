@@ -3,38 +3,40 @@
 @{
     ViewData["Title"] = "List User with Role";
 }
-<div style="margin-left:30px;padding-top:20px">
-    <h3>Gán quyền tài khoản</h3>
-</div>
-<div class="col-sm-12" style="margin-left:5px">
-<table class="table table-bordered table-hover" id="myTable">
-    <thead>
-        <tr>
-            <th>UserName</th>
-            <th>Quyền</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.User.UserName</td>
-                <td>
-                    @if (item.Roles != null && item.Roles.Any())
-                    {
-                        @string.Join(", ", item.Roles)
-                    }
-                    else
-                    {
-                        <span class="text-muted">Không Có</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Manage" asp-route-UserId="@item.User.Id" class="btn btn-primary">Gán Vai Trò</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div>
+    <div style="margin-left:30px;padding-top:20px">
+        <h3>Gán quyền tài khoản</h3>
+    </div>
+    <div class="col-sm-12" style="margin-left:5px">
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>Quyền</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.User.UserName</td>
+                        <td>
+                            @if (item.Roles != null && item.Roles.Any())
+                            {
+                                @string.Join(", ", item.Roles)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Không Có</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Manage" asp-route-UserId="@item.User.Id" class="btn btn-primary">Gán Vai Trò</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

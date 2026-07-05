@@ -13,22 +13,29 @@ namespace QuanLyDiemSinhVien.Controllers
 			_context = context;
 		}
 		[HttpGet]
-		public async Task<IActionResult> Index(int id)
+		public async Task<IActionResult> Index()
 		{
+			var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+			if (userId == null)
+			{
+				TempData["error"] = "Bạn chưa đăng nhập.";
+				return RedirectToAction("Index", "Home");
+			}
+
 			var student = await _context.Students
 				.Include(c => c.Class)
 				.ThenInclude(m => m.Major)
 				.ThenInclude(f => f.Faculty)
-				.FirstOrDefaultAsync(s => s.StudentId == id);
+				.FirstOrDefaultAsync(s => s.UserId == userId);
 
 			if (student == null)
 			{
 				TempData["error"] = "Không tìm thấy thông tin sinh viên.";
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", "Home");
 			}
 
 			return View(student);
 		}
-		
+
 	}
 }

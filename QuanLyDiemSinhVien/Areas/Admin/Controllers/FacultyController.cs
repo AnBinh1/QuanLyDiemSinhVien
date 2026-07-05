@@ -24,6 +24,34 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			var faculties = _context.Faculties.ToList();
 			return View(faculties);
 		}
+		[HttpGet]
+		public async Task<IActionResult> Search(string searchString)
+		{
+			// Giữ lại từ khóa tìm kiếm trên view
+			ViewBag.SearchString = searchString;
+
+			// Query dữ liệu khoa-viện
+			var query = _context.Faculties.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				searchString = searchString.Trim().ToLower();
+
+				query = query.Where(f =>
+					(f.FacultyCode != null && f.FacultyCode.ToLower().Contains(searchString)) ||
+					(f.FacultyName != null && f.FacultyName.ToLower().Contains(searchString))
+					
+				);
+			}
+
+			// Lấy danh sách đã lọc
+			var faculties = await query
+				.OrderByDescending(f => f.Id)
+				.ToListAsync();
+
+			return View("Index", faculties);
+		}
+
 
 		[HttpGet]
 		public IActionResult Create()

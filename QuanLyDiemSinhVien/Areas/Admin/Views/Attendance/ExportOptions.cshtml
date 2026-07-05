@@ -1,0 +1,28 @@
+﻿@model QuanLyDiemSinhVien.Models.AttendanceSessionModel
+
+@{
+    ViewData["Title"] = "Chọn thông tin xuất file";
+    var sectionId = ViewBag.SectionId;
+}
+
+<div style="padding:20px">
+    <h3>Xuất Excel điểm danh</h3>
+    <p>Vui lòng chọn tuần để xuất file Excel.</p>
+
+    <form asp-action="ExportToExcel" method="get">
+
+        <div class="mb-3">
+            <label asp-for="SectionId" class="form-label">Lớp Học Phần *</label>
+            <select asp-for="SectionId" class="form-control" asp-items="@(ViewBag.Sections)">
+                <option value="">-- Chọn lớp học phần --</option>
+            </select>
+            <span asp-validation-for="SectionId" class="text-danger"></span>
+        </div>
+
+        <label class="form-label">Tuần học:</label>
+        <input type="number" name="week" min="1" class="form-control" style="width:150px" required />
+
+        <button type="submit" class="btn btn-success mt-3">Xuất Excel</button>
+        <a asp-action="Index" asp-route-sectionId="@sectionId" class="btn btn-secondary mt-3">Quay lại</a>
+    </form>
+</div>

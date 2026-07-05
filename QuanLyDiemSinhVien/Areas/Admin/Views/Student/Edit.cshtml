@@ -40,6 +40,29 @@
             <input asp-for="DateOfBirth" type="date" class="form-control" />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
+        <div class="form-group">
+            <label asp-for="Ethnicity">Dân tộc</label>
+            <input asp-for="Ethnicity" class="form-control" />
+            <span asp-validation-for="Ethnicity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Religion">Tôn giáo</label>
+            <input asp-for="Religion" class="form-control" />
+            <span asp-validation-for="Religion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Nationality">Quốc tịch</label>
+            <input asp-for="Nationality" class="form-control" />
+            <span asp-validation-for="Nationality" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IdentityNumber">Số CCCD/CMND</label>
+            <input asp-for="IdentityNumber" class="form-control" />
+            <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+        </div>
 
         <div class="form-group">
             <label asp-for="Address">Địa chỉ *</label>
@@ -91,6 +114,13 @@
                 <option value="">-- Chọn lớp --</option>
             </select>
             <span asp-validation-for="ClassId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="UserId">Chọn tài khoản</label>
+            <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users">
+                <option value="">-- Chọn tài khoản --</option>
+            </select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="IsActive">Trạng thái</label>

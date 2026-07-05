@@ -225,67 +225,116 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a style="color:black" href="pages/calendar.html" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Calendar
+                            <a style="color:black" asp-action="Index" asp-controller="Home" class="nav-link">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Tổng quan
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-action="Index" asp-controller="User" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Tài Khoản
+                                <i class="nav-icon fas fa-user"></i>
+                                Quản lý tài khoản
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-action="Index" asp-controller="Role" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Vai Trò
+                                <i class="nav-icon fas fa-user-shield"></i>
+                                Quản lý vai trò
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-controller="UserRole" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Phân Quyền TàI Khoản
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                Phân quyền tài khoản
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-controller="Faculty" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Khoa-Viện
+                                <i class="nav-icon fas fa-building"></i>
+                                Quản lý khoa-viện
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-controller="Major" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Ngành Học
+                                <i class="nav-icon fas fa-graduation-cap"></i>
+                                Quản lý ngành học
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-controller="Class" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Lớp Học
+                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                                Quản lý lớp học
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a style="color:black" asp-controller="Student" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Sinh Viên
+                                <i class="nav-icon fas fa-user-graduate"></i>
+                                Quản lý sinh viên
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Lecturer" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                Quản lý giảng viên
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a style="color:black" asp-controller="Lecturer" asp-action="Index" class="nav-link">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                Quản Lý Giảng Viên
+                            <a style="color:black" asp-controller="Course" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                Quản lý học phần
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="CourseSection" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                                Quản lý lớp học phần
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Enrollment" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-user-check"></i>
+                                Quản lý đăng ký học
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                Quản lý điểm danh
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="StudentGrade" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                Quản lý điểm học
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:black" asp-controller="Attendance" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                Quản lý điểm rèn luyện
                             </a>
                         </li>
                         <li class="nav-item">
                             <a style="color:black" href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>
                                     Charts
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a style="color:black" href="pages/charts/chartjs.html" class="nav-link">
@@ -313,7 +362,7 @@
                                 </li>
                             </ul>
                         </li>
-                       
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

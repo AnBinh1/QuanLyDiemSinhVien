@@ -10,6 +10,7 @@ namespace QuanLyDiemSinhVien.Models.ViewModel
 			if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
 				return new ValidationResult(ErrorMessage ?? "Trường không được để trống hoặc toàn khoảng trắng");
 			return ValidationResult.Success;
+
 		}
 	}
 

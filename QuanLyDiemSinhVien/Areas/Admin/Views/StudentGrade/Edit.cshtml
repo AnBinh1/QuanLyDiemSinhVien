@@ -1,0 +1,74 @@
+﻿@model QuanLyDiemSinhVien.Models.StudentGradeModel
+
+<div style="padding:20px 0 0 20px">
+    <h2>Chỉnh sửa điểm sinh viên</h2>
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="GradeId" />
+
+        <div class="form-group">
+            <label>Lớp học phần</label>
+            <select id="SectionId" class="form-control" asp-items="ViewBag.CourseSections">
+                <option value="">-- Chọn lớp học phần --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Sinh viên</label>
+            <select id="StudentId" name="EnrollmentId" class="form-control" asp-items="ViewBag.Students">
+                <option value="">-- Chọn sinh viên --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Điểm quá trình</label>
+            <input asp-for="ContinuousAssessment" class="form-control" />
+            <span asp-validation-for="ContinuousAssessment" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Điểm cuối kỳ</label>
+            <input asp-for="FinalExam" class="form-control" />
+            <span asp-validation-for="FinalExam" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Ghi chú</label>
+            <textarea asp-for="Notes" class="form-control"></textarea>
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Khi chọn lớp học phần, load sinh viên
+        $("#SectionId").change(function(){
+            var sectionId = $(this).val();
+            if(sectionId){
+                $.getJSON('@Url.Action("GetStudentsBySection", "StudentGrade", new { area = "Admin" })',
+                    { sectionId: sectionId },
+                    function(data){
+                        var options = '<option value="">-- Chọn sinh viên --</option>';
+                        $.each(data, function(i, s){
+                            options += `<option value="${s.value}" ${s.value == '@Model.EnrollmentId' ? 'selected' : ''}>${s.text}</option>`;
+                        });
+                        $("#StudentId").html(options);
+                    }
+                );
+            } else {
+                $("#StudentId").html('<option value="">-- Chọn sinh viên --</option>');
+            }
+        });
+
+        // Trigger load khi page load để hiển thị sinh viên đúng lớp hiện tại
+        $(document).ready(function(){
+            $("#SectionId").trigger('change');
+        });
+    </script>
+}

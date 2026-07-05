@@ -28,6 +28,39 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			return View(majors);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> Search(string searchString)
+		{
+			// Lưu lại từ khóa để hiển thị trên Input
+			ViewBag.SearchString = searchString;
+
+			// Lấy danh sách ngành học + include khoa/viện
+			var query = _context.Majors
+				.Include(m => m.Faculty)
+				.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				searchString = searchString.Trim().ToLower();
+
+				query = query.Where(m =>
+					(m.MajorCode != null && m.MajorCode.ToLower().Contains(searchString)) ||
+					(m.MajorName != null && m.MajorName.ToLower().Contains(searchString)) ||
+					(m.MajorDescription != null && m.MajorDescription.ToLower().Contains(searchString)) ||
+					(m.Faculty != null &&
+						m.Faculty.FacultyName != null &&
+						m.Faculty.FacultyName.ToLower().Contains(searchString))
+				);
+			}
+
+			var majors = await query
+				.OrderByDescending(m => m.MajorId)
+				.ToListAsync();
+
+			return View("Index", majors);
+		}
+
+
 		//Tạo mới ngành học
 		[HttpGet]
 		public async Task<IActionResult> Create()

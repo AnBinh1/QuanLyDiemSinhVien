@@ -4,43 +4,51 @@
     ViewData["Title"] = "List User";
 }
 
-<div style="margin-left:30px;padding-top:20px">
-    <h3>Quản lý người dùng</h3>
+<div>
+    <div class="d-flex align-items-center justify-content-between" style="margin:0px 70px 15px 30px; padding-top:20px;">
+        <h3 class="mb-0">Quản lý tài khoản người dùng</h3>
 
-    <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="User">Thêm User</a>
-
-</div>
-<div class="col-sm-12" style="margin-left:5px">
-    <table class="table table-bordered table-hover" id="myTable">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>UserName</th>
-                <th>Email</th>
-                <th>PasswordHash</th>
-                <th>Phone</th>
-                @* <th>Role</th> *@
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
+        <form asp-action="Search" method="get" class="d-flex" style="max-width:400px;">
+            <input type="text" name="searchString" class="form-control me-2" placeholder="Tìm kiếm theo mã hoặc tên" value="@ViewBag.SearchString" />
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+    </div>
+    <div style="margin-left:30px;padding-top:20px">
+        <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="User">Thêm User</a>
+    </div>
+    <div class="col-sm-12" style="margin-left:5px">
+        <table class="table table-bordered table-hover" id="myTable">
+            <thead>
                 <tr>
-                    <td width="50">@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td width="40px">@user.Email</td>
-                    <td style="max-width: 270px; word-wrap: break-word;">@user.PasswordHash</td>
-                    <td>@(user.PhoneNumber ?? "Chưa có số điện thoại")</td>
-                    @* <td>@user.RoleName</td> *@
-                    <td>
-                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id">Edit</a>
-                        <form asp-action="Delete" asp-controller="User" asp-route-id="@user.Id" method="post" onsubmit=" return confirm('bạn có chắc chắn xoá tài khoản này không?')" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
+                    <th>Id</th>
+                    <th>UserName</th>
+                    <th>Email</th>
+                    <th>PasswordHash</th>
+                    <th>Phone</th>
+                    @* <th>Role</th> *@
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td width="50">@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td width="40px">@user.Email</td>
+                        <td style="max-width: 270px; word-wrap: break-word;">@user.PasswordHash</td>
+                        <td>@(user.PhoneNumber ?? "Chưa có số điện thoại")</td>
+                        @* <td>@user.RoleName</td> *@
+                        <td>
+                            <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id">Edit</a>
+                            <form asp-action="Delete" asp-controller="User" asp-route-id="@user.Id" method="post" onsubmit=" return confirm('bạn có chắc chắn xoá tài khoản này không?')" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>

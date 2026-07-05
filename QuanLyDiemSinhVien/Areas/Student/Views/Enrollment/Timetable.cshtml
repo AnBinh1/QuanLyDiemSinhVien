@@ -1,0 +1,116 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.EnrollmentModel>
+
+@{
+    int week = ViewBag.Week;
+    var days = new[] { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN" };
+}
+<style>
+    table.tkb {
+        width: 100%;
+        table-layout: fixed; /* Cố định chiều rộng cột */
+        border-collapse: collapse;
+    }
+
+        table.tkb th, table.tkb td {
+            border: 1px solid #ccc;
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+            overflow-wrap: break-word;
+        }
+
+        table.tkb th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        table.tkb td {
+            height: 50px; /* chiều cao mỗi tiết cố định */
+        }
+
+            table.tkb td div {
+                padding: 5px;
+                border-radius: 6px;
+                background-color: #f7e9d7;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            }
+
+            table.tkb td.empty {
+                background-color: #f9f9f9;
+            }
+
+    
+
+
+    /* Nút chọn tuần */
+    .week-btns .btn {
+        margin: 2px;
+    }
+</style>
+
+<h3 class="text-center mb-3">Thời khóa biểu - Tuần @week</h3>
+
+<table class="tkb">
+    <thead>
+        <tr>
+            <th>Tiết</th>
+            @foreach (var d in days)
+            {
+                <th>@d</th>
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (int period = 1; period <= 10; period++)
+        {
+            <tr>
+                <td><strong>@period</strong></td>
+
+                @for (int day = 2; day <= 8; day++)   @* 2=Thứ2 ... 8=CN *@
+                {
+                    var classAtSlot = Model.FirstOrDefault(e =>
+                    e.CourseSection.DayOfWeek == day &&
+                    e.CourseSection.StartPeriod <= period &&
+                    e.CourseSection.EndPeriod >= period
+                    );
+
+                    if (classAtSlot != null && classAtSlot.CourseSection.StartPeriod == period)
+                    {
+                        int? rowspan = classAtSlot.CourseSection.EndPeriod - classAtSlot.CourseSection.StartPeriod + 1;
+
+                        <td rowspan="@rowspan">
+                            <div style="font-size:15px">
+                                
+                                @classAtSlot.CourseSection.SectionCode <br />
+                                GV: @classAtSlot.CourseSection.Lecturer.FullName <br />
+                                Phòng: <b>@classAtSlot.CourseSection.Room</b><br />
+                                (Tiết: @classAtSlot.CourseSection.StartPeriod - @classAtSlot.CourseSection.EndPeriod)
+                            </div>
+                        </td>
+                    }
+                    else if (Model.Any(e =>
+                    e.CourseSection.DayOfWeek == day &&
+                    e.CourseSection.StartPeriod < period &&
+                    e.CourseSection.EndPeriod >= period))
+                    {
+                        @* đang trong khoảng tiết của môn — bỏ qua vì đã rowspan *@
+                    }
+                    else
+                    {
+                        <td class="empty"></td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-center mb-3 week-btns">
+    @for (int w = 1; w <= 21; w++)
+    {
+        <a asp-action="Timetable" asp-route-week="@w"
+           class="btn btn-sm @(w == week ? "btn-primary" : "btn-outline-primary")">@w</a>
+    }
+</div>

@@ -1,4 +1,5 @@
-﻿using QuanLyDiemSinhVien.Attributes;
+﻿using Microsoft.AspNetCore.Identity;
+using QuanLyDiemSinhVien.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -70,11 +71,31 @@ namespace QuanLyDiemSinhVien.Models
 		}
 
 
-		[Required(ErrorMessage = "Yêu cầu nhập ngày nhập học")]
+		[Required]
 		public bool IsActive { get; set; } = true;
 
+		[StringLength(50)]
+		public string? Ethnicity { get; set; }  // Dân tộc
+
+		[StringLength(50)]
+		public string? Religion { get; set; }  // Tôn giáo
+
+		[StringLength(50)]
+		public string? Nationality { get; set; } // Quốc tịch
+
+		[StringLength(12)]
+		[RegularExpression(@"^\d{9,12}$", ErrorMessage = "Số CMND/CCCD không hợp lệ")]
+		public string? IdentityNumber { get; set; } // CCCD
+
+		[DataType(DataType.Date)]
+		public DateTime? IdentityDate { get; set; } // Ngày cấp
+
+		[StringLength(255)]
+		public string? IdentityPlace { get; set; } // Nơi cấp
+
+
 		[Required(ErrorMessage = "Yêu cầu chọn lớp học")]
-		public int ClassId { get; set; }
+		public int? ClassId { get; set; }
 
 		[ForeignKey("ClassId")]
 		public ClassModel? Class { get; set; }
@@ -84,5 +105,10 @@ namespace QuanLyDiemSinhVien.Models
 
 		[NotMapped]
 		public int? FacultyId { get; set; }
+
+		[Required(ErrorMessage = "Yêu cầu chọn liên kết tài khoản")]
+		[ForeignKey("User")]
+		public string? UserId { get; set; }  // Id của IdentityUser
+		public IdentityUser? User { get; set; }
 	}
 }

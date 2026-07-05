@@ -30,6 +30,49 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Search(string searchString)
+		{
+			// Giữ giá trị search để hiển thị lại trên View
+			ViewBag.SearchString = searchString;
+
+			// Tạo query
+			var query = _context.Classes
+				.Include(c => c.Major)
+				.ThenInclude(m => m.Faculty)
+				.AsQueryable();
+
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				searchString = searchString.Trim().ToLower();
+
+				query = query.Where(c =>
+					(c.ClassName != null && c.ClassName.ToLower().Contains(searchString)) ||
+
+					// tìm theo tên ngành
+					(c.Major != null &&
+						c.Major.MajorName != null &&
+						c.Major.MajorName.ToLower().Contains(searchString)
+					) ||
+
+					// tìm theo tên khoa
+					(c.Major != null &&
+						c.Major.Faculty != null &&
+						c.Major.Faculty.FacultyName != null &&
+						c.Major.Faculty.FacultyName.ToLower().Contains(searchString)
+					)
+				);
+			}
+
+			// Lấy danh sách
+			var classes = await query
+				.OrderByDescending(c => c.ClassId)
+				.ToListAsync();
+
+			return View("Index", classes);
+		}
+
+
+		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
 			ViewBag.FacultyList = new SelectList(await _context.Faculties.ToListAsync(), "Id", "FacultyName");

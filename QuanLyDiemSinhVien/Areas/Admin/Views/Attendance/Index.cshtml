@@ -1,0 +1,55 @@
+﻿@model List<QuanLyDiemSinhVien.Models.AttendanceSessionModel>
+@{
+    var sectionId = ViewBag.SectionId;
+}
+
+<div style="padding-left:20px;padding-top:20px">
+    <h3>Danh sách buổi điểm danh</h3>
+
+    <a asp-action="Create" asp-route-sectionId="@sectionId" class="btn btn-success mb-3">Tạo buổi điểm danh mới</a>
+    <a asp-action="ExportOptions" asp-route-sectionId="@sectionId"
+       class="btn btn-warning mb-3" style="margin-left:10px">
+        Xuất file excel điểm danh sinh viên
+    </a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Lớp học phần</th>
+                <th>Ngày</th>
+                <th>Tuần</th>
+                <th>Tiết học</th>
+                <th>Chủ đề</th>
+                <th>Ghi chú</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+                if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>                      
+                             <td>@i</td>
+                            <td>@item.CourseSection.SectionCode</td>
+                            <td>@item.SessionDate.ToShortDateString()</td>
+                            <td>@item.Week</td>
+                            <td>T @item.CourseSection.DayOfWeek (@item.CourseSection.StartPeriod -> @item.CourseSection.EndPeriod)</td>
+                            <td>@item.Topic</td>
+                            <td>@item.Note</td>
+                            <td>
+                                <a asp-action="Mark" asp-route-sessionId="@item.AttendanceSessionId" class="btn btn-primary btn-sm">Điểm danh</a>
+                                <a asp-action="Details" asp-route-sessionId="@item.AttendanceSessionId" class="btn btn-primary btn-sm">Chi tiết</a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

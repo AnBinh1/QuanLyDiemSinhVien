@@ -1,0 +1,60 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.EnrollmentModel>
+
+<h3 class="mb-4" style="margin-left: 20px; padding-top: 15px;">
+    Danh sách lớp học phần đã đăng ký
+</h3>
+
+<table class="table table-bordered table-hover text-center align-middle">
+    <thead class="table-success">
+        <tr>
+            <th>STT</th>
+            <th>Tên lớp học phần</th>
+            <th>Số tín chỉ</th>
+            <th>Năm học</th>
+            <th>Học kỳ</th>
+            <th>Loại học phần</th>
+            <th>Giảng viên phụ trách</th>
+            <th>Phòng học</th>
+            <th>Tuần học</th>
+            <th>Thứ(tiết học)</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+            if (Model != null && Model.Any())
+            {
+                foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@s.CourseSection.SectionCode</td>
+                        <td>@s.CourseSection.Course.Credits</td>
+                        <td>@s.CourseSection.AcademicYear</td>
+                        <td>@s.CourseSection.Semester</td>
+                        <td>@s.CourseSection.Course.CourseType</td>
+                        <td>@s.CourseSection.Lecturer.FullName</td>
+                        <td>@s.CourseSection.Room</td>
+                        <td>(@s.CourseSection.StartWeek -> @s.CourseSection.EndWeek)</td>
+                        <td>T @s.CourseSection.DayOfWeek (@s.CourseSection.StartPeriod,@s.CourseSection.EndPeriod)</td>
+
+                        <td>
+                            <form asp-action="UnEnroll" method="post">
+                                <input type="hidden" name="sectionId" value="@s.SectionId" />
+                                <button type="submit" class="btn btn-danger">Huỷ</button>
+                            </form>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="15">Chưa có lớp học phần nào được đăng ký.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

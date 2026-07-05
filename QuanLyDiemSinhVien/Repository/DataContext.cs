@@ -17,6 +17,14 @@ namespace QuanLyDiemSinhVien.Repository
 		public DbSet<ClassModel> Classes { get; set; }
 		public DbSet<StudentModel> Students { get; set; }
 		public DbSet<LecturerModel> Lecturers { get; set; }
+		public DbSet<CourseSectionModel> CourseSections { get; set; }
 
+		public DbSet<EnrollmentModel> Enrollments { get; set; }
+
+		public DbSet<AttendanceSessionModel> AttendanceSessions { get; set; }
+
+		public DbSet<AttendanceModel> Attendances { get; set; }
+
+		public DbSet<StudentGradeModel> Grades { get; set; }
 	}
 }

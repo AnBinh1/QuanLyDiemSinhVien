@@ -1,0 +1,43 @@
+﻿@model QuanLyDiemSinhVien.Models.AttendanceSessionModel
+
+<div style="padding-top:20px;margin-left:20px">
+    
+    <h3>Tạo buổi điểm danh mới</h3>
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label asp-for="SectionId" class="form-label">Lớp Học Phần *</label>
+            <select asp-for="SectionId" class="form-control" asp-items="@(ViewBag.Sections)">
+                <option value="">-- Chọn lớp học phần --</option>
+            </select>
+            <span asp-validation-for="SectionId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SessionDate" class="form-label">Ngày điểm danh *</label>
+            <input asp-for="SessionDate" type="date" class="form-control" />
+            <span asp-validation-for="SessionDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Week" class="form-label">Tuần *</label>
+            <input asp-for="Week" class="form-control" />
+            <span asp-validation-for="Week" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Topic" class="form-label">Chủ đề *</label>
+            <input asp-for="Topic" class="form-control" />
+            <span asp-validation-for="Topic" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Note" class="form-label">Ghi chú</label>
+            <textarea asp-for="Note" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tạo buổi điểm danh</button>
+    </form>
+
+</div>

@@ -1,0 +1,183 @@
+﻿@model QuanLyDiemSinhVien.Models.CourseSectionModel
+
+@{
+    ViewData["Title"] = "Cập nhật lớp học phần";
+}
+
+<h3 style="padding:10px 0px 0px 10px">Cập nhật lớp học phần</h3>
+
+<div class="col-md-11" style="margin-left:30px">
+    <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
+    <form asp-action="Edit" method="post" asp-controller="CourseSection" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="SectionId" />
+        <div class="form-group">
+            <label for="CourseId">Chọn Học Phần *</label>
+            <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courses">
+                <option value="">-- Chọn Học Phần --</option>
+            </select>
+            <span asp-validation-for="CourseId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Lớp học phần</label>
+            <input asp-for="SectionCode" class="form-control" />
+            <span asp-validation-for="SectionCode" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Năm học</label>
+            <input asp-for="AcademicYear" class="form-control" placeholder="2025-2026" />
+            <span asp-validation-for="AcademicYear" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Semester">Học Kỳ*</label>
+            <select asp-for="Semester" class="form-control">
+                <option value="">-- Chọn Học Kỳ --</option>
+                <option value="HK 1">HK 1</option>
+                <option value="HK 2.1">HK 2.1</option>
+                <option value="HK 2.2">HK 2.2</option>
+            </select>
+            <span asp-validation-for="Semester" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Số lượng tối đa</label>
+            <input asp-for="MaxStudents" type="number" class="form-control" />
+            <span asp-validation-for="MaxStudents" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="LecturerId">Giảng viên phụ trách *</label>
+            <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.Lecturers">
+                <option value="">-- Chọn Giảng Viên Phụ Trách --</option>
+            </select>
+            <span asp-validation-for="LecturerId" class="text-danger"></span>
+        </div>
+        @* <div class="mb-3">
+                    <label class="form-label">Ngành học</label>
+                    <select asp-for="Lecturer.Major.MajorName" class="form-select" asp-items="ViewBag.Lecturers">
+                        <option value="">-- Chọn ngành học --</option>
+                    </select>
+                </div> *@
+        <div class="mb-3">
+            <label class="form-label">Phòng học</label>
+            <input asp-for="Room" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Số giờ giảng</label>
+            <div class="row">
+                <div class="col">
+                    <input asp-for="LectureHours" type="number" class="form-control" placeholder="Giờ lý thuyết" />
+                </div>
+                <div class="col">
+                    <input asp-for="PracticeHours" type="number" class="form-control" placeholder="Giờ thực hành" />
+                </div>
+                <div class="col">
+                    <input asp-for="SelfStudyHours" type="number" class="form-control" placeholder="Giờ tự học" />
+                </div>
+            </div>
+        </div>
+        <div class="mb-3" id="registrationDates" style="display:none;">
+            <label class="form-label">Ngày bắt đầu đăng ký *</label>
+            <input asp-for="StartDate" type="date" class="form-control" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+
+            <label class="form-label">Ngày kết thúc đăng ký *</label>
+            <input asp-for="EndDate" type="date" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div id="scheduleFields">
+            <div class="mb-3">
+                <label>Tuần bắt đầu</label>
+                <input asp-for="StartWeek" type="number" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Tuần kết thúc</label>
+                <input asp-for="EndWeek" type="number" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Thứ trong tuần</label>
+                <input asp-for="DayOfWeek" type="number" class="form-control" placeholder="2–7" />
+            </div>
+
+            <div class="mb-3">
+                <label>Tiết bắt đầu</label>
+                <input asp-for="StartPeriod" type="number" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Tiết kết thúc</label>
+                <input asp-for="EndPeriod" type="number" class="form-control" />
+            </div>
+        </div>
+        <div id="majorField" class="form-group">
+            <label for="MajorId">Ngành đăng ký</label>
+            <select asp-for="MajorId" class="form-control" asp-items="ViewBag.Majors">
+                <option value="">-- Chọn ngành học --</option>
+            </select>
+            <span asp-validation-for="MajorId" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="Status">Trạng thái</label>
+            <select asp-for="Status" class="form-control">
+                <option value="Closed">Đóng</option>
+                <option value="Open">Mở</option>
+                <option value="Postponed">Hoãn</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ghi chú</label>
+            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Cập nhật lớp học phần</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+
+            function toggleFields() {
+                if ($('#Status').val() === 'Open') {
+                    $('#registrationDates').show();
+                    $('#scheduleFields').show();
+                    $('#majorField').show();
+                } else {
+                    $('#registrationDates').hide();
+                    $('#scheduleFields').hide();
+                    $('#majorField').hide();
+
+                    // reset các giá trị
+                    $('#StartDate').val('');
+                    $('#EndDate').val('');
+                    $('#StartWeek').val('');
+                    $('#EndWeek').val('');
+                    $('#DayOfWeek').val('');
+                    $('#StartPeriod').val('');
+                    $('#EndPeriod').val('');
+                    $('#MajorId').val('');
+                }
+            }
+
+            // Gọi 1 lần khi load trang (nếu trạng thái đã là Open thì phải mở luôn)
+            toggleFields();
+
+            // Gọi mỗi khi thay đổi trạng thái
+            $('#Status').on('change', function () {
+                toggleFields();
+            });
+        });
+    </script>
+
+}
+

@@ -124,7 +124,7 @@
         <div class="form-group">
             <label asp-for="ContractType">Loại hợp đồng *</label>
             <select asp-for="ContractType" class="form-control">
-                <option value="">-- Chọn giới tính --</option>
+                <option value="">-- Chọn Hợp đồng --</option>
                 <option value="Dài Hạn">Dài Hạn</option>
                 <option value="Ngắn Hạn">Ngắn Hạn</option>
                 <option value="Thử Việc">Thử Việc</option>
@@ -133,9 +133,9 @@
         </div>
 
         <div class="form-group">
-            <label for="FacultyId">Chọn Khoa/Viện *</label>
+            <label for="FacultyId">Chọn Khoa-Viện *</label>
             <select asp-for="FacultyId" id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
-                <option value="">-- Chọn Khoa/Viện --</option>
+                <option value="">-- Chọn Khoa-Viện --</option>
             </select>
             <span asp-validation-for="FacultyId" class="text-danger"></span>
         </div>

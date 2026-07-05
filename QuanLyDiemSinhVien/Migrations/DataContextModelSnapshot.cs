@@ -224,6 +224,68 @@ namespace QuanLyDiemSinhVien.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.AttendanceModel", b =>
+                {
+                    b.Property<int>("AttendanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceId"));
+
+                    b.Property<int>("AttendanceSessionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttendanceStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AttendanceId");
+
+                    b.HasIndex("AttendanceSessionId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Attendances");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.AttendanceSessionModel", b =>
+                {
+                    b.Property<int>("AttendanceSessionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceSessionId"));
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SessionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Week")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AttendanceSessionId");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("AttendanceSessions");
+                });
+
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.ClassModel", b =>
                 {
                     b.Property<int>("ClassId")
@@ -254,30 +316,158 @@ namespace QuanLyDiemSinhVien.Migrations
 
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.CourseModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CourseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
 
                     b.Property<string>("CourseCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("CourseName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("CourseType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
-                    b.Property<string>("Department")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("PrerequisiteCourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CourseId");
+
+                    b.HasIndex("PrerequisiteCourseId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.CourseSectionModel", b =>
+                {
+                    b.Property<int>("SectionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SectionId"));
+
+                    b.Property<string>("AcademicYear")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EndPeriod")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EndWeek")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LectureHours")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LecturerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MajorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxStudents")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("PracticeHours")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegisteredStudents")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Room")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SectionCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SelfStudyHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Semester")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StartPeriod")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StartWeek")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("SectionId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LecturerId");
+
+                    b.HasIndex("MajorId");
+
+                    b.ToTable("CourseSections");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.EnrollmentModel", b =>
+                {
+                    b.Property<int>("EnrollmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentId"));
+
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EnrollmentId");
+
+                    b.HasIndex("SectionId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.FacultyModel", b =>
@@ -393,6 +583,7 @@ namespace QuanLyDiemSinhVien.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<int?>("MajorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Nationality")
@@ -405,8 +596,7 @@ namespace QuanLyDiemSinhVien.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlaceOfBirth")
                         .HasMaxLength(255)
@@ -427,6 +617,7 @@ namespace QuanLyDiemSinhVien.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LecturerId");
@@ -474,6 +665,45 @@ namespace QuanLyDiemSinhVien.Migrations
                     b.ToTable("Majors");
                 });
 
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.StudentGradeModel", b =>
+                {
+                    b.Property<int>("GradeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GradeId"));
+
+                    b.Property<decimal>("ContinuousAssessment")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("FinalExam")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<bool>("IsGraduationEligible")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("GradeId");
+
+                    b.HasIndex("EnrollmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Grades");
+                });
+
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.StudentModel", b =>
                 {
                     b.Property<int>("StudentId")
@@ -487,7 +717,8 @@ namespace QuanLyDiemSinhVien.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -501,6 +732,10 @@ namespace QuanLyDiemSinhVien.Migrations
                     b.Property<DateTime>("EnrollmentDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Ethnicity")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -510,17 +745,40 @@ namespace QuanLyDiemSinhVien.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("IdentityDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdentityNumber")
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("IdentityPlace")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Religion")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("StudentCode")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("YearOfStudy")
                         .IsRequired()
@@ -530,6 +788,8 @@ namespace QuanLyDiemSinhVien.Migrations
                     b.HasKey("StudentId");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Students");
                 });
@@ -585,6 +845,36 @@ namespace QuanLyDiemSinhVien.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.AttendanceModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.AttendanceSessionModel", "AttendanceSession")
+                        .WithMany()
+                        .HasForeignKey("AttendanceSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyDiemSinhVien.Models.StudentModel", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttendanceSession");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.AttendanceSessionModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.CourseSectionModel", "CourseSection")
+                        .WithMany()
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseSection");
+                });
+
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.ClassModel", b =>
                 {
                     b.HasOne("QuanLyDiemSinhVien.Models.MajorModel", "Major")
@@ -594,6 +884,57 @@ namespace QuanLyDiemSinhVien.Migrations
                         .IsRequired();
 
                     b.Navigation("Major");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.CourseModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.CourseModel", "PrerequisiteCourse")
+                        .WithMany()
+                        .HasForeignKey("PrerequisiteCourseId");
+
+                    b.Navigation("PrerequisiteCourse");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.CourseSectionModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyDiemSinhVien.Models.LecturerModel", "Lecturer")
+                        .WithMany()
+                        .HasForeignKey("LecturerId");
+
+                    b.HasOne("QuanLyDiemSinhVien.Models.MajorModel", "Major")
+                        .WithMany()
+                        .HasForeignKey("MajorId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Lecturer");
+
+                    b.Navigation("Major");
+                });
+
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.EnrollmentModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.CourseSectionModel", "CourseSection")
+                        .WithMany()
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuanLyDiemSinhVien.Models.StudentModel", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseSection");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.LecturerModel", b =>
@@ -606,11 +947,15 @@ namespace QuanLyDiemSinhVien.Migrations
 
                     b.HasOne("QuanLyDiemSinhVien.Models.MajorModel", "Major")
                         .WithMany()
-                        .HasForeignKey("MajorId");
+                        .HasForeignKey("MajorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Faculty");
 
@@ -630,6 +975,23 @@ namespace QuanLyDiemSinhVien.Migrations
                     b.Navigation("Faculty");
                 });
 
+            modelBuilder.Entity("QuanLyDiemSinhVien.Models.StudentGradeModel", b =>
+                {
+                    b.HasOne("QuanLyDiemSinhVien.Models.EnrollmentModel", "Enrollment")
+                        .WithMany()
+                        .HasForeignKey("EnrollmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Enrollment");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.StudentModel", b =>
                 {
                     b.HasOne("QuanLyDiemSinhVien.Models.ClassModel", "Class")
@@ -638,7 +1000,15 @@ namespace QuanLyDiemSinhVien.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Class");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QuanLyDiemSinhVien.Models.ClassModel", b =>
