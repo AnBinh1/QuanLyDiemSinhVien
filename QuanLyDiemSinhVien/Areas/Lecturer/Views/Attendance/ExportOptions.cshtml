@@ -1,0 +1,95 @@
+﻿@model QuanLyDiemSinhVien.Models.AttendanceSessionModel
+
+@{
+    ViewData["Title"] = "Xuất báo cáo điểm danh";
+    var sectionId = ViewBag.SectionId ?? Model?.SectionId ?? 0;
+    var weeks = ViewBag.Weeks as List<string> ?? new List<string>();
+}
+
+<div class="container-fluid">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-file-excel mr-2"></i>
+                Xuất báo cáo điểm danh
+            </h3>
+        </div>
+
+        <form asp-area="Lecturer"
+              asp-controller="Attendance"
+              asp-action="ExportToExcel"
+              method="get">
+
+            <div class="card-body">
+                <input type="hidden" name="sectionId" value="@sectionId" />
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["Error"]
+                    </div>
+                }
+
+                @if (!weeks.Any())
+                {
+                    <div class="alert alert-warning">
+                        Lớp học phần này chưa có buổi điểm danh nào để xuất báo cáo.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        Chọn tuần học và trạng thái cần thống kê để xuất báo cáo.
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label for="week">Tuần học</label>
+
+                    <select id="week"
+                            name="week"
+                            class="form-control"
+                            required
+                            disabled="@(!weeks.Any())">
+                        <option value="">-- Chọn tuần --</option>
+                        @foreach (var w in weeks)
+                        {
+                            <option value="@w">@w</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Trạng thái điểm danh</label>
+
+                    <select id="status" name="status" class="form-control">
+                        <option value="all">Tất cả trạng thái</option>
+                        <option value="notmarked">Chưa điểm danh</option>
+                        <option value="present">Có mặt</option>
+                        <option value="excused">Vắng phép</option>
+                        <option value="unexcused">Vắng không phép</option>
+                        <option value="late">Đi muộn</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit"
+                        class="btn btn-success"
+                        disabled="@(!weeks.Any())">
+                    <i class="fas fa-download mr-1"></i>
+                    Xuất file Excel
+                </button>
+
+                <a asp-area="Lecturer"
+                   asp-controller="Attendance"
+                   asp-action="Index"
+                   asp-route-sectionId="@sectionId"
+                   class="btn btn-secondary">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

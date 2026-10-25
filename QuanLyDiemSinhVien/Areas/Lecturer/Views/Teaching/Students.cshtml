@@ -1,0 +1,175 @@
+﻿@model List<QuanLyDiemSinhVien.Models.StudentModel>
+
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+    int sectionId = ViewBag.SectionId;
+    string keyword = ViewBag.Keyword as string ?? "";
+}
+
+
+    <!-- TIÊU ĐỀ TRANG DANH SÁCH SINH VIÊN -->
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3">
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between align-items-md-center">
+
+                <!-- BÊN TRÁI: TIÊU ĐỀ -->
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+
+                    <div class="d-flex align-items-center
+                                justify-content-center rounded mr-3"
+                         style="width: 58px; height: 58px;
+                                background-color: #e8f1ff;
+                                color: #007bff; flex-shrink: 0;">
+
+                        <i class="fas fa-user-graduate"
+                           style="font-size: 25px;"></i>
+                    </div>
+
+                    <div>
+                        <h4 class="font-weight-bold text-primary mb-1">
+                            Danh sách sinh viên
+                        </h4>
+
+                        <p class="text-muted mb-1">
+                            Quản lý danh sách sinh viên đã đăng ký lớp học phần.
+                        </p>
+
+                        <div class="small">
+                            <span class="text-muted">Lớp học phần:</span>
+                            <strong class="text-primary">
+                                @ViewBag.SectionCode
+                            </strong>
+
+                            <span class="text-muted mx-1">|</span>
+
+                            <span class="text-muted">Học phần:</span>
+                            <strong>@ViewBag.CourseName</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BÊN PHẢI: CÁC NÚT CHỨC NĂNG -->
+                <div class="d-flex flex-wrap align-items-center">
+
+                    <!-- NÚT XUẤT EXCEL -->
+                    <a asp-area="Lecturer"
+                       asp-controller="Teaching"
+                       asp-action="ExportStudents"
+                       asp-route-sectionId="@sectionId"
+                       asp-route-keyword="@keyword"
+                       class="btn btn-success mr-2 mb-2 mb-md-0">
+
+                        <i class="fas fa-file-excel mr-1"></i>
+                        Xuất Excel
+                    </a>
+
+                    <!-- NÚT QUAY LẠI -->
+                    <a asp-area="Lecturer"
+                       asp-controller="Teaching"
+                       asp-action="Details"
+                       asp-route-id="@sectionId"
+                       class="btn btn-outline-secondary">
+
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Quay lại
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-list mr-2"></i>
+                    Sinh viên đã đăng ký
+                </h5>
+                <span class="badge badge-light">@Model.Count sinh viên</span>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-area="Lecturer"
+                  asp-controller="Teaching"
+                  asp-action="Students"
+                  method="get"
+                  class="form-inline mb-3">
+
+                <input type="hidden" name="sectionId" value="@sectionId" />
+
+                <input type="text"
+                       name="keyword"
+                       value="@keyword"
+                       class="form-control mr-2"
+                       style="min-width:280px;"
+                       placeholder="Tìm theo mã hoặc tên sinh viên..." />
+
+                <button type="submit" class="btn btn-primary mr-2">
+                    <i class="fas fa-search mr-1"></i>
+                    Tìm
+                </button>
+
+                @if (!string.IsNullOrWhiteSpace(keyword))
+                {
+                    <a asp-area="Lecturer"
+                       asp-controller="Teaching"
+                       asp-action="Students"
+                       asp-route-sectionId="@sectionId"
+                       class="btn btn-outline-secondary">
+                        Xóa lọc
+                    </a>
+                }
+            </form>
+
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width:60px;" class="text-center">STT</th>
+                                <th style="width:140px;">Mã sinh viên</th>
+                                <th>Họ và tên</th>
+                                <th style="width:100px;" class="text-center">Giới tính</th>
+                                <th style="width:120px;" class="text-center">Ngày sinh</th>
+                                <th style="width:140px;">Số điện thoại</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var s = Model[i];
+                                <tr>
+                                    <td class="text-center">@(i + 1)</td>
+                                    <td><strong>@s.StudentCode</strong></td>
+                                    <td>@s.FullName</td>
+                                    <td class="text-center">@s.Gender</td>
+                                    <td class="text-center">@s.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                                    <td>@s.PhoneNumber</td>
+                                    <td>@s.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-user-slash fa-3x mb-2"></i>
+                    <p class="mb-0">
+                        Chưa có sinh viên nào đăng ký lớp học phần này.
+                    </p>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

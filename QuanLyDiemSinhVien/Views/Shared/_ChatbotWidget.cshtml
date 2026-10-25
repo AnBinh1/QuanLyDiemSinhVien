@@ -1,0 +1,68 @@
+﻿<!-- =========================================================
+     CHATBOT WIDGET - Trợ lý ảo hỗ trợ sinh viên
+     Đặt file này tại: Views/Shared/_ChatbotWidget.cshtml
+     ========================================================= -->
+<div class="vinh-chatbot" id="vinh-chatbot">
+
+    <button type="button" class="vinh-chatbot-btn" aria-label="Mở trợ lý ảo">
+        <i class="bi bi-chat-dots-fill"></i>
+        <i class="bi bi-x-lg"></i>
+        <span class="vinh-chatbot-badge">1</span>
+    </button>
+
+    <div class="vinh-chatbot-panel">
+
+        <div class="vinh-chatbot-header">
+            <div class="avatar">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+            <div class="info">
+                <strong>Trợ lý ảo Đại học Vinh</strong>
+                <span>Đang hoạt động</span>
+            </div>
+        </div>
+
+        <div class="vinh-chatbot-body"></div>
+
+        <div class="vinh-chatbot-input">
+            <input type="text" placeholder="Nhập câu hỏi của bạn..." autocomplete="off" />
+            <button type="button" aria-label="Gửi">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    const chatHistory = [];
+
+    async function askChatbot(message) {
+        const response = await fetch("/api/Chatbot/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: message,
+                history: chatHistory.slice(-12)
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Không thể gửi câu hỏi."
+            );
+        }
+
+        chatHistory.push(
+            { role: "user", content: message },
+            { role: "assistant", content: data.reply }
+        );
+
+        return data.reply;
+    }
+</script>

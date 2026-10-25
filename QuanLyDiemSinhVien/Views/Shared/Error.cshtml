@@ -2,9 +2,25 @@
 @{
     ViewData["Title"] = "Error";
 }
-
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (ViewBag.StatusCode != null)
+{
+    <h2 class="text-danger">
+        @if ((int)ViewBag.StatusCode == 404)
+        {
+            <text>Không tìm thấy trang bạn yêu cầu (404).</text>
+        }
+        else
+        {
+            <text>Đã xảy ra lỗi (Mã lỗi: @ViewBag.StatusCode).</text>
+        }
+    </h2>
+}
+else
+{
+    <h2 class="text-danger">An error occurred while processing your request.</h2>
+}
 
 @if (Model.ShowRequestId)
 {

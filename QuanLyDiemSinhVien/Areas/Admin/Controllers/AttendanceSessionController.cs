@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize(Roles = "Admin,Lecturer")]
+	[Authorize(Roles = "Admin")]
 	public class AttendanceSessionController : Controller
 	{
 		public IActionResult Index()

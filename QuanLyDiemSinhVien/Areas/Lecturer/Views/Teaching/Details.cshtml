@@ -1,0 +1,838 @@
+﻿
+@model QuanLyDiemSinhVien.Models.CourseSectionModel
+
+@{
+    ViewData["Title"] = "Chi tiết lớp học phần";
+}
+
+<div class="container-fluid">
+
+
+    <!-- TIÊU ĐỀ TRANG CHI TIẾT LỚP HỌC PHẦN -->
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3">
+            <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-center">
+
+                <!-- BÊN TRÁI: BIỂU TƯỢNG VÀ TIÊU ĐỀ -->
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+
+                    <!-- BIỂU TƯỢNG -->
+                    <div class="d-flex align-items-center
+                            justify-content-center rounded mr-3"
+                         style="width: 58px; height: 58px;
+                            background-color: #e8f1ff;
+                            color: #007bff; flex-shrink: 0;">
+
+                        <i class="fas fa-chalkboard-teacher"
+                           style="font-size: 25px;"></i>
+                    </div>
+
+                    <!-- NỘI DUNG -->
+                    <div>
+                        <h4 class="font-weight-bold text-primary mb-1">
+                            Chi tiết lớp học phần
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Thông tin và các chức năng quản lý lớp học phần
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- BÊN PHẢI: NÚT QUAY LẠI -->
+                <div class="d-flex align-items-center">
+
+                    <a asp-area="Lecturer"
+                       asp-controller="Teaching"
+                       asp-action="Classes"
+                       class="btn btn-outline-secondary px-3">
+
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Quay lại
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- =========================================================
+         THÔNG TIN CHÍNH CỦA LỚP
+    ========================================================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-info-circle mr-2"></i>
+                Thông tin lớp học phần
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- =================================================
+                     THÔNG TIN HỌC PHẦN
+                ================================================== -->
+                <div class="col-md-6">
+
+                    <div class="border rounded p-3 h-100">
+
+                        <h6 class="text-primary font-weight-bold mb-3">
+                            <i class="fas fa-book mr-2"></i>
+                            Thông tin học phần
+                        </h6>
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Mã học phần
+                            </div>
+
+                            <div class="col-sm-7 font-weight-bold">
+                                @Model.Course?.CourseCode
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Tên học phần
+                            </div>
+
+                            <div class="col-sm-7 font-weight-bold">
+                                @Model.Course?.CourseName
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Số tín chỉ
+                            </div>
+
+                            <div class="col-sm-7">
+                                @Model.Course?.Credits
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-sm-5 text-muted">
+                                Loại học phần
+                            </div>
+
+                            <div class="col-sm-7">
+                                @Model.Course?.CourseType
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     THÔNG TIN LỚP
+                ================================================== -->
+                <div class="col-md-6 mt-3 mt-md-0">
+
+                    <div class="border rounded p-3 h-100">
+
+                        <h6 class="text-primary font-weight-bold mb-3">
+                            <i class="fas fa-users mr-2"></i>
+                            Thông tin lớp
+                        </h6>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Mã lớp học phần
+                            </div>
+
+                            <div class="col-sm-7">
+
+                                <strong class="text-primary">
+                                    @Model.SectionCode
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Học kỳ
+                            </div>
+
+                            <div class="col-sm-7">
+
+                                <span class="badge badge-info">
+                                    @Model.Semester
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Năm học
+                            </div>
+
+                            <div class="col-sm-7">
+                                @Model.AcademicYear
+                            </div>
+
+                        </div>
+
+
+                        <div class="row mb-2">
+
+                            <div class="col-sm-5 text-muted">
+                                Số sinh viên
+                            </div>
+
+                            <div class="col-sm-7">
+
+                                <strong>
+                                    @Model.RegisteredStudents
+                                </strong>
+
+                                <span class="text-muted">
+                                    / @Model.MaxStudents sinh viên
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-sm-5 text-muted">
+                                Trạng thái
+                            </div>
+
+                            <div class="col-sm-7">
+
+                                @if (Model.Status == "Open")
+                                {
+                                    <span class="badge badge-success">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        Đang mở
+                                    </span>
+                                }
+                                else if (Model.Status == "Closed")
+                                {
+                                    <span class="badge badge-secondary">
+                                        <i class="fas fa-lock mr-1"></i>
+                                        Đã đóng
+                                    </span>
+                                }
+                                else if (Model.Status == "Postponed")
+                                {
+                                    <span class="badge badge-warning">
+                                        <i class="fas fa-pause-circle mr-1"></i>
+                                        Tạm hoãn
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-light">
+                                        @Model.Status
+                                    </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         LỊCH HỌC
+    ========================================================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                Lịch học
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- THỨ -->
+                <div class="col-md-3 mb-3">
+
+                    <div class="border rounded p-3 text-center h-100">
+
+                        <i class="fas fa-calendar-day fa-2x text-primary mb-2"></i>
+
+                        <div class="text-muted">
+                            Thứ
+                        </div>
+
+                        <h5 class="mb-0">
+
+                            @switch (Model.DayOfWeek)
+                            {
+                                case 2:
+                                    <text>Thứ 2</text>
+                                    break;
+
+                                case 3:
+                                    <text>Thứ 3</text>
+                                    break;
+
+                                case 4:
+                                    <text>Thứ 4</text>
+                                    break;
+
+                                case 5:
+                                    <text>Thứ 5</text>
+                                    break;
+
+                                case 6:
+                                    <text>Thứ 6</text>
+                                    break;
+
+                                case 7:
+                                    <text>Thứ 7</text>
+                                    break;
+
+                                default:
+                                    <text>Chưa xác định</text>
+                                    break;
+                            }
+
+                        </h5>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIẾT -->
+                <div class="col-md-3 mb-3">
+
+                    <div class="border rounded p-3 text-center h-100">
+
+                        <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+
+                        <div class="text-muted">
+                            Tiết học
+                        </div>
+
+                        <h5 class="mb-0">
+
+                            @if (Model.StartPeriod.HasValue &&
+                                                        Model.EndPeriod.HasValue)
+                            {
+                                <text>
+                                    Tiết @Model.StartPeriod
+                                    -
+                                    @Model.EndPeriod
+                                </text>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Chưa cập nhật
+                                </span>
+                            }
+
+                        </h5>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PHÒNG -->
+                <div class="col-md-3 mb-3">
+
+                    <div class="border rounded p-3 text-center h-100">
+
+                        <i class="fas fa-door-open fa-2x text-primary mb-2"></i>
+
+                        <div class="text-muted">
+                            Phòng học
+                        </div>
+
+                        <h5 class="mb-0">
+
+                            @if (!string.IsNullOrWhiteSpace(Model.Room))
+                            {
+                                @Model.Room
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Chưa cập nhật
+                                </span>
+                            }
+
+                        </h5>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TUẦN -->
+                <div class="col-md-3 mb-3">
+
+                    <div class="border rounded p-3 text-center h-100">
+
+                        <i class="fas fa-calendar-week fa-2x text-primary mb-2"></i>
+
+                        <div class="text-muted">
+                            Tuần học
+                        </div>
+
+                        <h5 class="mb-0">
+
+                            @if (Model.StartWeek.HasValue &&
+                                                        Model.EndWeek.HasValue)
+                            {
+                                <text>
+                                    Tuần @Model.StartWeek
+                                    -
+                                    @Model.EndWeek
+                                </text>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Chưa cập nhật
+                                </span>
+                            }
+
+                        </h5>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+           
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         SỐ GIỜ HỌC
+    ========================================================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-hourglass-half mr-2"></i>
+                Khối lượng học tập
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- LÝ THUYẾT -->
+                <div class="col-md-4 mb-3 mb-md-0">
+
+                    <div class="info-box shadow-sm">
+
+                        <span class="info-box-icon bg-info">
+                            <i class="fas fa-chalkboard"></i>
+                        </span>
+
+                        <div class="info-box-content">
+
+                            <span class="info-box-text">
+                                Lý thuyết
+                            </span>
+
+                            <span class="info-box-number">
+                                @Model.LectureHours giờ
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THỰC HÀNH -->
+                <div class="col-md-4 mb-3 mb-md-0">
+
+                    <div class="info-box shadow-sm">
+
+                        <span class="info-box-icon bg-success">
+                            <i class="fas fa-laptop-code"></i>
+                        </span>
+
+                        <div class="info-box-content">
+
+                            <span class="info-box-text">
+                                Thực hành
+                            </span>
+
+                            <span class="info-box-number">
+                                @Model.PracticeHours giờ
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TỰ HỌC -->
+                <div class="col-md-4">
+
+                    <div class="info-box shadow-sm">
+
+                        <span class="info-box-icon bg-warning">
+                            <i class="fas fa-book-reader"></i>
+                        </span>
+
+                        <div class="info-box-content">
+
+                            <span class="info-box-text">
+                                Tự học
+                            </span>
+
+                            <span class="info-box-number">
+                                @Model.SelfStudyHours giờ
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         CHỨC NĂNG QUẢN LÝ LỚP
+    ========================================================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-tasks mr-2"></i>
+                Quản lý lớp học phần
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- SINH VIÊN -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-user-graduate fa-3x text-primary"></i>
+                            </div>
+
+                            <h5>
+                                Danh sách sinh viên
+                            </h5>
+
+                            <p class="text-muted">
+                                Xem danh sách sinh viên đã đăng ký lớp học phần.
+                            </p>
+
+                            <a asp-area="Lecturer"
+                               asp-controller="Teaching"
+                               asp-action="Students"
+                               asp-route-sectionId="@Model.SectionId"
+                               class="btn btn-primary">
+
+                                <i class="fas fa-users mr-1"></i>
+                                Xem sinh viên
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NHẬP ĐIỂM -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-edit fa-3x text-success"></i>
+                            </div>
+
+                            <h5>
+                                Nhập điểm
+                            </h5>
+
+                            <p class="text-muted">
+                                Nhập và cập nhật điểm cho sinh viên trong lớp.
+                            </p>
+
+                            <a asp-area="Lecturer"
+                               asp-controller="StudentGrade"
+                               asp-action="Enter"
+                               asp-route-sectionId="@Model.SectionId"
+                               class="btn btn-success">
+
+                                <i class="fas fa-pen mr-1"></i>
+                                Nhập điểm
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ĐIỂM DANH -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-user-check fa-3x text-info"></i>
+                            </div>
+
+                            <h5>
+                                Điểm danh
+                            </h5>
+
+                            <p class="text-muted">
+                                Theo dõi tình hình tham gia học tập của sinh viên.
+                            </p>
+
+                            <a asp-area="Lecturer"
+                               asp-controller="Attendance"
+                               asp-action="Index"
+                               asp-route-sectionId="@Model.SectionId"
+                               class="btn btn-info">
+
+                                <i class="fas fa-clipboard-check mr-1"></i>
+                                Điểm danh
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TÀI LIỆU -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-folder-open fa-3x text-warning"></i>
+                            </div>
+
+                            <h5>
+                                Tài liệu
+                            </h5>
+
+                            <p class="text-muted">
+                                Quản lý tài liệu phục vụ giảng dạy cho lớp học phần.
+                            </p>
+
+                            <a asp-area="Lecturer"
+                               asp-controller="Document"
+                               asp-action="Index"
+                               asp-route-sectionId="@Model.SectionId"
+                               class="btn btn-warning">
+
+                                <i class="fas fa-folder mr-1"></i>
+                                Quản lý tài liệu
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- THỐNG KÊ -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-chart-bar fa-3x text-danger"></i>
+                            </div>
+
+                            <h5>
+                                Thống kê lớp
+                            </h5>
+
+                            <p class="text-muted">
+                                Xem tình hình học tập và kết quả của lớp.
+                            </p>
+
+                            <a asp-area="Lecturer"
+                               asp-controller="ClassStatistics"
+                               asp-action="Index"
+                               asp-route-sectionId="@Model.SectionId"
+                               class="btn btn-danger">
+
+                                <i class="fas fa-chart-line mr-1"></i>
+                                Xem thống kê
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LỊCH HỌC -->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <div class="card border h-100 mb-0">
+
+                        <div class="card-body text-center">
+
+                            <div class="mb-3">
+                                <i class="fas fa-calendar-alt fa-3x text-secondary"></i>
+                            </div>
+
+                            <h5>
+                                Lịch học
+                            </h5>
+
+                            <p class="text-muted">
+                                Xem thông tin thời gian và địa điểm học của lớp.
+                            </p>
+
+                            <a asp-area="Lecturer" asp-controller="Timetable" asp-action="Index"
+                               class="btn btn-secondary">
+
+                                <i class="fas fa-calendar mr-1"></i>
+                                Xem lịch học
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         GHI CHÚ
+    ========================================================== -->
+    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+    {
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-light">
+
+                <h5 class="mb-0">
+                    <i class="fas fa-sticky-note mr-2"></i>
+                    Ghi chú
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <p class="mb-0">
+                    @Model.Notes
+                </p>
+
+            </div>
+
+        </div>
+    }
+
+</div>

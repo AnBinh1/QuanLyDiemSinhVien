@@ -4,77 +4,431 @@
     ViewData["Title"] = "Thông tin chi tiết sinh viên";
 }
 
-<div class="container mt-4">
-    <div class="card shadow-sm p-4">
-        <div class="row">
-            <!-- Ảnh sinh viên -->
-            <div class="col-md-3 text-center mb-3">
-                @if (Model.Gender == "Nam")
-                {
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsagjXsTpkIi3TvjeiWP641MqS1noU-QuaaA&s"
-                         class="img-fluid rounded-circle mb-3" style="width:150px;" />
-                }
-                else
-                {
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfXbUfIaJj7KTG5NWAIOn7T3_NNKmXYBBbA&s"
-                         class="img-fluid rounded-circle mb-3" style="width:150px;" />
-                }
-                <h5 class="fw-bold">@Model.FullName</h5>
-                <span class="text-muted">@Model.StudentCode</span>
+<div class="container-fluid mt-4">
+
+
+    <!-- =========================
+         THÔNG TIN CÁ NHÂN
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-user mr-2"></i>
+                Thông tin cá nhân
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- =========================
+                     ẢNH SINH VIÊN
+                ========================== -->
+                <div class="col-md-3 text-center">
+
+                    @if (Model.Gender == "Nam")
+                    {
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsagjXsTpkIi3TvjeiWP641MqS1noU-QuaaA&s"
+                             alt="Ảnh sinh viên"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             style="width:150px;height:150px;object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <img src="https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-female-student-icon-png-image_326761.jpg"
+                             alt="Ảnh sinh viên"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             style="width:150px;height:150px;object-fit:cover;" />
+                    }
+
+                    <h5 class="font-weight-bold">
+                        @Model.FullName
+                    </h5>
+
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge badge-success">
+                            Đang học
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">
+                            Ngừng học
+                        </span>
+                    }
+
+                </div>
+
+
+                <!-- =========================
+                     THÔNG TIN
+                ========================== -->
+                <div class="col-md-9">
+
+                    <div class="row">
+
+                        <!-- Mã sinh viên -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-id-card text-primary mr-2"></i>
+                                Mã sinh viên:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.StudentCode
+                            </span>
+                        </div>
+
+
+                        <!-- Họ và tên -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-user text-primary mr-2"></i>
+                                Họ và tên:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.FullName
+                            </span>
+                        </div>
+
+
+                        <!-- Ngày sinh -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-birthday-cake text-primary mr-2"></i>
+                                Ngày sinh:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.DateOfBirth.ToString("dd/MM/yyyy")
+                            </span>
+                        </div>
+
+
+                        <!-- Giới tính -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-venus-mars text-primary mr-2"></i>
+                                Giới tính:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.Gender
+                            </span>
+                        </div>
+
+
+                        <!-- Dân tộc -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-users text-primary mr-2"></i>
+                                Dân tộc:
+                            </strong>
+
+                            <span class="ml-2">
+                                @(Model.Ethnicity ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Tôn giáo -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-praying-hands text-primary mr-2"></i>
+                                Tôn giáo:
+                            </strong>
+
+                            <span class="ml-2">
+                                @(Model.Religion ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Quốc tịch -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-flag text-primary mr-2"></i>
+                                Quốc tịch:
+                            </strong>
+
+                            <span class="ml-2">
+                                @(Model.Nationality ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Địa chỉ -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-home text-primary mr-2"></i>
+                                Địa chỉ:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.Address
+                            </span>
+                        </div>
+
+
+                        <!-- Số điện thoại -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-phone text-primary mr-2"></i>
+                                Số điện thoại:
+                            </strong>
+
+                            <span class="ml-2">
+                                @Model.PhoneNumber
+                            </span>
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-envelope text-primary mr-2"></i>
+                                Email:
+                            </strong>
+
+                            <span class="ml-2">
+                                @(Model.Email ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <!-- Thông tin chi tiết -->
-            <div class="col-md-9">
-                <div class="row g-2">
-                    <div class="col-sm-6"><strong>Ngày sinh:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</div><br /><br />
-                    <div class="col-sm-6"><strong>Giới tính:</strong> @Model.Gender</div><br /><br />
+        </div>
 
-                    <div class="col-sm-6"><strong>Dân tộc:</strong> @Model.Ethnicity </div><br /><br />
-                    <div class="col-sm-6"><strong>Tôn giáo:</strong> @Model.Religion</div><br /><br />
+    </div>
 
-                    <div class="col-sm-6"><strong>Quốc tịch:</strong> @Model.Nationality</div><br /><br />
-                    <div class="col-sm-6"><strong>CMND/CCCD:</strong> @Model.IdentityNumber</div><br /><br />
-                    <div class="col-sm-6"><strong>Địa chỉ:</strong> @Model.Address</div><br /><br />
-                    <div class="col-sm-6"><strong>Số điện thoại:</strong> @Model.PhoneNumber</div><br /><br />
-                    <div class="col-sm-6"><strong>Email:</strong> @Model.Email</div><br /><br />
-                    <div class="col-sm-6"><strong>Lớp:</strong> @Model.Class?.ClassName</div><br /><br />
 
-                    <div class="col-sm-6"><strong>Ngành học:</strong> @Model.Class?.Major?.MajorName</div><br /><br />
-                    <div class="col-sm-6"><strong>Khoa:</strong> @Model.Class?.Major?.Faculty?.FacultyName</div><br /><br />
 
-                    <div class="col-sm-6"><strong>Năm học:</strong> @Model.YearOfStudy</div><br /><br />
-                    <div class="col-sm-6"><strong>Ngày nhập học:</strong> @Model.EnrollmentDate.ToString("dd/MM/yyyy")</div><br /><br />
+    <!-- =========================
+         THÔNG TIN CCCD
+    ========================== -->
+    <div class="card shadow-sm mb-4">
 
-                    <div class="col-sm-6">
-                        <strong>Trạng thái:</strong>
+        <div class="card-header bg-info text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-address-card mr-2"></i>
+                Thông tin giấy tờ tùy thân
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Số CCCD -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-id-card text-info mr-2"></i>
+                        Số CMND/CCCD:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.IdentityNumber ?? "Chưa cập nhật")
+                    </span>
+
+                </div>
+
+
+                <!-- Ngày cấp -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-calendar-alt text-info mr-2"></i>
+                        Ngày cấp:
+                    </strong>
+
+                    <span class="ml-2">
+
+                        @(Model.IdentityDate.HasValue
+                                                ? Model.IdentityDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+
+                    </span>
+
+                </div>
+
+
+                <!-- Nơi cấp -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-building text-info mr-2"></i>
+                        Nơi cấp:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.IdentityPlace ?? "Chưa cập nhật")
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         THÔNG TIN HỌC TẬP
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-success text-white">
+
+            <h5 class="mb-0">
+                <i class="fas fa-graduation-cap mr-2"></i>
+                Thông tin học tập
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Lớp -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-users text-success mr-2"></i>
+                        Lớp:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Class?.ClassName ?? "Chưa cập nhật")
+                    </span>
+
+                </div>
+
+
+                <!-- Ngành -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-book text-success mr-2"></i>
+                        Ngành học:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Class?.Major?.MajorName ?? "Chưa cập nhật")
+                    </span>
+
+                </div>
+
+
+                <!-- Khoa -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-university text-success mr-2"></i>
+                        Khoa / Viện:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Class?.Major?.Faculty?.FacultyName ?? "Chưa cập nhật")
+                    </span>
+
+                </div>
+
+
+                <!-- Khóa đào tạo -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-calendar text-success mr-2"></i>
+                        Khóa đào tạo:
+                    </strong>
+
+                    <span class="ml-2">
+                        @Model.YearOfStudy
+                    </span>
+
+                </div>
+
+
+                <!-- Ngày nhập học -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-calendar-check text-success mr-2"></i>
+                        Ngày nhập học:
+                    </strong>
+
+                    <span class="ml-2">
+                        @Model.EnrollmentDate.ToString("dd/MM/yyyy")
+                    </span>
+
+                </div>
+
+
+                <!-- Trạng thái -->
+                <div class="col-md-6 mb-3">
+
+                    <strong>
+                        <i class="fas fa-toggle-on text-success mr-2"></i>
+                        Trạng thái:
+                    </strong>
+
+                    <span class="ml-2">
+
                         @if (Model.IsActive)
                         {
-                            <span class="badge bg-success">Đang học</span>
+                            <span class="badge badge-success">
+                                Đang học
+                            </span>
                         }
                         else
                         {
-                            <span class="badge bg-danger">Ngừng học</span>
+                            <span class="badge badge-danger">
+                                Ngừng học
+                            </span>
                         }
-                    </div>
 
-                    <div class="col-12 mt-3">
-                        <strong>Tài khoản hệ thống:</strong>
-                        @if (Model.User != null)
-                        {
-                            <span>@Model.User.UserName</span>
-                            <small class="text-muted d-block">(*Tài khoản liên kết; quản lý trong AspNetUsers*)</small>
-                        }
-                        else
-                        {
-                            <span class="text-muted">Chưa liên kết tài khoản</span>
-                        }
-                    </div>
+                    </span>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="text-end mt-3">
-            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-        </div>
     </div>
+
+
+
+    <!-- =========================
+         NÚT QUAY LẠI
+    ========================== -->
+
+    <div class="mb-4">
+
+        <a asp-controller="Student"
+           asp-action="Index"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left mr-2"></i>
+
+            Quay lại danh sách sinh viên
+
+        </a>
+
+    </div>
+
 </div>

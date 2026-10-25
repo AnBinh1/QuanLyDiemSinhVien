@@ -28,20 +28,40 @@ namespace QuanLyDiemSinhVien.Models
 
 		// Điểm chữ tự động
 		[NotMapped]
-		public string LetterGrade
-		{
-			get
-			{
-				if (TotalScore >= 8.5m) return "A";
-				if (TotalScore >= 7.0m) return "B";
-				if (TotalScore >= 5.5m) return "C";
-				if (TotalScore >= 4.0m) return "D";
-				return "F";
-			}
-		}
+        public string LetterGrade
+        {
+            get
+            {
+                if (TotalScore >= 9.5m)
+                    return "A+";
 
-		// Tham gia xét tốt nghiệp (true = tham gia, false = không tham gia)
-		public bool IsGraduationEligible { get; set; } = true;
+                if (TotalScore >= 8.5m)
+                    return "A";
+
+                if (TotalScore >= 8.0m)
+                    return "B+";
+
+                if (TotalScore >= 7.0m)
+                    return "B";
+
+                if (TotalScore >= 6.5m)
+                    return "C+";
+
+                if (TotalScore >= 5.5m)
+                    return "C";
+
+                if (TotalScore >= 5.0m)
+                    return "D+";
+
+                if (TotalScore >= 4.0m)
+                    return "D";
+
+                return "F";
+            }
+        }
+
+        // Tham gia xét tốt nghiệp (true = tham gia, false = không tham gia)
+        public bool IsGraduationEligible { get; set; } = true;
 
 		// Ghi chú nếu cần
 		[StringLength(500)]

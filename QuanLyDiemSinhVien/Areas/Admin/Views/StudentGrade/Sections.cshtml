@@ -1,0 +1,166 @@
+﻿@model List<QuanLyDiemSinhVien.Models.CourseSectionModel>
+
+@{
+    ViewData["Title"] = "Quản lý điểm";
+}
+
+<div class="container-fluid">
+
+    <!-- Tiêu đề -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="text-primary mb-1">
+                <i class="fas fa-graduation-cap mr-2"></i>
+                Quản lý điểm
+            </h3>
+
+            <p class="text-muted mb-0">
+                Quản lý điểm theo lớp học phần
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Danh sách lớp học phần -->
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-list mr-2"></i>
+                Danh sách lớp học phần
+            </h5>
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="thead-light">
+
+                        <tr>
+                            <th style="width: 60px;" class="text-center">
+                                STT
+                            </th>
+
+                            <th>
+                                Mã lớp học phần
+                            </th>
+
+                            <th>
+                                Tên học phần
+                            </th>
+
+                            <th>
+                                Học kỳ
+                            </th>
+
+                            <th>
+                                Năm học
+                            </th>
+
+                            <th>
+                                Giảng viên
+                            </th>
+
+                            <th class="text-center">
+                                Số sinh viên
+                            </th>
+
+                            <th style="width: 130px;" class="text-center">
+                                Thao tác
+                            </th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @{
+                            int stt = 1;
+                        }
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td class="text-center">
+                                    @stt
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        @item.SectionCode
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    @item.Course?.CourseName
+                                </td>
+
+                                <td>
+                                    @item.Semester
+                                </td>
+
+                                <td>
+                                    @item.AcademicYear
+                                </td>
+
+                                <td>
+                                    @item.Lecturer?.FullName
+                                </td>
+
+                                <td class="text-center">
+
+                                    <span class="badge badge-info">
+                                        @(ViewBag.SectionStudentCounts[item.SectionId])
+                                        sinh viên
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <!-- NHẬP ĐIỂM -->
+                                    <a asp-area="Admin"
+                                       asp-controller="StudentGrade"
+                                       asp-action="Enter"
+                                       asp-route-sectionId="@item.SectionId"
+                                       class="btn btn-sm btn-primary">
+
+                                        <i class="fas fa-edit mr-1"></i>
+                                        Nhập điểm
+                                    </a>
+
+                                    <!-- XEM ĐIỂM -->
+                                    <a asp-area="Admin"
+                                       asp-controller="StudentGrade"
+                                       asp-action="Index"
+                                       asp-route-sectionId="@item.SectionId"
+                                       class="btn btn-sm btn-info">
+
+                                        <i class="fas fa-eye mr-1"></i>
+                                        Xem điểm
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            stt++;
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

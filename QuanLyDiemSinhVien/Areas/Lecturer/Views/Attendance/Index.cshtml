@@ -1,0 +1,274 @@
+﻿
+@model List<QuanLyDiemSinhVien.Models.AttendanceSessionModel>
+
+@{
+    ViewData["Title"] = "Quản lý điểm danh";
+    var sectionId = ViewBag.SectionId;
+}
+
+<div class="container-fluid">
+
+    <!-- TIÊU ĐỀ TRANG DANH SÁCH BUỔI ĐIỂM DANH -->
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3">
+            <div class="d-flex flex-column flex-md-row
+                        justify-content-between align-items-md-center">
+
+                <!-- BÊN TRÁI: TIÊU ĐỀ -->
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+
+                    <div class="d-flex align-items-center
+                                justify-content-center rounded mr-3"
+                         style="width: 58px; height: 58px;
+                                background-color: #e8f1ff;
+                                color: #007bff; flex-shrink: 0;">
+
+                        <i class="fas fa-clipboard-check"
+                           style="font-size: 25px;"></i>
+                    </div>
+
+                    <div>
+                        <h4 class="font-weight-bold text-primary mb-1">
+                            Danh sách buổi điểm danh
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Quản lý các buổi điểm danh của lớp học phần.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- BÊN PHẢI: CÁC NÚT CHỨC NĂNG -->
+                <div class="d-flex flex-wrap align-items-center">
+
+                    <a asp-area="Lecturer"
+                       asp-controller="Attendance"
+                       asp-action="Create"
+                       asp-route-sectionId="@sectionId"
+                       class="btn btn-primary mr-2 mb-2 mb-md-0">
+
+                        <i class="fas fa-plus mr-1"></i>
+                        Tạo buổi điểm danh
+                    </a>
+
+                    <a asp-area="Lecturer"
+                       asp-controller="Attendance"
+                       asp-action="ExportOptions"
+                       asp-route-sectionId="@sectionId"
+                       class="btn btn-success">
+
+                        <i class="fas fa-file-excel mr-1"></i>
+                        Xuất Excel
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD DANH SÁCH BUỔI ĐIỂM DANH -->
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-list mr-2"></i>
+                Danh sách buổi học
+            </h3>
+
+            <div class="card-tools">
+                <span class="badge badge-primary">
+                    @(Model?.Count ?? 0) buổi
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <!-- THÔNG BÁO -->
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    @TempData["Success"]
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Đóng">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="fas fa-exclamation-circle mr-1"></i>
+                    @TempData["Error"]
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Đóng">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            <!-- KIỂM TRA DỮ LIỆU -->
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+
+                    <h5>Chưa có buổi điểm danh</h5>
+
+                    <p class="mb-3">
+                        Lớp học phần này chưa có buổi điểm danh nào.
+                        Bạn có thể tạo buổi điểm danh để bắt đầu.
+                    </p>
+
+                    <a asp-area="Lecturer"
+                       asp-controller="Attendance"
+                       asp-action="Create"
+                       asp-route-sectionId="@sectionId"
+                       class="btn btn-primary">
+                        <i class="fas fa-plus mr-1"></i>
+                        Tạo buổi điểm danh
+                    </a>
+                </div>
+            }
+            else
+            {
+                <!-- BẢNG DANH SÁCH -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mb-0 text-nowrap"
+                           style="min-width: 1250px;">
+
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th style="width: 60px;">STT</th>
+                                <th style="min-width: 150px;">
+                                    Mã lớp học phần
+                                </th>
+                                <th style="min-width: 110px;">
+                                    Ngày học
+                                </th>
+                                <th style="width: 70px;">Tuần</th>
+                                <th style="min-width: 180px;">
+                                    Tiết học
+                                </th>
+                                <th style="min-width: 180px;">
+                                    Chủ đề
+                                </th>
+                                <th style="min-width: 150px;">
+                                    Ghi chú
+                                </th>
+                                <th style="min-width: 200px;">
+                                    Thao tác
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                var stt = 1;
+                            }
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center align-middle">
+                                        @stt
+                                    </td>
+
+                                    <td class="align-middle">
+                                        @(item.CourseSection?.SectionCode ?? "—")
+                                    </td>
+
+                                    <td class="text-center align-middle">
+                                        @item.SessionDate.ToString("dd/MM/yyyy")
+                                    </td>
+
+                                    <td class="text-center align-middle">
+                                        @item.Week
+                                    </td>
+
+                                    <td class="align-middle">
+                                        @if (item.CourseSection != null)
+                                        {
+                                            @item.CourseSection.DayOfWeek
+                                            <span> - Tiết </span>
+                                            @item.CourseSection.StartPeriod
+                                            <span> đến </span>
+                                            @item.CourseSection.EndPeriod
+                                        }
+                                        else
+                                        {
+                                            <span>—</span>
+                                        }
+                                </td>
+
+                                <td class="align-middle">
+                                    @(string.IsNullOrWhiteSpace(item.Topic)
+                                                                    ? "—"
+                                                                    : item.Topic)
+                                                                             </td>
+
+                                <td class="align-middle">
+                                    @(string.IsNullOrWhiteSpace(item.Note)
+                                                                    ? "—"
+                                                                    : item.Note)
+                            </td>
+
+                                                        <td class="text-center align-middle">
+                                                            <div class="d-flex flex-nowrap align-items-center"
+                                                                 style="gap: 6px;">
+
+                                                                <a asp-area="Lecturer"
+                                                                   asp-controller="Attendance"
+                                                                   asp-action="Mark"
+                                                                   asp-route-sessionId="@item.AttendanceSessionId"
+                                                                   class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-user-check mr-1"></i>
+                                                                    Điểm danh
+                                                                </a>
+
+                                                                <a asp-area="Lecturer"
+                                                                   asp-controller="Attendance"
+                                                                   asp-action="Details"
+                                                                   asp-route-sessionId="@item.AttendanceSessionId"
+                                                                   class="btn btn-info btn-sm">
+                                                                    <i class="fas fa-eye mr-1"></i>
+                                                                    Chi tiết
+                                                                </a>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    stt++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+
+        <!-- CHÂN CARD -->
+        <div class="card-footer">
+            <a asp-area="Lecturer"
+               asp-controller="Teaching"
+               asp-action="Classes"
+               class="btn btn-outline-secondary">
+
+                <i class="fas fa-arrow-left mr-1"></i>
+                Quay lại danh sách lớp
+            </a>
+        </div>
+
+    </div>
+</div>

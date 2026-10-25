@@ -7,7 +7,7 @@ using QuanLyDiemSinhVien.Repository;
 namespace QuanLyDiemSinhVien.Areas.Student.Controllers
 {
 	[Area("Student")]
-	[Authorize(Roles = "Student,Admin")]
+	[Authorize(Roles = "Student")]
 	public class GradesController : Controller
 	{
 		private readonly DataContext _context;

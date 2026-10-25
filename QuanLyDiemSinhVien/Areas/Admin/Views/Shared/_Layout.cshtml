@@ -30,7 +30,80 @@
     <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">
-    
+    <style>
+        /* =========================================
+           SIDEBAR - HIỆU ỨNG HOVER MENU
+        ========================================= */
+        /* Mục menu con */
+        .main-sidebar .nav-treeview .nav-link {
+            color: #343a40 !important;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            margin: 2px 8px;
+        }
+
+        /* Hover vào menu con */
+        .main-sidebar .nav-treeview .nav-link:hover {
+            background-color: #e8f1ff !important;
+            color: #007bff !important;
+        }
+
+            /* Icon của menu con khi hover */
+            .main-sidebar .nav-treeview .nav-link:hover i {
+                color: #007bff !important;
+            }
+
+        /* =========================================
+           MENU CHA
+        ========================================= */
+
+        .main-sidebar .nav-sidebar > .nav-item > .nav-link {
+            color: #343a40 !important;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            margin: 2px 6px;
+        }
+
+            /* Hover menu cha */
+            .main-sidebar .nav-sidebar > .nav-item > .nav-link:hover {
+                background-color: #e8f1ff !important;
+                color: #007bff !important;
+            }
+
+                /* Icon menu cha khi hover */
+                .main-sidebar .nav-sidebar > .nav-item > .nav-link:hover > i {
+                    color: #007bff !important;
+                }
+
+
+        /* =========================================
+           MENU ĐANG ACTIVE
+        ========================================= */
+
+        .main-sidebar .nav-sidebar .nav-link.active {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+            /* Icon active */
+            .main-sidebar .nav-sidebar .nav-link.active i {
+                color: white !important;
+            }
+
+
+        /* =========================================
+           MENU CON ACTIVE
+        ========================================= */
+
+        .main-sidebar .nav-treeview .nav-link.active {
+            background-color: #e8f1ff !important;
+            color: #007bff !important;
+        }
+
+            .main-sidebar .nav-treeview .nav-link.active i {
+                color: #007bff !important;
+            }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -48,10 +121,10 @@
                     <a style="color:white" class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a style="color:white" href="index3.html" class="nav-link">Home</a>
+                    <a style="color:white" href="index3.html" class="nav-link">Trang chủ</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a style="color:white" href="#" class="nav-link">Contact</a>
+                    <a style="color:white" href="#" class="nav-link">Liên Hệ</a>
                 </li>
             </ul>
 
@@ -206,169 +279,699 @@
         </nav>
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
+        <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-           <div style="background-color:blue">
-                <a href="index3.html" class="brand-link">
-                    <img src="https://inkythuatso.com/uploads/images/2021/12/logo-dai-hoc-vinh-inkythuatso-01-20-13-39-09.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="margin-left:0px">
-                    <span style="color:white">Quản lý điểm sinh viên</span>
-                </a>
 
-           </div>
+            <!-- Brand Logo -->
+            <div style="background-color:blue">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="brand-link">
+
+                    <img src="https://inkythuatso.com/uploads/images/2021/12/logo-dai-hoc-vinh-inkythuatso-01-20-13-39-09.jpg"
+                         alt="Logo Đại học Vinh"
+                         class="brand-image img-circle elevation-3"
+                         style="margin-left:0px">
+
+                    <span style="color:white">
+                        Quản lý điểm sinh viên
+                    </span>
+
+                </a>
+            </div>
+
             <!-- Sidebar -->
-            <div class="sidebar" style="background-color:rgb(249,249,249">
-                <!-- Sidebar user panel (optional) -->
-    
+            <div class="sidebar" style="background-color:rgb(249,249,249);">
+
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
+
+                    <ul class="nav nav-pills nav-sidebar flex-column"
+                        data-widget="treeview"
+                        role="menu"
+                        data-accordion="false">
+
+
+                        <!-- =====================================
+                             TỔNG QUAN
+                        ====================================== -->
                         <li class="nav-item">
-                            <a style="color:black" asp-action="Index" asp-controller="Home" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Tổng quan
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+
+                                <p>Tổng quan</p>
+
                             </a>
+
                         </li>
 
-                        <li class="nav-item">
-                            <a style="color:black" asp-action="Index" asp-controller="User" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                Quản lý tài khoản
-                            </a>
-                        </li>
 
+                        <!-- =====================================
+                             QUẢN LÝ TÀI KHOẢN
+                        ====================================== -->
                         <li class="nav-item">
-                            <a style="color:black" asp-action="Index" asp-controller="Role" class="nav-link">
-                                <i class="nav-icon fas fa-user-shield"></i>
-                                Quản lý vai trò
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="UserRole" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-user-lock"></i>
-                                Phân quyền tài khoản
-                            </a>
-                        </li>
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
 
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Faculty" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-building"></i>
-                                Quản lý khoa-viện
-                            </a>
-                        </li>
+                                <i class="nav-icon fas fa-users-cog fa-lg"></i>
 
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Major" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-graduation-cap"></i>
-                                Quản lý ngành học
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Class" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                Quản lý lớp học
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Student" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-user-graduate"></i>
-                                Quản lý sinh viên
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Lecturer" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-user-tie"></i>
-                                Quản lý giảng viên
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Course" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-book-open"></i>
-                                Quản lý học phần
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="CourseSection" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                                Quản lý lớp học phần
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Enrollment" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-user-check"></i>
-                                Quản lý đăng ký học
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Attendance" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                Quản lý điểm danh
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="StudentGrade" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                Quản lý điểm học
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="color:black" asp-controller="Attendance" asp-action="Index" class="nav-link">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                Quản lý điểm rèn luyện
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="color:black" href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>
-                                    Charts
+                                    Quản lý tài khoản
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
+
                             </a>
 
+                            <!-- DANH SÁCH MỤC CON -->
                             <ul class="nav nav-treeview">
+
+                                <!-- Quản lý tài khoản -->
                                 <li class="nav-item">
-                                    <a style="color:black" href="pages/charts/chartjs.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>ChartJS</p>
+                                    <a asp-controller="User"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-user-cog"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Quản lý tài khoản
+                                        </p>
+
                                     </a>
                                 </li>
+
+                                <!-- Quản lý vai trò -->
                                 <li class="nav-item">
-                                    <a style="color:black" href="pages/charts/flot.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Flot</p>
+                                    <a asp-controller="Role"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-user-tag"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Quản lý vai trò
+                                        </p>
+
                                     </a>
                                 </li>
+
+                                <!-- Phân quyền tài khoản -->
                                 <li class="nav-item">
-                                    <a style="color:black" href="pages/charts/inline.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Inline</p>
+                                    <a asp-controller="UserRole"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-user-shield"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Phân quyền tài khoản
+                                        </p>
+
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a style="color:black" href="pages/charts/uplot.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>uPlot</p>
-                                    </a>
-                                </li>
+
                             </ul>
+
+                        </li>
+
+                        <!-- =====================================
+                             QUẢN LÝ ĐÀO TẠO
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-university fa-lg"></i>
+
+                                <p>
+                                    Quản lý đào tạo
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+
+                                <!-- Khoa - Viện -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Faculty"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-building"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Khoa - Viện
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Ngành học -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Major"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-graduation-cap"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Ngành học
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Lớp học -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Class"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-users"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Lớp học
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Chương trình đào tạo -->
+                                <li class="nav-item">
+
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-project-diagram"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Chương trình đào tạo
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Môn học -->
+                                <li class="nav-item">
+
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-book"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Môn học
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Học phần -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Course"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-book-open"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Học phần
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Lớp học phần -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="CourseSection"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-chalkboard"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Lớp học phần
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+                        
+                        <!-- =====================================
+                             QUẢN LÝ SINH VIÊN
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-user-graduate fa-lg"></i>
+
+                                <p>
+                                    Quản lý sinh viên
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+                                <!-- Danh sách sinh viên -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Student"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-id-card"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Danh sách sinh viên
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+                        <!-- =====================================
+                             QUẢN LÝ GIẢNG VIÊN
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-user-tie fa-lg"></i>
+
+                                <p>
+                                    Quản lý giảng viên
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+                                <!-- Danh sách giảng viên -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Lecturer"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-id-badge"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Danh sách giảng viên
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Phân công giảng dạy -->
+                                <li class="nav-item">
+
+                                    <a asp-area="Admin"
+                                       asp-controller="TeachingAssignment"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-chalkboard-teacher"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Phân công giảng dạy
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                        <!-- =====================================
+                             QUẢN LÝ HỌC TẬP
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-book-reader fa-lg"></i>
+
+                                <p>
+                                    Quản lý học tập
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+
+                                <!-- Đăng ký học phần -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Enrollment"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-user-plus"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Đăng ký học phần
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                @* <!-- Thời khóa biểu -->
+                                <li class="nav-item">
+
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-calendar-alt"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Thời khóa biểu
+                                        </p>
+
+                                    </a>
+
+                                </li> *@
+
+
+                                @* <!-- Điểm danh -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Attendance"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-clipboard-check"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Điểm danh
+                                        </p>
+
+                                    </a>
+
+                                </li> *@
+
+
+                                <!-- Điểm học -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="StudentGrade"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-star"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Điểm học
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+                                <!-- nhập điểm -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="StudentGrade"
+                                       asp-action=Sections"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-star"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Nhập điểm
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                                <!-- Điểm rèn luyện -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="Attendance"
+                                       asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-medal"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Điểm rèn luyện
+                                        </p>
+
+                                    </a>
+
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+                        <!-- =====================================
+                             BÁO CÁO - THỐNG KÊ
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-chart-bar fa-lg"></i>
+
+                                <p>
+                                    Báo cáo - Thống kê
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+                                <!-- Thống kê sinh viên -->
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-users"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Thống kê sinh viên
+                                        </p>
+
+                                    </a>
+                                </li>
+
+                                <!-- Thống kê kết quả học tập -->
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-chart-line"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Thống kê kết quả học tập
+                                        </p>
+
+                                    </a>
+                                </li>
+
+                                <!-- Báo cáo tổng hợp -->
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-file-alt"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Báo cáo tổng hợp
+                                        </p>
+
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+
+                        <!-- =====================================
+                             CẤU HÌNH HỆ THỐNG
+                        ====================================== -->
+                        <li class="nav-item">
+
+                            <!-- MỤC CHA -->
+                            <a href="#"
+                               class="nav-link"
+                               style="color:black">
+
+                                <i class="nav-icon fas fa-cogs fa-lg"></i>
+
+                                <p>
+                                    Cấu hình hệ thống
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+
+                            </a>
+
+                            <!-- DANH SÁCH MỤC CON -->
+                            <ul class="nav nav-treeview">
+
+                                <!-- Học kỳ - Năm học -->
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-calendar-alt"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Học kỳ - Năm học
+                                        </p>
+
+                                    </a>
+                                </li>
+
+                                <!-- Cấu hình chung -->
+                                <li class="nav-item">
+                                    <a href="#"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-sliders-h"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Cấu hình chung
+                                        </p>
+
+                                    </a>
+                                </li>
+
+                            </ul>
+
                         </li>
 
                     </ul>
+
                 </nav>
-                <!-- /.sidebar-menu -->
+
             </div>
-            <!-- /.sidebar -->
+
         </aside>
+        
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

@@ -118,12 +118,6 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="RetireDate">Ngày nghỉ hưu hoặc thôi việc</label>
-            <input asp-for="RetireDate" type="date" class="form-control" />
-            <span asp-validation-for="RetireDate" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
             <label asp-for="ContractType">Loại hợp đồng *</label>
             <select asp-for="ContractType" class="form-control">
                 <option value="">-- Chọn giới tính --</option>
@@ -171,11 +165,33 @@
             <span asp-validation-for="Notes" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="IsActive">Trạng thái</label>
-            <select asp-for="IsActive" class="form-control">
+            <label asp-for="IsActive" class="font-weight-bold">
+                Trạng thái công tác
+            </label>
+
+            <select asp-for="IsActive"
+                    class="form-control"
+                    id="IsActive">
                 <option value="true">Đang công tác</option>
-                <option value="false">Tạm nghỉ / Thôi việc</option>
+                <option value="false">Nghỉ công tác</option>
             </select>
+
+            <span asp-validation-for="IsActive"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="form-group" id="retireDateGroup">
+            <label asp-for="RetireDate" class="font-weight-bold">
+                Ngày nghỉ công tác
+            </label>
+
+            <input asp-for="RetireDate"
+                   type="date"
+                   class="form-control"
+                   id="RetireDate" />
+
+            <span asp-validation-for="RetireDate"
+                  class="text-danger"></span>
         </div>
 
         <div class="form-group mt-3">
@@ -187,22 +203,77 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
     <script>
         $(document).ready(function () {
-            // Khi chọn Khoa, load Ngành tương ứng
+
+            // ================================
+            // KHI CHỌN KHOA → LOAD NGÀNH
+            // ================================
             $('#FacultyId').on('change', function () {
+
                 var facultyId = $(this).val();
                 var majorSelect = $('#MajorId');
-                majorSelect.empty().append('<option value="">-- Chọn Ngành --</option>');
+
+                majorSelect.empty()
+                    .append('<option value="">-- Chọn Ngành --</option>');
 
                 if (facultyId) {
-                    $.getJSON('/Admin/Lecturer/GetMajorsByFaculty?facultyId=' + facultyId, function (data) {
-                        $.each(data, function (i, item) {
-                            majorSelect.append('<option value="' + item.majorId + '">' + item.majorName + '</option>');
-                        });
-                    });
+
+                    $.getJSON(
+                        '/Admin/Lecturer/GetMajorsByFaculty?facultyId=' + facultyId,
+                        function (data) {
+
+                            $.each(data, function (i, item) {
+
+                                majorSelect.append(
+                                    '<option value="' +
+                                    item.majorId +
+                                    '">' +
+                                    item.majorName +
+                                    '</option>'
+                                );
+
+                            });
+
+                        }
+                    );
                 }
             });
+
+
+            // ================================
+            // HIỆN / ẨN NGÀY NGHỈ CÔNG TÁC
+            // ================================
+            function toggleRetireDate() {
+
+                var isActive = $('#IsActive').val();
+
+                if (isActive === 'false') {
+
+                    // Nghỉ công tác → hiện ngày nghỉ
+                    $('#retireDateGroup').show();
+
+                } else {
+
+                    // Đang công tác → ẩn ngày nghỉ
+                    $('#retireDateGroup').hide();
+
+                    // Xóa ngày nghỉ
+                    $('#RetireDate').val('');
+                }
+            }
+
+
+            // Chạy khi vừa mở trang Edit
+            toggleRetireDate();
+
+
+            // Khi thay đổi trạng thái
+            $('#IsActive').on('change', function () {
+                toggleRetireDate();
+            });
+
         });
     </script>
 }

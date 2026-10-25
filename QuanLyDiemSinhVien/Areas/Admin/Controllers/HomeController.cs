@@ -5,7 +5,7 @@ using QuanLyDiemSinhVien.Repository;
 
 namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 {
-	[Authorize(Roles = "Admin,Lecturer")]
+	[Authorize(Roles = "Admin")]
 	[Area("Admin")]
 	public class HomeController : Controller
 	{

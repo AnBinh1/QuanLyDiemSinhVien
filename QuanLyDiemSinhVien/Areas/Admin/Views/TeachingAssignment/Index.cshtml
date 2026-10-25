@@ -1,0 +1,198 @@
+﻿@model List<QuanLyDiemSinhVien.Models.CourseSectionModel>
+
+@{
+    ViewData["Title"] = "Phân công giảng dạy";
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="text-primary mb-1">
+                <i class="fas fa-chalkboard-teacher mr-2"></i>
+                Phân công giảng dạy
+            </h3>
+            <p class="text-muted mb-0">
+                Quản lý giảng viên và trạng thái khóa điểm của từng lớp học phần
+            </p>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle mr-2"></i>
+            @TempData["SuccessMessage"]
+
+            <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-list mr-2"></i>
+                Danh sách lớp học phần
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th>Mã lớp học phần</th>
+                            <th>Tên học phần</th>
+                            <th>Học kỳ</th>
+                            <th>Năm học</th>
+                            <th>Giảng viên</th>
+                            <th class="text-center">Trạng thái điểm</th>
+                            <th class="text-center" style="min-width: 300px;">
+                                Thao tác
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model == null || !Model.Any())
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">
+                                    Chưa có lớp học phần nào.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            var stt = 1;
+
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-center">@stt</td>
+
+                                    <td>
+                                        <strong>@item.SectionCode</strong>
+                                    </td>
+
+                                    <td>@item.Course?.CourseName</td>
+
+                                    <td>@item.Semester</td>
+
+                                    <td>@item.AcademicYear</td>
+
+                                    <td>
+                                        @if (item.Lecturer != null)
+                                        {
+                                            <span class="text-success">
+                                                <i class="fas fa-user mr-1"></i>
+                                                @item.Lecturer.FullName
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-secondary">
+                                                Chưa phân công
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.IsGradeLocked)
+                                        {
+                                            <span class="badge badge-danger">
+                                                <i class="fas fa-lock mr-1"></i>
+                                                Đã khóa
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-unlock mr-1"></i>
+                                                Chưa khóa
+                                            </span>
+                                        }
+                            </td>
+
+                            <td class="text-center">
+                                <a asp-area="Admin"
+                                   asp-controller="TeachingAssignment"
+                                   asp-action="Assign"
+                                   asp-route-id="@item.SectionId"
+                                   class="btn btn-sm btn-primary mb-1">
+                                    <i class="fas fa-user-plus mr-1"></i>
+                                    @(item.Lecturer == null
+                                                                        ? "Phân công"
+                                                                        : "Phân công lại")
+                                </a>
+
+                                @if (item.Lecturer != null)
+                                        {
+                                            <form asp-area="Admin"
+                                                  asp-controller="TeachingAssignment"
+                                                  asp-action="Remove"
+                                                  asp-route-id="@item.SectionId"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger mb-1"
+                                                        title="Hủy phân công"
+                                                        onclick="return confirm('Bạn có chắc muốn hủy phân công giảng viên này không?');">
+                                                    <i class="fas fa-user-minus"></i>
+                                                </button>
+                                            </form>
+                                        }
+
+                                        @if (item.IsGradeLocked)
+                                        {
+                                            <form asp-area="Admin"
+                                                  asp-controller="TeachingAssignment"
+                                                  asp-action="UnlockGrades"
+                                                  asp-route-id="@item.SectionId"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-warning mb-1"
+                                                        onclick="return confirm('Bạn có chắc muốn mở khóa điểm lớp học phần này không?');">
+                                                    <i class="fas fa-lock-open mr-1"></i>
+                                                    Mở khóa điểm
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <form asp-area="Admin"
+                                                  asp-controller="TeachingAssignment"
+                                                  asp-action="LockGrades"
+                                                  asp-route-id="@item.SectionId"
+                                                  method="post"
+                                                  class="d-inline">
+                                                @Html.AntiForgeryToken()
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-dark mb-1"
+                                                        onclick="return confirm('Sau khi khóa, giảng viên sẽ không thể lưu hoặc chỉnh sửa điểm. Bạn có chắc chắn muốn khóa không?');">
+                                                    <i class="fas fa-lock mr-1"></i>
+                                                    Khóa điểm
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+
+                                stt++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

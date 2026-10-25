@@ -1,595 +1,693 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
 
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>150</h3>
 
-                        <p>New Orders</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+    @{
+        ViewData["Title"] = "Trang chủ";
+    }
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div>
+                <i class="bi bi-telephone"></i>
+                Hotline: 0238 3855 452
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+            <div class="top-links">
+                <a href="#">Cổng thông tin cán bộ</a>
+                <a href="#">E-Learning</a>
+                <a href="#">Thư điện tử</a>
+                <a href="#">Liên hệ</a>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-chart-pie mr-1"></i>
-                            Sales
-                        </h3>
-                        <div class="card-tools">
-                            <ul class="nav nav-pills ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="tab-content p-0">
-                            <!-- Morris chart - Sales -->
-                            <div class="chart tab-pane active" id="revenue-chart"
-                                 style="position: relative; height: 300px;">
-                                <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                            </div>
-                            <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                                <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-                            </div>
-                        </div>
-                    </div><!-- /.card-body -->
+    </div>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+    <header class="main-header">
+        <div class="container header-content">
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="brand">
+
+                <div class="brand-logo">
+                    <span>V</span>
                 </div>
-                <!-- /.card -->
-                <!-- DIRECT CHAT -->
-                <div class="card direct-chat direct-chat-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Direct Chat</h3>
 
-                        <div class="card-tools">
-                            <span title="3 New Messages" class="badge badge-primary">3</span>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                <i class="fas fa-comments"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages">
-                            <!-- Message. Default to the left -->
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    Is this template really for free? That's unbelievable!
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message to the right -->
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    You better believe it!
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message. Default to the left -->
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    Working with AdminLTE on a great new app! Wanna join?
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message to the right -->
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    I would love to.
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-
-                        </div>
-                        <!--/.direct-chat-messages-->
-                        <!-- Contacts are loaded here -->
-                        <div class="direct-chat-contacts">
-                            <ul class="contacts-list">
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user1-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Count Dracula
-                                                <small class="contacts-list-date float-right">2/28/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">How have you been? I was...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user7-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Sarah Doe
-                                                <small class="contacts-list-date float-right">2/23/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I will be waiting for...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user3-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nadia Jolie
-                                                <small class="contacts-list-date float-right">2/20/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I'll call you back at...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user5-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nora S. Vans
-                                                <small class="contacts-list-date float-right">2/10/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Where is your new...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user6-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                John K.
-                                                <small class="contacts-list-date float-right">1/27/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Can I take a look at...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user8-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Kenneth M.
-                                                <small class="contacts-list-date float-right">1/4/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Never mind I found...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                            </ul>
-                            <!-- /.contacts-list -->
-                        </div>
-                        <!-- /.direct-chat-pane -->
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <form action="#" method="post">
-                            <div class="input-group">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                                <span class="input-group-append">
-                                    <button type="button" class="btn btn-primary">Send</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.card-footer-->
+                <div class="brand-text">
+                    <h1>TRƯỜNG ĐẠI HỌC VINH</h1>
+                    <span>VINH UNIVERSITY</span>
                 </div>
-                <!--/.direct-chat -->
-                <!-- TO DO List -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            To Do List
-                        </h3>
+            </a>
 
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm">
-                                <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <ul class="todo-list" data-widget="todo-list">
-                            <li>
-                                <!-- drag handle -->
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <!-- checkbox -->
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                    <label for="todoCheck1"></label>
-                                </div>
-                                <!-- todo text -->
-                                <span class="text">Design a nice theme</span>
-                                <!-- Emphasis label -->
-                                <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
-                                <!-- General tools such as edit or delete-->
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                                    <label for="todoCheck2"></label>
-                                </div>
-                                <span class="text">Make the theme responsive</span>
-                                <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                                    <label for="todoCheck3"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                                    <label for="todoCheck4"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo5" id="todoCheck5">
-                                    <label for="todoCheck5"></label>
-                                </div>
-                                <span class="text">Check your messages and notifications</span>
-                                <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                                    <label for="todoCheck6"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                        <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
-                    </div>
+            <div class="header-right">
+
+                <div class="header-date">
+                    <i class="bi bi-calendar3"></i>
+                    @DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"))
                 </div>
-                <!-- /.card -->
-            </section>
-            <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
 
-                <!-- Map card -->
-                <div class="card bg-gradient-primary">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            Visitors
-                        </h3>
-                        <!-- card tools -->
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
-                                <i class="far fa-calendar-alt"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <div class="card-body">
-                        <div id="world-map" style="height: 250px; width: 100%;"></div>
-                    </div>
-                    <!-- /.card-body-->
-                    <div class="card-footer bg-transparent">
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <div id="sparkline-1"></div>
-                                <div class="text-white">Visitors</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <div id="sparkline-2"></div>
-                                <div class="text-white">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <div id="sparkline-3"></div>
-                                <div class="text-white">Sales</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
+                <div class="search-box">
+                    <input type="text"
+                           placeholder="Tìm kiếm..." />
+
+                    <button type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
-                <!-- /.card -->
-                <!-- solid sales graph -->
-                <div class="card bg-gradient-info">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                            <i class="fas fa-th mr-1"></i>
-                            Sales Graph
-                        </h3>
 
-                        <div class="card-tools">
-                            <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer bg-transparent">
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
+            </div>
 
-                                <div class="text-white">Mail-Orders</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="text-white">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="text-white">In-Store</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-                <!-- /.card -->
-                <!-- Calendar -->
-                <div class="card bg-gradient-success">
-                    <div class="card-header border-0">
-
-                        <h3 class="card-title">
-                            <i class="far fa-calendar-alt"></i>
-                            Calendar
-                        </h3>
-                        <!-- tools card -->
-                        <div class="card-tools">
-                            <!-- button with a dropdown -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                                    <i class="fas fa-bars"></i>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                    <a href="#" class="dropdown-item">Add new event</a>
-                                    <a href="#" class="dropdown-item">Clear events</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">View calendar</a>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <!-- /. tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body pt-0">
-                        <!--The calendar -->
-                        <div id="calendar" style="width: 100%"></div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </section>
-            <!-- right col -->
         </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+    </header>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+    <nav class="main-nav">
+        <div class="container">
+
+            <ul class="nav-menu">
+
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index">
+                        <i class="bi bi-house-door-fill"></i>
+                    </a>
+                </li>
+
+                <li class="has-dropdown">
+                    <a href="#">
+                        Điều hành
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+
+                    <ul class="dropdown">
+                        <li><a href="#">Lịch tuần</a></li>
+                        <li><a href="#">Cổng thông tin cán bộ</a></li>
+                        <li><a href="#">iOffice</a></li>
+                        <li><a href="#">Đại học thông minh</a></li>
+                        <li><a href="#">E-Learning</a></li>
+                        <li><a href="#">Văn bản, biểu mẫu</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-dropdown">
+                    <a href="#">
+                        Đào tạo
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+
+                    <ul class="dropdown">
+                        <li><a href="#">Đại học chính quy</a></li>
+                        <li><a href="#">Vừa làm vừa học</a></li>
+                        <li><a href="#">Đào tạo từ xa</a></li>
+                        <li><a href="#">Sau đại học</a></li>
+                        <li><a href="#">Chương trình quốc tế</a></li>
+                    </ul>
+                </li>
+
+                <li class="has-dropdown">
+                    <a href="#">
+                        Tuyển sinh
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+
+                    <ul class="dropdown">
+                        <li><a href="#">Đại học chính quy</a></li>
+                        <li><a href="#">Sau đại học</a></li>
+                        <li><a href="#">Đào tạo từ xa</a></li>
+                        <li><a href="#">Chương trình học bổng</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">Khoa học - Công nghệ</a>
+                </li>
+
+                <li>
+                    <a href="#">Hợp tác</a>
+                </li>
+
+                <li>
+                    <a href="#">Người học</a>
+                </li>
+
+                <li>
+                    <a href="#">Giới thiệu</a>
+                </li>
+
+                <li class="login-menu">
+                    <a asp-controller="Account"
+                       asp-action="Login">
+                        <i class="bi bi-person-circle"></i>
+                        Đăng nhập
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+
+            <div class="hero-text">
+
+                <span class="hero-small">
+                    CHÀO MỪNG ĐẾN VỚI
+                </span>
+
+                <h2>
+                    TRƯỜNG ĐẠI HỌC VINH
+                </h2>
+
+                <p>
+                    Nơi kiến tạo tri thức,
+                    phát triển con người và
+                    kết nối tương lai.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#" class="btn-primary">
+                        Tìm hiểu về trường
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                    <a href="#" class="btn-outline">
+                        Thông tin tuyển sinh
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUICK ACCESS
+    ========================= -->
+    <section class="quick-access">
+
+        <div class="container quick-grid">
+
+            <a href="#" class="quick-item">
+                <div class="quick-icon">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+
+                <div>
+                    <strong>Tuyển sinh</strong>
+                    <span>Thông tin tuyển sinh</span>
+                </div>
+            </a>
+
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               asp-route-returnUrl="/Student"
+               class="quick-item">
+
+                <div class="quick-icon">
+                    <i class="bi bi-person-badge-fill"></i>
+                </div>
+
+                <div>
+                    <strong>Cổng sinh viên</strong>
+                    <span>Đăng nhập hệ thống</span>
+                </div>
+
+            </a>
+
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               asp-route-returnUrl="/Teacher"
+               class="quick-item">
+
+                <div class="quick-icon">
+                    <i class="bi bi-person-workspace"></i>
+                </div>
+
+                <div>
+                    <strong>Giảng viên</strong>
+                    <span>Cổng thông tin giảng viên</span>
+                </div>
+
+            </a>
+
+
+            <a asp-controller="Account"
+               asp-action="Login"
+               asp-route-returnUrl="/Admin"
+               class="quick-item">
+
+                <div class="quick-icon">
+                    <i class="bi bi-building"></i>
+                </div>
+
+                <div>
+                    <strong>Quản trị</strong>
+                    <span>Hệ thống quản trị</span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEWS
+    ========================= -->
+    <section class="section">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <div>
+                    <span>TIN TỨC</span>
+                    <h2>Tin tức mới nhất</h2>
+                </div>
+
+                <a href="#">
+                    Xem tất cả
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <div class="news-grid">
+
+                <article class="featured-news">
+
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80"
+                             alt="Trường đại học" />
+                    </div>
+
+                    <div class="news-content">
+
+                        <span class="news-category">
+                            TUYỂN SINH
+                        </span>
+
+                        <h3>
+                            Thông báo đăng ký xét tuyển đại học chính quy năm 2026
+                        </h3>
+
+                        <p>
+                            Trường Đại học Vinh thông báo thông tin tuyển sinh
+                            và các phương thức xét tuyển đại học chính quy.
+                        </p>
+
+                        <span class="news-date">
+                            <i class="bi bi-calendar3"></i>
+                            18/08/2026
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <div class="news-list">
+
+                    <article class="news-item">
+
+                        <div class="news-date-box">
+                            <strong>15</strong>
+                            <span>08/2026</span>
+                        </div>
+
+                        <div>
+
+                            <span class="news-category">
+                                SỰ KIỆN
+                            </span>
+
+                            <h3>
+                                Khai giảng năm học 2026 - 2027
+                            </h3>
+
+                            <p>
+                                Các hoạt động chuẩn bị cho năm học mới.
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="news-item">
+
+                        <div class="news-date-box">
+                            <strong>10</strong>
+                            <span>08/2026</span>
+                        </div>
+
+                        <div>
+
+                            <span class="news-category">
+                                THÔNG BÁO
+                            </span>
+
+                            <h3>
+                                Thông báo về công tác đào tạo
+                            </h3>
+
+                            <p>
+                                Các thông tin mới dành cho người học.
+                            </p>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="news-item">
+
+                        <div class="news-date-box">
+                            <strong>08</strong>
+                            <span>08/2026</span>
+                        </div>
+
+                        <div>
+
+                            <span class="news-category">
+                                HỌC THUẬT
+                            </span>
+
+                            <h3>
+                                Hội thảo khoa học và đổi mới sáng tạo
+                            </h3>
+
+                            <p>
+                                Các hoạt động nghiên cứu khoa học.
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ADMISSION
+    ========================= -->
+    <section class="admission-section">
+
+        <div class="container">
+
+            <div class="section-heading light">
+
+                <div>
+                    <span>TUYỂN SINH</span>
+                    <h2>Thông tin tuyển sinh</h2>
+                </div>
+
+                <a href="#">
+                    Xem tất cả
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <div class="admission-grid">
+
+                <a href="#" class="admission-card">
+
+                    <i class="bi bi-mortarboard"></i>
+
+                    <h3>
+                        Đại học chính quy
+                    </h3>
+
+                    <p>
+                        Thông tin tuyển sinh đại học chính quy
+                    </p>
+
+                    <span>
+                        Xem thông tin
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="admission-card">
+
+                    <i class="bi bi-book"></i>
+
+                    <h3>
+                        Sau đại học
+                    </h3>
+
+                    <p>
+                        Chương trình đào tạo thạc sĩ, tiến sĩ
+                    </p>
+
+                    <span>
+                        Xem thông tin
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+
+                <a href="#" class="admission-card">
+
+                    <i class="bi bi-globe2"></i>
+
+                    <h3>
+                        Đào tạo quốc tế
+                    </h3>
+
+                    <p>
+                        Các chương trình đào tạo quốc tế
+                    </p>
+
+                    <span>
+                        Xem thông tin
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ABOUT
+    ========================= -->
+    <section class="section about-section">
+
+        <div class="container about-grid">
+
+            <div class="about-image">
+
+                <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&w=1000&q=80"
+                     alt="Đại học Vinh" />
+
+                <div class="about-badge">
+                    <strong>60+</strong>
+                    <span>Năm xây dựng<br />và phát triển</span>
+                </div>
+
+            </div>
+
+
+            <div class="about-content">
+
+                <span class="section-label">
+                    GIỚI THIỆU TRƯỜNG
+                </span>
+
+                <h2>
+                    Kiến tạo tri thức -
+                    Phát triển con người
+                </h2>
+
+                <p>
+                    Trường Đại học Vinh là cơ sở giáo dục đại học
+                    đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
+                    sự phát triển giáo dục và đào tạo của khu vực
+                    Bắc Trung Bộ.
+                </p>
+
+                <p>
+                    Nhà trường hướng tới xây dựng môi trường giáo dục
+                    hiện đại, đổi mới sáng tạo và hội nhập quốc tế.
+                </p>
+
+                <a href="#" class="read-more">
+                    Tìm hiểu về Trường
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+    <section class="statistics">
+
+        <div class="container">
+
+            <div class="statistics-heading">
+                <span>ĐẠI HỌC VINH</span>
+                <h2>Những con số</h2>
+            </div>
+
+
+            <div class="statistics-grid">
+
+                <div class="stat-item">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+
+                    <strong>851-900</strong>
+
+                    <span>
+                        Trên bảng xếp hạng
+                        đại học châu Á
+                    </span>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <i class="bi bi-award-fill"></i>
+
+                    <strong>4</strong>
+
+                    <span>
+                        Chuẩn đối sánh chất lượng
+                        giáo dục đại học UPM
+                    </span>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <i class="bi bi-building-check"></i>
+
+                    <strong>1.000+</strong>
+
+                    <span>
+                        Trường đại học, doanh nghiệp
+                        có ký kết hợp tác
+                    </span>
+
+                </div>
+
+
+                <div class="stat-item">
+
+                    <i class="bi bi-globe2"></i>
+
+                    <strong>60+</strong>
+
+                    <span>
+                        Năm xây dựng
+                        và phát triển
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         VISION
+    ========================= -->
+    <section class="vision-section">
+
+        <div class="container vision-grid">
+
+            <div>
+                <span class="section-label">
+                    ĐỊNH HƯỚNG PHÁT TRIỂN
+                </span>
+
+                <h2>
+                    Tầm nhìn
+                </h2>
+
+                <p>
+                    Trường Đại học Vinh trở thành đại học thông minh,
+                    xếp hạng tốp 500 đại học hàng đầu châu Á vào năm
+                    2030, hướng đến tốp 1000 đại học hàng đầu thế giới
+                    vào năm 2045.
+                </p>
+            </div>
+
+
+            <div>
+                <span class="section-label">
+                    SỨ MẠNG
+                </span>
+
+                <h2>
+                    Sứ mạng
+                </h2>
+
+                <p>
+                    Đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
+                    sự phát triển giáo dục và đào tạo của khu vực
+                    Bắc Trung Bộ; là trung tâm nghiên cứu, đổi mới
+                    sáng tạo, góp phần thúc đẩy sự phát triển của
+                    quốc gia và quốc tế.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    

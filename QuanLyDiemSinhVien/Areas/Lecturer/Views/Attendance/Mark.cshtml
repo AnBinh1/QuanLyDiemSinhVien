@@ -1,0 +1,184 @@
+﻿
+@model List<QuanLyDiemSinhVien.Models.AttendanceModel>
+
+@{
+    ViewData["Title"] = "Điểm danh sinh viên";
+    var session = ViewBag.Session
+        as QuanLyDiemSinhVien.Models.AttendanceSessionModel;
+}
+
+<div class="container-fluid">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-user-check mr-2"></i>
+                Điểm danh sinh viên
+            </h3>
+        </div>
+
+        <div class="card-body">
+            @if (session != null)
+            {
+                <div class="callout callout-info">
+                    <h5>Thông tin buổi học</h5>
+                    <p class="mb-1">
+                        <strong>Lớp học phần:</strong>
+                        @(session.CourseSection?.SectionCode ?? "—")
+                    </p>
+                    <p class="mb-1">
+                        <strong>Ngày học:</strong>
+                        @session.SessionDate.ToString("dd/MM/yyyy")
+                    </p>
+                    <p class="mb-1">
+                        <strong>Tuần:</strong> @session.Week
+                    </p>
+                    <p class="mb-0">
+                        <strong>Nội dung:</strong> @session.Topic
+                    </p>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-warning">
+                    Không có sinh viên đăng ký trong lớp học phần này.
+                </div>
+            }
+            else
+            {
+                <form asp-area="Lecturer"
+                      asp-controller="Attendance"
+                      asp-action="Mark"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 55px;">STT</th>
+                                    <th>Mã sinh viên</th>
+                                    <th>Họ và tên</th>
+                                    <th style="min-width: 330px;">
+                                        Trạng thái điểm danh
+                                    </th>
+                                    <th style="min-width: 180px;">Ghi chú</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@(i + 1)</td>
+
+                                        <td>
+                                            @(Model[i].Student?.StudentCode ?? "—")
+                                        </td>
+
+                                        <td>
+                                            @(Model[i].Student?.FullName ?? "—")
+                                        </td>
+
+                                        <td>
+                                            <input type="hidden"
+                                                   name="[@i].AttendanceId"
+                                                   value="@Model[i].AttendanceId" />
+
+                                            <input type="hidden"
+                                                   name="[@i].AttendanceSessionId"
+                                                   value="@Model[i].AttendanceSessionId" />
+
+                                            <input type="hidden"
+                                                   name="[@i].StudentId"
+                                                   value="@Model[i].StudentId" />
+
+                                            <div class="d-flex flex-wrap">
+                                                <label class="mr-3 mb-2">
+                                                    <input type="radio"
+                                                           name="[@i].AttendanceStatus"
+                                                           value="0"
+                                                           checked="@(Model[i].AttendanceStatus == 0)" />
+                                                    Chưa điểm danh
+                                                </label>
+
+                                                <label class="mr-3 mb-2">
+                                                    <input type="radio"
+                                                           name="[@i].AttendanceStatus"
+                                                           value="1"
+                                                           checked="@(Model[i].AttendanceStatus == 1)" />
+                                                    Có mặt
+                                                </label>
+
+                                                <label class="mr-3 mb-2">
+                                                    <input type="radio"
+                                                           name="[@i].AttendanceStatus"
+                                                           value="2"
+                                                           checked="@(Model[i].AttendanceStatus == 2)" />
+                                                    Vắng phép
+                                                </label>
+
+                                                <label class="mr-3 mb-2">
+                                                    <input type="radio"
+                                                           name="[@i].AttendanceStatus"
+                                                           value="3"
+                                                           checked="@(Model[i].AttendanceStatus == 3)" />
+                                                    Vắng không phép
+                                                </label>
+
+                                                <label class="mr-3 mb-2">
+                                                    <input type="radio"
+                                                           name="[@i].AttendanceStatus"
+                                                           value="4"
+                                                           checked="@(Model[i].AttendanceStatus == 4)" />
+                                                    Đi muộn
+                                                </label>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <input type="text"
+                                                   name="[@i].Note"
+                                                   value="@Model[i].Note"
+                                                   class="form-control"
+                                                   placeholder="Ghi chú nếu có" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save mr-1"></i>
+                            Lưu điểm danh
+                        </button>
+
+                        @if (session != null)
+                        {
+                            <a asp-area="Lecturer"
+                               asp-controller="Attendance"
+                               asp-action="Index"
+                               asp-route-sectionId="@session.SectionId"
+                               class="btn btn-secondary">
+                                Quay lại
+                            </a>
+                        }
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

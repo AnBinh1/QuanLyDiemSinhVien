@@ -1,0 +1,534 @@
+﻿@model QuanLyDiemSinhVien.Models.LecturerModel
+
+@{
+    ViewData["Title"] = "Thông tin chi tiết giảng viên";
+}
+
+<div class="container-fluid mt-4">
+
+  
+    <!-- =========================
+         THÔNG TIN CÁ NHÂN
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-user mr-2"></i>
+                Thông tin cá nhân
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- ẢNH GIẢNG VIÊN -->
+                <div class="col-md-3 text-center">
+
+                    @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                    {
+                        <img src="@Model.AvatarUrl"
+                             alt="Ảnh giảng viên"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             style="width:150px;height:150px;object-fit:cover;" />
+                    }
+                    else if (Model.Gender == "Nam")
+                    {
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsagjXsTpkIi3TvjeiWP641MqS1noU-QuaaA&s"
+                             alt="Ảnh giảng viên"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             style="width:150px;height:150px;object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <img src="https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-female-student-icon-png-image_326761.jpg"
+                             alt="Ảnh giảng viên"
+                             class="img-fluid rounded-circle shadow-sm mb-3"
+                             style="width:150px;height:150px;object-fit:cover;" />
+                    }
+
+                    <h5 class="font-weight-bold">
+                        @Model.FullName
+                    </h5>
+
+                    <span class="badge @(Model.IsActive ? "badge-success" : "badge-danger")">
+                        @(Model.IsActive ? "Đang công tác" : "Ngừng công tác")
+                    </span>
+
+                </div>
+
+
+                <!-- THÔNG TIN -->
+                <div class="col-md-9">
+
+                    <div class="row">
+
+                        <!-- Mã giảng viên -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-id-card mr-2 text-primary"></i>
+                                Mã giảng viên:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.LecturerCode
+                            </span>
+                        </div>
+
+
+                        <!-- Họ và tên -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-user mr-2 text-primary"></i>
+                                Họ và tên:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.FullName
+                            </span>
+                        </div>
+
+
+                        <!-- Ngày sinh -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-birthday-cake mr-2 text-primary"></i>
+                                Ngày sinh:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.DateOfBirth.ToString("dd/MM/yyyy")
+                            </span>
+                        </div>
+
+
+                        <!-- Giới tính -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-venus-mars mr-2 text-primary"></i>
+                                Giới tính:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.Gender
+                            </span>
+                        </div>
+
+
+                        <!-- Nơi sinh -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-map-marker-alt mr-2 text-primary"></i>
+                                Nơi sinh:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.PlaceOfBirth ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Dân tộc -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-users mr-2 text-primary"></i>
+                                Dân tộc:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.Ethnicity ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Tôn giáo -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-praying-hands mr-2 text-primary"></i>
+                                Tôn giáo:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.Religion ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Quốc tịch -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-flag mr-2 text-primary"></i>
+                                Quốc tịch:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.Nationality ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- CCCD -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-address-card mr-2 text-primary"></i>
+                                Số CMND/CCCD:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.IdentityNumber ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Ngày cấp CCCD -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-calendar-alt mr-2 text-primary"></i>
+                                Ngày cấp:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.IdentityDate.HasValue
+                                                                ? Model.IdentityDate.Value.ToString("dd/MM/yyyy")
+                                                                : "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Nơi cấp -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-building mr-2 text-primary"></i>
+                                Nơi cấp:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.IdentityPlace ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+
+                        <!-- Địa chỉ -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-home mr-2 text-primary"></i>
+                                Địa chỉ:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.Address
+                            </span>
+                        </div>
+
+
+                        <!-- Số điện thoại -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-phone mr-2 text-primary"></i>
+                                Số điện thoại:
+                            </strong>
+                            <span class="ml-2">
+                                @Model.PhoneNumber
+                            </span>
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <strong>
+                                <i class="fas fa-envelope mr-2 text-primary"></i>
+                                Email:
+                            </strong>
+                            <span class="ml-2">
+                                @(Model.Email ?? "Chưa cập nhật")
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- =========================
+         THÔNG TIN CÔNG TÁC
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-briefcase mr-2"></i>
+                Thông tin công tác
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Khoa -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-university mr-2 text-info"></i>
+                        Khoa / Viện:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Faculty?.FacultyName ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngành / Bộ môn -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-book mr-2 text-info"></i>
+                        Ngành / Bộ môn:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Major?.MajorName ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Chức vụ -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-user-tie mr-2 text-info"></i>
+                        Chức vụ:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.Position ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Học hàm -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-award mr-2 text-info"></i>
+                        Học hàm:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.AcademicPosition ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Học vị -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-graduation-cap mr-2 text-info"></i>
+                        Học vị:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.AcademicDegree ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngày vào trường -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-calendar-check mr-2 text-info"></i>
+                        Ngày vào trường:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.JoinDate.HasValue
+                                                ? Model.JoinDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngày bắt đầu giảng dạy -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-chalkboard-teacher mr-2 text-info"></i>
+                        Ngày bắt đầu giảng dạy:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.StartTeachingDate.HasValue
+                                                ? Model.StartTeachingDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngày nghỉ hưu -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-calendar-times mr-2 text-info"></i>
+                        Ngày nghỉ hưu / thôi việc:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.RetireDate.HasValue
+                                                ? Model.RetireDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Trạng thái -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-toggle-on mr-2 text-info"></i>
+                        Trạng thái:
+                    </strong>
+
+                    <span class="ml-2">
+
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge badge-success">
+                                Đang công tác
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">
+                                Ngừng công tác
+                            </span>
+                        }
+
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         THÔNG TIN HỢP ĐỒNG
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-file-contract mr-2"></i>
+                Thông tin hợp đồng
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- Loại hợp đồng -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-file-alt mr-2 text-success"></i>
+                        Loại hợp đồng:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.ContractType ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Hình thức làm việc -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-user-clock mr-2 text-success"></i>
+                        Hình thức làm việc:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.EmploymentType ?? "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngày bắt đầu hợp đồng -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-calendar-plus mr-2 text-success"></i>
+                        Ngày bắt đầu hợp đồng:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.ContractStartDate.HasValue
+                                                ? Model.ContractStartDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                    </span>
+                </div>
+
+
+                <!-- Ngày kết thúc hợp đồng -->
+                <div class="col-md-6 mb-3">
+                    <strong>
+                        <i class="fas fa-calendar-minus mr-2 text-success"></i>
+                        Ngày kết thúc hợp đồng:
+                    </strong>
+
+                    <span class="ml-2">
+                        @(Model.ContractEndDate.HasValue
+                                                ? Model.ContractEndDate.Value.ToString("dd/MM/yyyy")
+                                                : "Chưa cập nhật")
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         GHI CHÚ
+    ========================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-sticky-note mr-2"></i>
+                Ghi chú
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (!string.IsNullOrWhiteSpace(Model.Notes))
+            {
+                <p class="mb-0">
+                    @Model.Notes
+                </p>
+            }
+            else
+            {
+                <span class="text-muted">
+                    Chưa có ghi chú.
+                </span>
+            }
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         NÚT QUAY LẠI
+    ========================== -->
+    <div class="mb-4">
+
+        <a asp-controller="Lecturer"
+           asp-action="Index"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left mr-2"></i>
+            Quay lại danh sách giảng viên
+
+        </a>
+
+    </div>
+
+</div>

@@ -311,18 +311,57 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 			return Json(classes);
 		}
 
-		// Hàm load dropdown và set selected
-		private async Task LoadDropdownLists(StudentModel? student = null)
-		{
-			int? facultyId = student?.Class?.Major?.FacultyId;
-			int? majorId = student?.Class?.MajorId;
-			int? classId = student?.ClassId;
-			string? userId = student?.UserId;
+        private async Task LoadDropdownLists(StudentModel? student = null)
+        {
+            int? facultyId = student?.Class?.Major?.FacultyId;
+            int? majorId = student?.Class?.MajorId;
+            int? classId = student?.ClassId;
+            string? userId = student?.UserId;
 
-			ViewBag.FacultyList = new SelectList(await _context.Faculties.ToListAsync(), "Id", "FacultyName", facultyId);
-			ViewBag.MajorList = new SelectList(await _context.Majors.Where(m => m.FacultyId == facultyId).ToListAsync(), "MajorId", "MajorName", majorId);
-			ViewBag.ClassList = new SelectList(await _context.Classes.Where(c => c.MajorId == majorId).ToListAsync(), "ClassId", "ClassName", classId);
-			ViewBag.Users = new SelectList(await _userManager.Users.ToListAsync(), "Id", "UserName", userId);
-		}
-	}
+            ViewBag.FacultyList = new SelectList(
+                await _context.Faculties.ToListAsync(),
+                "Id",
+                "FacultyName",
+                facultyId
+            );
+
+            ViewBag.MajorList = new SelectList(
+                await _context.Majors
+                    .Where(m => m.FacultyId == facultyId)
+                    .ToListAsync(),
+                "MajorId",
+                "MajorName",
+                majorId
+            );
+
+            ViewBag.ClassList = new SelectList(
+                await _context.Classes
+                    .Where(c => c.MajorId == majorId)
+                    .ToListAsync(),
+                "ClassId",
+                "ClassName",
+                classId
+            );
+
+            var availableUsers = await _userManager.Users
+    .Where(u =>
+        (
+            !_context.Students.Any(s => s.UserId == u.Id)
+            &&
+            !_context.Lecturers.Any(l => l.UserId == u.Id)
+        )
+        ||
+        u.Id == userId
+    )
+    .OrderBy(u => u.UserName)
+    .ToListAsync();
+
+            ViewBag.Users = new SelectList(
+                availableUsers,
+                "Id",
+                "UserName",
+                userId
+            );
+        }
+    }
 }

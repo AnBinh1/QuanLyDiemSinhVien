@@ -1,0 +1,336 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.GradeEntryViewModel
+
+@{
+    ViewData["Title"] = "Nhập điểm";
+
+    bool isGradeLocked = ViewBag.IsGradeLocked != null
+        && (bool)ViewBag.IsGradeLocked;
+}
+
+<div class="container-fluid">
+
+
+    <!-- TIÊU ĐỀ TRANG NHẬP ĐIỂM -->
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3">
+            <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-center">
+
+                <!-- BÊN TRÁI: TIÊU ĐỀ -->
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+
+                    <div class="d-flex align-items-center
+                            justify-content-center rounded mr-3"
+                         style="width: 58px; height: 58px;
+                            background-color: #e8f1ff;
+                            color: #007bff; flex-shrink: 0;">
+
+                        <i class="fas fa-clipboard-list"
+                           style="font-size: 25px;"></i>
+                    </div>
+
+                    <div>
+                        <h4 class="font-weight-bold text-primary mb-1">
+                            Nhập điểm sinh viên
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Quản lý và cập nhật điểm cho sinh viên
+                            trong lớp học phần.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- BÊN PHẢI: NÚT QUAY LẠI -->
+                <div class="d-flex align-items-center">
+
+                    <a asp-area="Lecturer"
+                       asp-controller="StudentGrade"
+                       asp-action="Sections"
+                       class="btn btn-outline-secondary px-3">
+
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Quay lại danh sách lớp
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- THÔNG BÁO THÀNH CÔNG -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle mr-2"></i>
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Đóng">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <!-- THÔNG BÁO LỖI -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            @TempData["ErrorMessage"]
+
+            <button type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Đóng">
+                <span>&times;</span>
+            </button>
+        </div>
+    }
+
+    <!-- TRẠNG THÁI KHÓA ĐIỂM -->
+    @if (isGradeLocked)
+    {
+        <div class="alert alert-warning shadow-sm mb-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-lock mr-3"
+                   style="font-size: 24px;"></i>
+
+                <div>
+                    <h6 class="font-weight-bold mb-1">
+                        Lớp học phần đã khóa điểm
+                    </h6>
+
+                    <p class="mb-0">
+                        Bạn không thể thêm hoặc chỉnh sửa điểm.
+                        Vui lòng liên hệ Admin để được hỗ trợ.
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    <!-- THÔNG TIN LỚP HỌC PHẦN -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-book mr-2"></i>
+                Thông tin lớp học phần
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Mã lớp học phần:</strong>
+                    <span class="text-primary ml-2">
+                        @Model.SectionCode
+                    </span>
+                </div>
+
+                <div class="col-md-5">
+                    <strong>Học phần:</strong>
+                    <span class="text-primary ml-2">
+                        @Model.CourseName
+                    </span>
+                </div>
+
+                <div class="col-md-3">
+                    <strong>Số sinh viên:</strong>
+                    <span class="badge badge-info ml-2">
+                        @Model.StudentCount sinh viên
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BẢNG NHẬP ĐIỂM -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-users mr-2"></i>
+                    Danh sách sinh viên
+                </h5>
+
+                <span class="text-muted">
+                    Tổng số:
+                    <strong>@(Model.Students?.Count ?? 0)</strong>
+                    sinh viên
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-area="Lecturer"
+                  asp-controller="StudentGrade"
+                  asp-action="Enter"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="SectionId" />
+                <input type="hidden" asp-for="SectionCode" />
+                <input type="hidden" asp-for="CourseName" />
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width:60px;">
+                                    STT
+                                </th>
+                                <th style="width:130px;">Mã sinh viên</th>
+                                <th>Họ và tên</th>
+                                <th class="text-center" style="width:150px;">
+                                    Điểm QT
+                                </th>
+                                <th class="text-center" style="width:150px;">
+                                    Điểm CK
+                                </th>
+                                <th class="text-center" style="width:130px;">
+                                    Tổng kết
+                                </th>
+                                <th class="text-center" style="width:100px;">
+                                    Điểm chữ
+                                </th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model.Students != null && Model.Students.Count > 0)
+                            {
+                                @for (int i = 0; i < Model.Students.Count; i++)
+                                {
+                                    <tr>
+                                        <!-- STT -->
+                                        <td class="text-center align-middle">
+                                            @(i + 1)
+                                        </td>
+
+                                        <!-- MÃ SINH VIÊN -->
+                                        <td class="align-middle">
+                                            <strong>
+                                                @Model.Students[i].StudentCode
+                                            </strong>
+
+                                            <input type="hidden"
+                                                   asp-for="Students[i].EnrollmentId" />
+
+                                            <input type="hidden"
+                                                   asp-for="Students[i].StudentCode" />
+
+                                            <input type="hidden"
+                                                   asp-for="Students[i].FullName" />
+                                        </td>
+
+                                        <!-- HỌ TÊN -->
+                                        <td class="align-middle">
+                                            @Model.Students[i].FullName
+                                        </td>
+
+                                        <!-- ĐIỂM QUÁ TRÌNH -->
+                                        <td>
+                                            <input type="number"
+                                                   asp-for="Students[i].ContinuousAssessment"
+                                                   class="form-control text-center grade-input"
+                                                   min="0"
+                                                   max="10"
+                                                   step="0.01"
+                                                   disabled="@isGradeLocked" />
+
+                                            <span asp-validation-for="Students[i].ContinuousAssessment"
+                                                  class="text-danger">
+                                            </span>
+                                        </td>
+
+                                        <!-- ĐIỂM CUỐI KỲ -->
+                                        <td>
+                                            <input type="number"
+                                                   asp-for="Students[i].FinalExam"
+                                                   class="form-control text-center grade-input"
+                                                   min="0"
+                                                   max="10"
+                                                   step="0.01"
+                                                   disabled="@isGradeLocked" />
+
+                                            <span asp-validation-for="Students[i].FinalExam"
+                                                  class="text-danger">
+                                            </span>
+                                        </td>
+
+                                        <!-- TỔNG KẾT -->
+                                        <td class="text-center align-middle">
+                                            <span class="total-score font-weight-bold">
+                                                @Model.Students[i].TotalScore.ToString("0.00")
+                                            </span>
+                                        </td>
+
+                                        <!-- ĐIỂM CHỮ -->
+                                        <td class="text-center align-middle">
+                                            <span class="letter-grade font-weight-bold">
+                                                @Model.Students[i].LetterGrade
+                                            </span>
+                                        </td>
+
+                                        <!-- GHI CHÚ -->
+                                        <td>
+                                            <input type="text"
+                                                   asp-for="Students[i].Notes"
+                                                   class="form-control"
+                                                   placeholder="Ghi chú..."
+                                                   disabled="@isGradeLocked" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">
+                                        Lớp học phần chưa có sinh viên đăng ký.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- NÚT LƯU VÀ HƯỚNG DẪN -->
+                <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap">
+
+                    <div class="text-muted mb-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Điểm tổng kết được tính:
+                        <strong>(QT + CK) / 2</strong>
+                    </div>
+
+                    @if (!isGradeLocked)
+                    {
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save mr-2"></i>
+                            Lưu toàn bộ điểm
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="btn btn-secondary"
+                                disabled>
+                            <i class="fas fa-lock mr-2"></i>
+                            Điểm đã khóa
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

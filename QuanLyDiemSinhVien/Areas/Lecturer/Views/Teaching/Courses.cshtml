@@ -1,0 +1,218 @@
+﻿@* @model List<QuanLyDiemSinhVien.Models.CourseSectionModel>
+
+@{
+    ViewData["Title"] = "Học phần phụ trách";
+}
+
+<div class="container-fluid">
+    <!-- =========================
+         TIÊU ĐỀ
+    ========================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h3 class="text-primary mb-1">
+
+                <i class="fas fa-book mr-2"></i>
+
+                Học phần phụ trách
+
+            </h3>
+
+            <p class="text-muted mb-0">
+
+                Danh sách các lớp học phần được phân công giảng dạy
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DANH SÁCH HỌC PHẦN
+    ========================== -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+
+                <i class="fas fa-list mr-2"></i>
+
+                Danh sách lớp học phần
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead class="thead-light">
+
+                            <tr>
+
+                                <th style="width:60px;"
+                                    class="text-center">
+                                    STT
+                                </th>
+
+                                <th>
+                                    Mã lớp học phần
+                                </th>
+
+                                <th>
+                                    Tên học phần
+                                </th>
+
+                                <th>
+                                    Học kỳ
+                                </th>
+
+                                <th>
+                                    Năm học
+                                </th>
+
+                                <th>
+                                    Số tín chỉ
+                                </th>
+
+                                <th>
+                                    Trạng thái
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @{
+                                int stt = 1;
+                            }
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <!-- STT -->
+
+                                    <td class="text-center">
+
+                                        @stt
+
+                                    </td>
+
+
+                                    <!-- MÃ LỚP -->
+
+                                    <td>
+
+                                        <strong class="text-primary">
+
+                                            @item.SectionCode
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- TÊN HỌC PHẦN -->
+
+                                    <td>
+
+                                        @item.Course?.CourseName
+
+                                    </td>
+
+
+                                    <!-- HỌC KỲ -->
+
+                                    <td>
+
+                                        @item.Semester
+
+                                    </td>
+
+
+                                    <!-- NĂM HỌC -->
+
+                                    <td>
+
+                                        @item.AcademicYear
+
+                                    </td>
+
+
+                                    <!-- SỐ TÍN CHỈ -->
+
+                                    <td>
+
+                                        @(item.Course?.Credits ?? 0)
+
+                                    </td>
+
+
+                                    <!-- TRẠNG THÁI -->
+
+                                    <td>
+
+                                        <span class="badge badge-success">
+
+                                            <i class="fas fa-check-circle mr-1"></i>
+
+                                            Đang phụ trách
+
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                                stt++;
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+
+                    <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+
+                    <h5 class="text-muted">
+
+                        Chưa có lớp học phần được phân công
+
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        Hiện tại bạn chưa được phân công giảng dạy lớp học phần nào.
+
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div> *@

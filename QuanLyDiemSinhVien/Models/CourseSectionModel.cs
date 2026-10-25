@@ -77,8 +77,12 @@ namespace QuanLyDiemSinhVien.Models
 		[StringLength(50)]
 		public string Status { get; set; } = "Closed";
 
-		// Ghi chú thêm
-		[StringLength(500)]
+        // Trạng thái khóa điểm
+        [StringLength(50)]
+        public bool IsGradeLocked { get; set; } = false;
+
+        // Ghi chú thêm
+        [StringLength(500)]
 		public string? Notes { get; set; }
 	}
 }

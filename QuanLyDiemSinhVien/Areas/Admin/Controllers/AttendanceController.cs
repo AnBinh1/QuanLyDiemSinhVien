@@ -9,7 +9,7 @@ using QuanLyDiemSinhVien.Repository;
 namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize(Roles = "Admin,Lecturer")]
+	[Authorize(Roles = "Admin")]
 	public class AttendanceController : Controller
 	{
 		private readonly DataContext _context;

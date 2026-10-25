@@ -1,0 +1,223 @@
+﻿
+@model List<QuanLyDiemSinhVien.Models.AttendanceModel>
+
+@{
+    ViewData["Title"] = "Chi tiết điểm danh";
+    var session = ViewBag.Session
+        as QuanLyDiemSinhVien.Models.AttendanceSessionModel;
+}
+
+<div class="container-fluid">
+
+    <!-- TIÊU ĐỀ TRANG CHI TIẾT ĐIỂM DANH -->
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3">
+            <div class="d-flex align-items-center">
+
+                <!-- BIỂU TƯỢNG -->
+                <div class="d-flex align-items-center
+                            justify-content-center rounded mr-3"
+                     style="width: 58px; height: 58px;
+                            background-color: #e8f1ff;
+                            color: #007bff; flex-shrink: 0;">
+
+                    <i class="fas fa-clipboard-list"
+                       style="font-size: 25px;"></i>
+                </div>
+
+                <!-- TIÊU ĐỀ -->
+                <div>
+                    <h4 class="font-weight-bold text-primary mb-1">
+                        Chi tiết điểm danh
+                    </h4>
+
+                    <p class="text-muted mb-0">
+                        Xem thông tin buổi học và tình trạng điểm danh
+                        của sinh viên.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-light">
+            <h5 class="card-title font-weight-bold mb-0">
+                <i class="fas fa-info-circle text-primary mr-2"></i>
+                Thông tin buổi học
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (session != null)
+            {
+                <div class="row">
+
+                    <!-- LỚP HỌC PHẦN -->
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3 h-100">
+                            <div class="text-muted small mb-1">
+                                <i class="fas fa-book mr-1"></i>
+                                Lớp học phần
+                            </div>
+
+                            <div class="font-weight-bold text-primary">
+                                @(session.CourseSection?.SectionCode ?? "—")
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NGÀY HỌC -->
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3 h-100">
+                            <div class="text-muted small mb-1">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                Ngày học
+                            </div>
+
+                            <div class="font-weight-bold">
+                                @session.SessionDate.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TUẦN HỌC -->
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3 h-100">
+                            <div class="text-muted small mb-1">
+                                <i class="fas fa-calendar-week mr-1"></i>
+                                Tuần học
+                            </div>
+
+                            <div class="font-weight-bold">
+                                @session.Week
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NỘI DUNG -->
+                    <div class="col-md-6 mb-3">
+                        <div class="border rounded p-3 h-100">
+                            <div class="text-muted small mb-1">
+                                <i class="fas fa-align-left mr-1"></i>
+                                Nội dung buổi học
+                            </div>
+
+                            <div class="font-weight-bold">
+                                @(string.IsNullOrWhiteSpace(session.Topic)
+                                                            ? "Chưa cập nhật"
+                                                            : session.Topic)
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+                        
+
+            }
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">
+                    Chưa có dữ liệu điểm danh cho buổi học này.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 60px;">STT</th>
+                                <th>Mã sinh viên</th>
+                                <th>Họ và tên</th>
+                                <th>Trạng thái</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                var item = Model[i];
+
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>@(item.Student?.StudentCode ?? "—")</td>
+                                    <td>@(item.Student?.FullName ?? "—")</td>
+                                    <td>
+                                        @switch (item.AttendanceStatus)
+                                        {
+                                            case 0:
+                                                <span class="badge badge-secondary">
+                                                    Chưa điểm danh
+                                                </span>
+                                                break;
+
+                                            case 1:
+                                                <span class="badge badge-success">
+                                                    Có mặt
+                                                </span>
+                                                break;
+
+                                            case 2:
+                                                <span class="badge badge-info">
+                                                    Vắng phép
+                                                </span>
+                                                break;
+
+                                            case 3:
+                                                <span class="badge badge-danger">
+                                                    Vắng không phép
+                                                </span>
+                                                break;
+
+                                            case 4:
+                                                <span class="badge badge-warning">
+                                                    Đi muộn
+                                                </span>
+                                                break;
+
+                                            default:
+                                                <span class="badge badge-dark">
+                                                    Không xác định
+                                                </span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td>@item.Note</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <div class="card-footer">
+            @if (session != null)
+            {
+                <a asp-area="Lecturer"
+                   asp-controller="Attendance"
+                   asp-action="Index"
+                   asp-route-sectionId="@session.SectionId"
+                   class="btn btn-secondary">
+                    <i class="fas fa-arrow-left mr-1"></i>
+                    Quay lại danh sách
+                </a>
+
+                <a asp-area="Lecturer"
+                   asp-controller="Attendance"
+                   asp-action="Mark"
+                   asp-route-sessionId="@session.AttendanceSessionId"
+                   class="btn btn-primary">
+                    <i class="fas fa-edit mr-1"></i>
+                    Chỉnh sửa điểm danh
+                </a>
+            }
+        </div>
+    </div>
+</div>

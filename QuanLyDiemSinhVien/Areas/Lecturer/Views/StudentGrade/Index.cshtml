@@ -1,0 +1,277 @@
+﻿@model IEnumerable<QuanLyDiemSinhVien.Models.StudentGradeModel>
+
+@{
+    ViewData["Title"] = "Danh sách điểm sinh viên";
+}
+
+<div style="padding:20px 0 0 20px">
+
+    <!-- TIÊU ĐỀ -->
+    <h3 class="text-primary">
+        <i class="fas fa-graduation-cap mr-2"></i>
+        @ViewData["Title"]
+    </h3>
+
+
+    <!-- THÔNG TIN LỚP HỌC PHẦN -->
+    @if (ViewBag.Section != null)
+    {
+        var courseSection = ViewBag.Section as QuanLyDiemSinhVien.Models.CourseSectionModel;
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-book mr-2"></i>
+                    Thông tin lớp học phần
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <strong>Mã lớp học phần:</strong>
+
+                        <span class="text-primary ml-2">
+                            @courseSection.SectionCode
+                        </span>
+                    </div>
+
+                    <div class="col-md-5">
+                        <strong>Học phần:</strong>
+
+                        <span class="text-primary ml-2">
+                            @courseSection.Course?.CourseName
+                        </span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <strong>Số sinh viên:</strong>
+
+                        <span class="badge badge-info ml-2">
+                            @(Model?.Count() ?? 0) sinh viên
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    }
+
+    <!-- CÁC NÚT CHỨC NĂNG -->
+    <div style="margin-left:25px; margin-bottom:15px">
+
+        @* @if (ViewBag.Section == null)
+        {
+            <a asp-action="Create"
+               class="btn btn-success mb-3">
+
+                <i class="fas fa-plus mr-1"></i>
+                Thêm điểm
+
+            </a>
+        } *@
+
+        
+        @if (ViewBag.Section != null)
+        {
+            <a asp-area="Lecturer"
+               asp-controller="StudentGrade"
+               asp-action="ExportToExcel"
+               asp-route-sectionId="@ViewBag.Section.SectionId"
+               class="btn btn-success mb-3">
+
+                <i class="fas fa-file-excel mr-1"></i>
+                Xuất file Excel
+
+            </a>
+        }
+
+
+
+        @if (ViewBag.Section != null)
+        {
+            <a asp-action="Sections"
+               class="btn btn-secondary mb-3"
+               style="margin-left:10px">
+
+                <i class="fas fa-arrow-left mr-1"></i>
+                Danh sách lớp học phần
+
+            </a>
+        }
+
+    </div>
+
+
+    <!-- BẢNG ĐIỂM -->
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-striped table-hover">
+
+            <thead class="thead-light">
+
+                <tr>
+
+                    <th class="text-center">STT</th>
+
+                    <th>Mã sinh viên</th>
+
+                    <th>Họ tên sinh viên</th>
+
+                    <th>Mã học phần</th>
+
+                    <th>Lớp học phần</th>
+
+                    <th class="text-center">Số tín chỉ</th>
+
+                    <th class="text-center">Điểm quá trình</th>
+
+                    <th class="text-center">Điểm cuối kỳ</th>
+
+                    <th class="text-center">Tổng điểm</th>
+
+                    <th class="text-center">Điểm chữ</th>
+
+                    <th>Ngày nhập</th>
+
+                    <th>Học Kỳ</th>
+
+                    <th>Năm Học</th>
+
+                    <th>Người nhập</th>
+
+                    <th class="text-center">
+                        Tham gia xét tốt nghiệp
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    int stt = 1;
+
+                    foreach (var grade in Model)
+                    {
+                        <tr>
+
+                            <td class="text-center">
+                                @stt
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    @grade.Enrollment?.Student?.StudentCode
+                                </strong>
+                            </td>
+
+
+                            <td>
+                                @grade.Enrollment?.Student?.FullName
+                            </td>
+
+
+                            <td>
+                                @grade.Enrollment?.CourseSection?.Course?.CourseCode
+                            </td>
+
+
+                            <td>
+                                @grade.Enrollment?.CourseSection?.SectionCode
+                            </td>
+
+
+                            <td class="text-center">
+                                @grade.Enrollment?.CourseSection?.Course?.Credits
+                            </td>
+
+
+                            <td class="text-center">
+                                @grade.ContinuousAssessment
+                            </td>
+
+
+                            <td class="text-center">
+                                @grade.FinalExam
+                            </td>
+
+
+                            <td class="text-center font-weight-bold">
+                                @grade.TotalScore
+                            </td>
+
+
+                            <td class="text-center font-weight-bold">
+                                @grade.LetterGrade
+                            </td>
+
+                            <td>
+                                @grade.UpdatedAt.ToString("dd/MM/yyyy")
+                            </td>
+
+                            <td>
+                                @grade.Enrollment?.CourseSection?.Semester
+                            </td>
+
+                            <td>
+                                @grade.Enrollment?.CourseSection?.AcademicYear
+                            </td>
+
+                            <td>
+                                @grade.User?.UserName
+                            </td>
+
+                            <td class="text-center">
+
+                                @if (grade.IsGraduationEligible)
+                                {
+                                    <span class="badge badge-success">
+                                        Có
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary">
+                                        Không
+                                    </span>
+                                }
+
+                            </td>
+
+
+                        </tr>
+
+                        stt++;
+                    }
+                }
+                else
+                {
+                    <tr>
+
+                        <td colspan="14"
+                            class="text-center text-muted">
+
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Chưa có dữ liệu điểm cho lớp học phần này.
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

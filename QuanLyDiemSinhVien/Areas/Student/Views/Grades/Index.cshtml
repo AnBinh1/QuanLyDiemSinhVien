@@ -18,6 +18,8 @@
                 <th>Mã lớp học phần</th>
                 <th>Lớp học phần</th>
                 <th>Tín chỉ</th>
+                <th>Học Kỳ</th>
+                <th width="100px">Năm Học</th>
                 <th>Điểm quá trình</th>
                 <th>Điểm cuối kỳ</th>
                 <th>Tổng điểm</th>
@@ -36,11 +38,28 @@
                         <td>@g.Enrollment?.CourseSection?.Course?.CourseCode</td>
                         <td>@g.Enrollment?.CourseSection?.SectionCode</td>
                         <td>@g.Enrollment?.CourseSection?.Course?.Credits</td>
+                        <td>@g.Enrollment?.CourseSection?.Semester</td>
+                        <td>@g.Enrollment?.CourseSection?.AcademicYear</td>
                         <td>@g.ContinuousAssessment</td>
                         <td>@g.FinalExam</td>
                         <td>@g.TotalScore</td>
                         <td>@g.LetterGrade</td>
-                        <td>@g.IsGraduationEligible</td>
+                        <td>
+
+                            @if (g.IsGraduationEligible)
+                            {
+                                <span class="badge badge-success">
+                                    Có
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">
+                                    Không
+                                </span>
+                            }
+
+                        </td>
                     </tr>
                     i++;
                 }

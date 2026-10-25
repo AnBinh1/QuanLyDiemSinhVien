@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Truy cập bị từ chối";
+    Layout = null;
+    ViewData["Title"] = "Không có quyền truy cập";
 }
-<div class="text-center mt-5">
-    <h1 class="display-4">403 - Truy cập bị từ chối</h1>
-    <p class="lead">Bạn không có quyền truy cập vào trang này.</p>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Quay lại trang chủ</a>
-</div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="text-center" style="padding: 60px 20px;">
+        <h1 class="text-danger">403 - Truy cập bị từ chối</h1>
+        <p>Bạn không có quyền truy cập vào trang này.</p>
+        <a href="/Account/Login" class="btn btn-primary">Quay lại trang đăng nhập</a>
+    </div>
+</body>
+</html>
