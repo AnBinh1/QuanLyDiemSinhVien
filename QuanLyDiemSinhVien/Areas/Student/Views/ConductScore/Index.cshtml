@@ -1,0 +1,77 @@
+﻿@model List<QuanLyDiemSinhVien.Models.ViewModel.ConductScoreRowViewModel>
+@{
+    ViewData["Title"] = "Tra cứu điểm rèn luyện";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 style="margin:0">Tra cứu điểm rèn luyện</h5>
+        <div style="margin-top:6px">
+            Điểm tích lũy: <b style="color:#0d6efd">@(ViewBag.CumulativeScore?.ToString() ?? "-")</b>,
+            Xếp loại tích lũy: <b style="color:#0d6efd">@(ViewBag.CumulativeRank ?? "-")</b>
+        </div>
+    </div>
+    <div class="card-body" style="padding:0;overflow-x:auto">
+        <table class="table table-bordered table-striped" style="margin:0">
+            <thead style="text-align:center">
+                <tr>
+                    <th>TT</th>
+                    <th>Năm học</th>
+                    <th>Học kỳ</th>
+                    <th>Loại điểm</th>
+                    <th>Điểm</th>
+                    <th>Xếp loại</th>
+                    <th>Điểm cả năm</th>
+                    <th>Xếp loại cả năm</th>
+                    <th>Điểm tích lũy</th>
+                    <th>Xếp loại tích lũy</th>
+                    <th>Phản hồi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td style="text-align:center">@r.RowNumber</td>
+                        <td>@r.AcademicYear</td>
+                        <td>@r.TermName</td>
+                        <td>@r.ScoreType</td>
+                        <td style="text-align:right">@r.Score</td>
+                        <td>@r.Rank</td>
+                        <td style="text-align:right">@r.YearScore</td>
+                        <td>@r.YearRank</td>
+                        <td style="text-align:right">@r.CumulativeScore</td>
+                        <td>@r.CumulativeRank</td>
+                        <td style="min-width:260px">
+                            <form asp-action="Feedback" method="post" style="display:flex;gap:6px">
+                                <input type="hidden" name="scoreId" value="@r.ScoreId" />
+                                <input name="content" value="@r.Feedback" class="form-control form-control-sm" />
+                                <button class="btn btn-sm btn-outline-primary">Gửi</button>
+                            </form>
+                            @if (!string.IsNullOrEmpty(r.Reply))
+                            {
+                                <div style="margin-top:6px;padding:8px 10px;background:#e8f5e9;border-radius:6px;font-size:13px">
+                                    <b>Quản trị viên trả lời:</b> @r.Reply
+                                    <div style="color:#888;font-size:12px">@r.RepliedBy - @r.RepliedAt?.ToString("dd/MM/yyyy HH:mm")</div>
+                                </div>
+                            }
+                            else if (!string.IsNullOrEmpty(r.Feedback))
+                            {
+                                <div style="margin-top:4px;color:#b8860b;font-size:12px">Đang chờ trả lời</div>
+                            }
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="11" style="text-align:center;color:#888">Chưa có điểm rèn luyện.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

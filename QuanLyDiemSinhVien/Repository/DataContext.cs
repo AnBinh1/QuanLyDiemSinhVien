@@ -26,5 +26,10 @@ namespace QuanLyDiemSinhVien.Repository
 		public DbSet<AttendanceModel> Attendances { get; set; }
 
 		public DbSet<StudentGradeModel> Grades { get; set; }
-	}
+
+        public DbSet<News> News { get; set; }
+
+        public DbSet<SemesterModel> Semesters { get; set; }
+        public DbSet<ConductScoreModel> ConductScores { get; set; }
+    }
 }

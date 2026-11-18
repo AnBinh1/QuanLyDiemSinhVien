@@ -1,0 +1,35 @@
+﻿@model List<QuanLyDiemSinhVien.Models.News>
+@{
+    ViewData["Title"] = "Tin tức";
+    int page = ViewBag.Page;
+    int totalPages = ViewBag.TotalPages;
+}
+
+<div class="container" style="padding: 40px 0;">
+    <h2>Tin tức</h2>
+
+    @foreach (var n in Model)
+    {
+        <article style="padding: 16px 0; border-bottom: 1px solid #e5e5e5;">
+            <span class="news-category">@n.Category</span>
+            <h3>
+                <a asp-action="Detail" asp-route-id="@n.Id">@n.Title</a>
+            </h3>
+            <p>@n.Summary</p>
+            <span class="news-date">
+                <i class="bi bi-calendar3"></i> @n.PublishedDate.ToString("dd/MM/yyyy")
+            </span>
+        </article>
+    }
+
+    @if (totalPages > 1)
+    {
+        <div style="margin-top: 24px; display: flex; gap: 8px;">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <a asp-action="Index" asp-route-page="@i"
+                   style="padding: 6px 12px; border: 1px solid #ccc; @(i == page ? "background:#0b3d91;color:#fff;" : "")">@i</a>
+            }
+        </div>
+    }
+</div>

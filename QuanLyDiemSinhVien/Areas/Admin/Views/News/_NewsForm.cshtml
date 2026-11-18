@@ -1,0 +1,78 @@
+﻿@model QuanLyDiemSinhVien.Models.News
+@{
+    var categories = new List<string> { "SỰ KIỆN", "TUYỂN SINH", "SINH VIÊN", "HỌC THUẬT", "THÔNG BÁO" };
+
+    if (!string.IsNullOrEmpty(Model.Category) && !categories.Contains(Model.Category))
+    {
+        categories.Add(Model.Category);
+    }
+}
+
+<input type="hidden" asp-for="Id" />
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="form-group">
+    <label asp-for="Title"></label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label asp-for="Category"></label>
+        <select asp-for="Category" class="form-control">
+            @foreach (var c in categories)
+            {
+                <option value="@c" selected="@(Model.Category == c)">@c</option>
+            }
+        </select>
+        <small class="text-muted">
+            Chọn <strong>THÔNG BÁO</strong> để hiện ở cột bên phải, các mục khác hiện ở khối Tin tức.
+        </small>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 form-group">
+        <label asp-for="PublishedDate"></label>
+        <input asp-for="PublishedDate" type="date" class="form-control" />
+        <span asp-validation-for="PublishedDate" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="Summary"></label>
+    <textarea asp-for="Summary" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="Summary" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Content"></label>
+    <textarea asp-for="Content" class="form-control js-editor" rows="12"></textarea>
+    <small class="text-muted">
+        Bấm nút <strong>ảnh</strong> trên thanh công cụ, hoặc kéo thả / dán ảnh trực tiếp vào bài để chèn nhiều ảnh xen giữa các đoạn.
+    </small>
+</div>
+
+<div class="form-group">
+    <label>Ảnh đại diện (hiện ở trang chủ và danh sách tin)</label>
+    <input type="file" name="imageFile" class="form-control-file" accept=".jpg,.jpeg,.png,.webp" />
+    <span class="text-danger">@Html.ValidationMessage("imageFile")</span>
+
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <div class="mt-2">
+            <img src="@Url.Content(Model.ImageUrl)" style="max-height:120px;" />
+            <div><small class="text-muted">Chọn ảnh mới nếu muốn thay.</small></div>
+        </div>
+    }
+</div>
+
+<div class="form-check">
+    <input asp-for="IsPublished" class="form-check-input" />
+    <label asp-for="IsPublished" class="form-check-label"></label>
+</div>
+
+<div class="form-check mb-3">
+    <input asp-for="IsFeatured" class="form-check-input" />
+    <label asp-for="IsFeatured" class="form-check-label"></label>
+</div>

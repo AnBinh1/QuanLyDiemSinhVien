@@ -1,693 +1,663 @@
-﻿
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.NewViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+}
 
+<!-- =========================
+     TOP BAR
+========================= -->
+<div class="top-bar">
+    <div class="container top-bar-content">
+        <div>
+            <i class="bi bi-telephone"></i>
+            Hotline: 0238 3855 452
+        </div>
 
-    @{
-        ViewData["Title"] = "Trang chủ";
-    }
-
-    <!-- =========================
-         TOP BAR
-    ========================= -->
-    <div class="top-bar">
-        <div class="container top-bar-content">
-            <div>
-                <i class="bi bi-telephone"></i>
-                Hotline: 0238 3855 452
-            </div>
-
-            <div class="top-links">
-                <a href="#">Cổng thông tin cán bộ</a>
-                <a href="#">E-Learning</a>
-                <a href="#">Thư điện tử</a>
-                <a href="#">Liên hệ</a>
-            </div>
+        <div class="top-links">
+            <a href="#">Cổng thông tin cán bộ</a>
+            <a href="#">E-Learning</a>
+            <a href="#">Thư điện tử</a>
+            <a href="#">Liên hệ</a>
         </div>
     </div>
+</div>
 
 
-    <!-- =========================
-         HEADER
-    ========================= -->
-    <header class="main-header">
-        <div class="container header-content">
+<!-- =========================
+     HEADER
+========================= -->
+<header class="main-header">
+    <div class="container header-content">
 
-            <a asp-controller="Home"
-               asp-action="Index"
-               class="brand">
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="brand">
 
-                <div class="brand-logo">
-                    <span>V</span>
-                </div>
-
-                <div class="brand-text">
-                    <h1>TRƯỜNG ĐẠI HỌC VINH</h1>
-                    <span>VINH UNIVERSITY</span>
-                </div>
-            </a>
-
-            <div class="header-right">
-
-                <div class="header-date">
-                    <i class="bi bi-calendar3"></i>
-                    @DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"))
-                </div>
-
-                <div class="search-box">
-                    <input type="text"
-                           placeholder="Tìm kiếm..." />
-
-                    <button type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-
+            <div class="brand-logo">
+                <span>V</span>
             </div>
 
-        </div>
-    </header>
+            <div class="brand-text">
+                <h1>TRƯỜNG ĐẠI HỌC VINH</h1>
+                <span>VINH UNIVERSITY</span>
+            </div>
+        </a>
 
+        <div class="header-right">
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
-    <nav class="main-nav">
-        <div class="container">
+            <div class="header-date">
+                <i class="bi bi-calendar3"></i>
+                @DateTime.Now.ToString("dddd, dd/MM/yyyy", new System.Globalization.CultureInfo("vi-VN"))
+            </div>
 
-            <ul class="nav-menu">
+            <div class="search-box">
+                <input type="text"
+                       placeholder="Tìm kiếm..." />
 
-                <li>
-                    <a asp-controller="Home"
-                       asp-action="Index">
-                        <i class="bi bi-house-door-fill"></i>
-                    </a>
-                </li>
-
-                <li class="has-dropdown">
-                    <a href="#">
-                        Điều hành
-                        <i class="bi bi-chevron-down"></i>
-                    </a>
-
-                    <ul class="dropdown">
-                        <li><a href="#">Lịch tuần</a></li>
-                        <li><a href="#">Cổng thông tin cán bộ</a></li>
-                        <li><a href="#">iOffice</a></li>
-                        <li><a href="#">Đại học thông minh</a></li>
-                        <li><a href="#">E-Learning</a></li>
-                        <li><a href="#">Văn bản, biểu mẫu</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-dropdown">
-                    <a href="#">
-                        Đào tạo
-                        <i class="bi bi-chevron-down"></i>
-                    </a>
-
-                    <ul class="dropdown">
-                        <li><a href="#">Đại học chính quy</a></li>
-                        <li><a href="#">Vừa làm vừa học</a></li>
-                        <li><a href="#">Đào tạo từ xa</a></li>
-                        <li><a href="#">Sau đại học</a></li>
-                        <li><a href="#">Chương trình quốc tế</a></li>
-                    </ul>
-                </li>
-
-                <li class="has-dropdown">
-                    <a href="#">
-                        Tuyển sinh
-                        <i class="bi bi-chevron-down"></i>
-                    </a>
-
-                    <ul class="dropdown">
-                        <li><a href="#">Đại học chính quy</a></li>
-                        <li><a href="#">Sau đại học</a></li>
-                        <li><a href="#">Đào tạo từ xa</a></li>
-                        <li><a href="#">Chương trình học bổng</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#">Khoa học - Công nghệ</a>
-                </li>
-
-                <li>
-                    <a href="#">Hợp tác</a>
-                </li>
-
-                <li>
-                    <a href="#">Người học</a>
-                </li>
-
-                <li>
-                    <a href="#">Giới thiệu</a>
-                </li>
-
-                <li class="login-menu">
-                    <a asp-controller="Account"
-                       asp-action="Login">
-                        <i class="bi bi-person-circle"></i>
-                        Đăng nhập
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-    </nav>
-
-
-    <!-- =========================
-         HERO
-    ========================= -->
-    <section class="hero">
-
-        <div class="hero-overlay"></div>
-
-        <div class="container hero-content">
-
-            <div class="hero-text">
-
-                <span class="hero-small">
-                    CHÀO MỪNG ĐẾN VỚI
-                </span>
-
-                <h2>
-                    TRƯỜNG ĐẠI HỌC VINH
-                </h2>
-
-                <p>
-                    Nơi kiến tạo tri thức,
-                    phát triển con người và
-                    kết nối tương lai.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="#" class="btn-primary">
-                        Tìm hiểu về trường
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                    <a href="#" class="btn-outline">
-                        Thông tin tuyển sinh
-                    </a>
-
-                </div>
-
+                <button type="button">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
 
         </div>
 
-    </section>
+    </div>
+</header>
 
 
-    <!-- =========================
-         QUICK ACCESS
-    ========================= -->
-    <section class="quick-access">
+<!-- =========================
+     NAVIGATION
+========================= -->
+<nav class="main-nav">
+    <div class="container">
 
-        <div class="container quick-grid">
+        <ul class="nav-menu">
 
-            <a href="#" class="quick-item">
-                <div class="quick-icon">
-                    <i class="bi bi-mortarboard-fill"></i>
-                </div>
+            <li>
+                <a asp-controller="Home"
+                   asp-action="Index">
+                    <i class="bi bi-house-door-fill"></i>
+                </a>
+            </li>
 
-                <div>
-                    <strong>Tuyển sinh</strong>
-                    <span>Thông tin tuyển sinh</span>
-                </div>
-            </a>
-
-
-            <a asp-controller="Account"
-               asp-action="Login"
-               asp-route-returnUrl="/Student"
-               class="quick-item">
-
-                <div class="quick-icon">
-                    <i class="bi bi-person-badge-fill"></i>
-                </div>
-
-                <div>
-                    <strong>Cổng sinh viên</strong>
-                    <span>Đăng nhập hệ thống</span>
-                </div>
-
-            </a>
-
-
-            <a asp-controller="Account"
-               asp-action="Login"
-               asp-route-returnUrl="/Teacher"
-               class="quick-item">
-
-                <div class="quick-icon">
-                    <i class="bi bi-person-workspace"></i>
-                </div>
-
-                <div>
-                    <strong>Giảng viên</strong>
-                    <span>Cổng thông tin giảng viên</span>
-                </div>
-
-            </a>
-
-
-            <a asp-controller="Account"
-               asp-action="Login"
-               asp-route-returnUrl="/Admin"
-               class="quick-item">
-
-                <div class="quick-icon">
-                    <i class="bi bi-building"></i>
-                </div>
-
-                <div>
-                    <strong>Quản trị</strong>
-                    <span>Hệ thống quản trị</span>
-                </div>
-
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         NEWS
-    ========================= -->
-    <section class="section">
-
-        <div class="container">
-
-            <div class="section-heading">
-
-                <div>
-                    <span>TIN TỨC</span>
-                    <h2>Tin tức mới nhất</h2>
-                </div>
-
+            <li class="has-dropdown">
                 <a href="#">
-                    Xem tất cả
+                    Điều hành
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+
+                <ul class="dropdown">
+                    <li><a href="#">Lịch tuần</a></li>
+                    <li><a href="#">Cổng thông tin cán bộ</a></li>
+                    <li><a href="#">iOffice</a></li>
+                    <li><a href="#">Đại học thông minh</a></li>
+                    <li><a href="#">E-Learning</a></li>
+                    <li><a href="#">Văn bản, biểu mẫu</a></li>
+                </ul>
+            </li>
+
+            <li class="has-dropdown">
+                <a href="#">
+                    Đào tạo
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+
+                <ul class="dropdown">
+                    <li><a href="#">Đại học chính quy</a></li>
+                    <li><a href="#">Vừa làm vừa học</a></li>
+                    <li><a href="#">Đào tạo từ xa</a></li>
+                    <li><a href="#">Sau đại học</a></li>
+                    <li><a href="#">Chương trình quốc tế</a></li>
+                </ul>
+            </li>
+
+            <li class="has-dropdown">
+                <a href="#">
+                    Tuyển sinh
+                    <i class="bi bi-chevron-down"></i>
+                </a>
+
+                <ul class="dropdown">
+                    <li><a href="#">Đại học chính quy</a></li>
+                    <li><a href="#">Sau đại học</a></li>
+                    <li><a href="#">Đào tạo từ xa</a></li>
+                    <li><a href="#">Chương trình học bổng</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Khoa học - Công nghệ</a>
+            </li>
+
+            <li>
+                <a href="#">Hợp tác</a>
+            </li>
+
+            <li>
+                <a href="#">Người học</a>
+            </li>
+
+            <li>
+                <a href="#">Giới thiệu</a>
+            </li>
+
+            <li class="login-menu">
+                <a asp-controller="Account"
+                   asp-action="Login">
+                    <i class="bi bi-person-circle"></i>
+                    Đăng nhập
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <span class="hero-small">
+                CHÀO MỪNG ĐẾN VỚI
+            </span>
+
+            <h2>
+                TRƯỜNG ĐẠI HỌC VINH
+            </h2>
+
+            <p>
+                Nơi kiến tạo tri thức,
+                phát triển con người và
+                kết nối tương lai.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="btn-primary">
+                    Tìm hiểu về trường
                     <i class="bi bi-arrow-right"></i>
+                </a>
+
+                <a href="#" class="btn-outline">
+                    Thông tin tuyển sinh
                 </a>
 
             </div>
 
+        </div>
 
-            <div class="news-grid">
+    </div>
 
-                <article class="featured-news">
+</section>
 
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80"
-                             alt="Trường đại học" />
-                    </div>
 
-                    <div class="news-content">
+<!-- =========================
+     QUICK ACCESS
+========================= -->
+<section class="quick-access">
 
-                        <span class="news-category">
-                            TUYỂN SINH
-                        </span>
+    <div class="container quick-grid">
 
+        <a href="#" class="quick-item">
+            <div class="quick-icon">
+                <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div>
+                <strong>Tuyển sinh</strong>
+                <span>Thông tin tuyển sinh</span>
+            </div>
+        </a>
+
+
+        <a asp-controller="Account"
+           asp-action="Login"
+           asp-route-returnUrl="/Student"
+           class="quick-item">
+
+            <div class="quick-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div>
+                <strong>Cổng sinh viên</strong>
+                <span>Đăng nhập hệ thống</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Account"
+           asp-action="Login"
+           asp-route-returnUrl="/Teacher"
+           class="quick-item">
+
+            <div class="quick-icon">
+                <i class="bi bi-person-workspace"></i>
+            </div>
+
+            <div>
+                <strong>Giảng viên</strong>
+                <span>Cổng thông tin giảng viên</span>
+            </div>
+
+        </a>
+
+
+        <a asp-controller="Account"
+           asp-action="Login"
+           asp-route-returnUrl="/Admin"
+           class="quick-item">
+
+            <div class="quick-icon">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <div>
+                <strong>Quản trị</strong>
+                <span>Hệ thống quản trị</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     NEWS
+========================= -->
+<section class="nw-section">
+
+    <div class="container nw-layout">
+
+        <!-- ========== TIN TỨC ========== -->
+        <div class="nw-main">
+
+            <div class="nw-title-row">
+                <h2 class="nw-title">TIN TỨC</h2>
+                <a asp-controller="News" asp-action="Index" class="nw-viewall">
+                    Xem tất cả <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            @if (Model.FeaturedNews == null)
+            {
+                <p>Chưa có tin tức nào.</p>
+            }
+            else
+            {
+                var f = Model.FeaturedNews;
+                var fImg = string.IsNullOrEmpty(f.ImageUrl)
+                ? "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80"
+                : Url.Content(f.ImageUrl);
+
+                <!-- Tin nổi bật -->
+                <article class="nw-featured">
+
+                    <a asp-controller="News" asp-action="Detail" asp-route-id="@f.Id" class="nw-featured-img">
+                        <img src="@fImg" alt="@f.Title" loading="lazy" />
+                    </a>
+
+                    <div class="nw-featured-body">
                         <h3>
-                            Thông báo đăng ký xét tuyển đại học chính quy năm 2026
+                            <a asp-controller="News" asp-action="Detail" asp-route-id="@f.Id">@f.Title</a>
                         </h3>
-
-                        <p>
-                            Trường Đại học Vinh thông báo thông tin tuyển sinh
-                            và các phương thức xét tuyển đại học chính quy.
-                        </p>
-
-                        <span class="news-date">
-                            <i class="bi bi-calendar3"></i>
-                            18/08/2026
-                        </span>
-
+                        <p>@f.Summary</p>
+                        <div class="nw-meta">
+                            <span class="nw-cat">@f.Category</span>
+                            <span class="nw-date">
+                                @f.PublishedDate.ToString("dd/MM/yyyy")
+                                <i class="bi bi-calendar3"></i>
+                            </span>
+                        </div>
                     </div>
 
                 </article>
 
-
-                <div class="news-list">
-
-                    <article class="news-item">
-
-                        <div class="news-date-box">
-                            <strong>15</strong>
-                            <span>08/2026</span>
-                        </div>
-
-                        <div>
-
-                            <span class="news-category">
-                                SỰ KIỆN
-                            </span>
-
-                            <h3>
-                                Khai giảng năm học 2026 - 2027
-                            </h3>
-
-                            <p>
-                                Các hoạt động chuẩn bị cho năm học mới.
-                            </p>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="news-item">
-
-                        <div class="news-date-box">
-                            <strong>10</strong>
-                            <span>08/2026</span>
-                        </div>
-
-                        <div>
-
-                            <span class="news-category">
-                                THÔNG BÁO
-                            </span>
-
-                            <h3>
-                                Thông báo về công tác đào tạo
-                            </h3>
-
-                            <p>
-                                Các thông tin mới dành cho người học.
-                            </p>
-
-                        </div>
-
-                    </article>
-
-
-                    <article class="news-item">
-
-                        <div class="news-date-box">
-                            <strong>08</strong>
-                            <span>08/2026</span>
-                        </div>
-
-                        <div>
-
-                            <span class="news-category">
-                                HỌC THUẬT
-                            </span>
-
-                            <h3>
-                                Hội thảo khoa học và đổi mới sáng tạo
-                            </h3>
-
-                            <p>
-                                Các hoạt động nghiên cứu khoa học.
-                            </p>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
+                <!-- 3 tin bên dưới -->
+                @if (Model.LatestNews.Any())
+                {
+                    <div class="nw-cards">
+                        @foreach (var n in Model.LatestNews)
+                        {
+                            <article class="nw-card">
+                                <h3>
+                                    <a asp-controller="News" asp-action="Detail" asp-route-id="@n.Id">@n.Title</a>
+                                </h3>
+                                <p>@n.Summary</p>
+                                <div class="nw-meta">
+                                    <span class="nw-cat">@n.Category</span>
+                                    <span class="nw-date">
+                                        @n.PublishedDate.ToString("dd/MM/yyyy")
+                                        <i class="bi bi-calendar3"></i>
+                                    </span>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            }
 
         </div>
 
-    </section>
 
+        <!-- ========== THÔNG BÁO ========== -->
+        <aside class="nw-side">
 
-    <!-- =========================
-         ADMISSION
-    ========================= -->
-    <section class="admission-section">
-
-        <div class="container">
-
-            <div class="section-heading light">
-
-                <div>
-                    <span>TUYỂN SINH</span>
-                    <h2>Thông tin tuyển sinh</h2>
-                </div>
-
-                <a href="#">
-                    Xem tất cả
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
+            <div class="nw-title-row">
+                <h2 class="nw-title">THÔNG BÁO</h2>
             </div>
 
-
-            <div class="admission-grid">
-
-                <a href="#" class="admission-card">
-
-                    <i class="bi bi-mortarboard"></i>
-
-                    <h3>
-                        Đại học chính quy
-                    </h3>
-
-                    <p>
-                        Thông tin tuyển sinh đại học chính quy
-                    </p>
-
-                    <span>
-                        Xem thông tin
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-
-                </a>
-
-
-                <a href="#" class="admission-card">
-
-                    <i class="bi bi-book"></i>
-
-                    <h3>
-                        Sau đại học
-                    </h3>
-
-                    <p>
-                        Chương trình đào tạo thạc sĩ, tiến sĩ
-                    </p>
-
-                    <span>
-                        Xem thông tin
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-
-                </a>
-
-
-                <a href="#" class="admission-card">
-
-                    <i class="bi bi-globe2"></i>
-
-                    <h3>
-                        Đào tạo quốc tế
-                    </h3>
-
-                    <p>
-                        Các chương trình đào tạo quốc tế
-                    </p>
-
-                    <span>
-                        Xem thông tin
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         ABOUT
-    ========================= -->
-    <section class="section about-section">
-
-        <div class="container about-grid">
-
-            <div class="about-image">
-
-                <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&w=1000&q=80"
-                     alt="Đại học Vinh" />
-
-                <div class="about-badge">
-                    <strong>60+</strong>
-                    <span>Năm xây dựng<br />và phát triển</span>
-                </div>
-
-            </div>
-
-
-            <div class="about-content">
-
-                <span class="section-label">
-                    GIỚI THIỆU TRƯỜNG
-                </span>
-
-                <h2>
-                    Kiến tạo tri thức -
-                    Phát triển con người
-                </h2>
-
-                <p>
-                    Trường Đại học Vinh là cơ sở giáo dục đại học
-                    đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
-                    sự phát triển giáo dục và đào tạo của khu vực
-                    Bắc Trung Bộ.
-                </p>
-
-                <p>
-                    Nhà trường hướng tới xây dựng môi trường giáo dục
-                    hiện đại, đổi mới sáng tạo và hội nhập quốc tế.
-                </p>
-
-                <a href="#" class="read-more">
-                    Tìm hiểu về Trường
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         STATISTICS
-    ========================= -->
-    <section class="statistics">
-
-        <div class="container">
-
-            <div class="statistics-heading">
-                <span>ĐẠI HỌC VINH</span>
-                <h2>Những con số</h2>
-            </div>
-
-
-            <div class="statistics-grid">
-
-                <div class="stat-item">
-
-                    <i class="bi bi-bar-chart-fill"></i>
-
-                    <strong>851-900</strong>
-
-                    <span>
-                        Trên bảng xếp hạng
-                        đại học châu Á
-                    </span>
-
-                </div>
-
-
-                <div class="stat-item">
-
-                    <i class="bi bi-award-fill"></i>
-
-                    <strong>4</strong>
-
-                    <span>
-                        Chuẩn đối sánh chất lượng
-                        giáo dục đại học UPM
-                    </span>
-
-                </div>
-
-
-                <div class="stat-item">
-
-                    <i class="bi bi-building-check"></i>
-
-                    <strong>1.000+</strong>
-
-                    <span>
-                        Trường đại học, doanh nghiệp
-                        có ký kết hợp tác
-                    </span>
-
-                </div>
-
-
-                <div class="stat-item">
-
-                    <i class="bi bi-globe2"></i>
-
-                    <strong>60+</strong>
-
-                    <span>
-                        Năm xây dựng
-                        và phát triển
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         VISION
-    ========================= -->
-    <section class="vision-section">
-
-        <div class="container vision-grid">
+            @if (!Model.Announcements.Any())
+            {
+                <p>Chưa có thông báo nào.</p>
+            }
+            else
+            {
+                <ul class="nw-notice-list">
+                    @foreach (var a in Model.Announcements)
+                    {
+                        <li>
+                            <span class="nw-notice-date">@a.PublishedDate.ToString("dd/MM/yyyy")</span>
+                            <a asp-controller="News" asp-action="Detail" asp-route-id="@a.Id">@a.Title</a>
+                        </li>
+                    }
+                </ul>
+            }
+
+        </aside>
+
+    </div>
+
+</section>
+
+@* <!-- =========================
+     ADMISSION
+========================= -->
+<section class="admission-section">
+
+    <div class="container">
+
+        <div class="section-heading light">
 
             <div>
-                <span class="section-label">
-                    ĐỊNH HƯỚNG PHÁT TRIỂN
-                </span>
-
-                <h2>
-                    Tầm nhìn
-                </h2>
-
-                <p>
-                    Trường Đại học Vinh trở thành đại học thông minh,
-                    xếp hạng tốp 500 đại học hàng đầu châu Á vào năm
-                    2030, hướng đến tốp 1000 đại học hàng đầu thế giới
-                    vào năm 2045.
-                </p>
+                <span>TUYỂN SINH</span>
+                <h2>Thông tin tuyển sinh</h2>
             </div>
 
+            <a href="#">
+                Xem tất cả
+                <i class="bi bi-arrow-right"></i>
+            </a>
 
-            <div>
-                <span class="section-label">
-                    SỨ MẠNG
-                </span>
+        </div>
 
-                <h2>
-                    Sứ mạng
-                </h2>
+
+        <div class="admission-grid">
+
+            <a href="#" class="admission-card">
+
+                <i class="bi bi-mortarboard"></i>
+
+                <h3>
+                    Đại học chính quy
+                </h3>
 
                 <p>
-                    Đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
-                    sự phát triển giáo dục và đào tạo của khu vực
-                    Bắc Trung Bộ; là trung tâm nghiên cứu, đổi mới
-                    sáng tạo, góp phần thúc đẩy sự phát triển của
-                    quốc gia và quốc tế.
+                    Thông tin tuyển sinh đại học chính quy
                 </p>
+
+                <span>
+                    Xem thông tin
+                    <i class="bi bi-arrow-right"></i>
+                </span>
+
+            </a>
+
+
+            <a href="#" class="admission-card">
+
+                <i class="bi bi-book"></i>
+
+                <h3>
+                    Sau đại học
+                </h3>
+
+                <p>
+                    Chương trình đào tạo thạc sĩ, tiến sĩ
+                </p>
+
+                <span>
+                    Xem thông tin
+                    <i class="bi bi-arrow-right"></i>
+                </span>
+
+            </a>
+
+
+            <a href="#" class="admission-card">
+
+                <i class="bi bi-globe2"></i>
+
+                <h3>
+                    Đào tạo quốc tế
+                </h3>
+
+                <p>
+                    Các chương trình đào tạo quốc tế
+                </p>
+
+                <span>
+                    Xem thông tin
+                    <i class="bi bi-arrow-right"></i>
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+ *@
+
+<!-- =========================
+     BANNER
+========================= -->
+<section style="padding:28px 0 40px; background:#fff;">
+    <div class="container">
+        <img src="https://vinhuni.edu.vn/pages/assets/congdoan.jpg"
+             alt="Phát triển Trường Đại học Vinh trở thành đại học vùng"
+             loading="lazy"
+             style="display:block; width:100%; height:auto;" />
+    </div>
+</section>
+<!-- =========================
+     ABOUT
+========================= -->
+<section class="section about-section">
+
+    <div class="container about-grid">
+
+        <div class="about-image">
+
+            <img src="https://vinhuni.edu.vn/pages/assets/images/bottom-bg.png"
+                 alt="Đại học Vinh" />
+
+            <div class="about-badge">
+                <strong>60+</strong>
+                <span>Năm xây dựng<br />và phát triển</span>
             </div>
 
         </div>
 
-    </section>
+
+        <div class="about-content">
+
+            <span class="section-label">
+                GIỚI THIỆU TRƯỜNG
+            </span>
+
+            <h2>
+                Kiến tạo tri thức -
+                Phát triển con người
+            </h2>
+
+            <p>
+                Trường Đại học Vinh là cơ sở giáo dục đại học
+                đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
+                sự phát triển giáo dục và đào tạo của khu vực
+                Bắc Trung Bộ.
+            </p>
+
+            <p>
+                Nhà trường hướng tới xây dựng môi trường giáo dục
+                hiện đại, đổi mới sáng tạo và hội nhập quốc tế.
+            </p>
+
+            <a href="#" class="read-more">
+                Tìm hiểu về Trường
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-    
+<!-- =========================
+     STATISTICS
+========================= -->
+<section class="statistics">
+
+    <div class="container">
+
+        <div class="statistics-heading">
+            <span>ĐẠI HỌC VINH</span>
+            <h2>Những con số</h2>
+        </div>
+
+
+        <div class="statistics-grid">
+
+            <div class="stat-item">
+
+                <i class="bi bi-bar-chart-fill"></i>
+
+                <strong>851-900</strong>
+
+                <span>
+                    Trên bảng xếp hạng
+                    đại học châu Á
+                </span>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <i class="bi bi-award-fill"></i>
+
+                <strong>4</strong>
+
+                <span>
+                    Chuẩn đối sánh chất lượng
+                    giáo dục đại học UPM
+                </span>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <i class="bi bi-building-check"></i>
+
+                <strong>1.000+</strong>
+
+                <span>
+                    Trường đại học, doanh nghiệp
+                    có ký kết hợp tác
+                </span>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <i class="bi bi-globe2"></i>
+
+                <strong>60+</strong>
+
+                <span>
+                    Năm xây dựng
+                    và phát triển
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     VISION
+========================= -->
+<section class="vision-section">
+
+    <div class="container vision-grid">
+
+        <div>
+            <span class="section-label">
+                ĐỊNH HƯỚNG PHÁT TRIỂN
+            </span>
+
+            <h2>
+                Tầm nhìn
+            </h2>
+
+            <p>
+                Trường Đại học Vinh trở thành đại học thông minh,
+                xếp hạng tốp 500 đại học hàng đầu châu Á vào năm
+                2030, hướng đến tốp 1000 đại học hàng đầu thế giới
+                vào năm 2045.
+            </p>
+        </div>
+
+
+        <div>
+            <span class="section-label">
+                SỨ MẠNG
+            </span>
+
+            <h2>
+                Sứ mạng
+            </h2>
+
+            <p>
+                Đào tạo nguồn nhân lực chất lượng cao, dẫn dắt
+                sự phát triển giáo dục và đào tạo của khu vực
+                Bắc Trung Bộ; là trung tâm nghiên cứu, đổi mới
+                sáng tạo, góp phần thúc đẩy sự phát triển của
+                quốc gia và quốc tế.
+            </p>
+        </div>
+
+    </div>
+
+</section>

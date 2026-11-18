@@ -42,6 +42,8 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+builder.Services.AddScoped<QuanLyDiemSinhVien.Services.ConductScoreService>();
+
 var app = builder.Build();
 
 app.UseExceptionHandler("/Home/Error");

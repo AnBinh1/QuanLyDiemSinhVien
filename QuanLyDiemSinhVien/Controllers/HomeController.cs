@@ -1,37 +1,59 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuanLyDiemSinhVien.Models;
+using QuanLyDiemSinhVien.Models.ViewModel;
+using QuanLyDiemSinhVien.Repository;
 
 namespace QuanLyDiemSinhVien.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private const string AnnouncementCategory = "THÔNG BÁO";
+    private readonly DataContext _context;
+
+    public HomeController(DataContext context)
     {
-        _logger = logger;
+        _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
-    }
+        var published = _context.News
+            .AsNoTracking()
+            .Where(n => n.IsPublished);
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        // Tin tức: tất cả chuyên mục trừ THÔNG BÁO
+        var mainNews = published.Where(n => n.Category != AnnouncementCategory);
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [Route("Home/Error/{statusCode?}")]
-    public IActionResult Error(int? statusCode = null)
-    {
-        if (statusCode.HasValue)
+        var featured = await mainNews
+            .OrderByDescending(n => n.IsFeatured)
+            .ThenByDescending(n => n.PublishedDate)
+            .ThenByDescending(n => n.Id)
+            .FirstOrDefaultAsync();
+
+        var featuredId = featured?.Id ?? 0;
+
+        var latest = await mainNews
+            .Where(n => n.Id != featuredId)
+            .OrderByDescending(n => n.PublishedDate)
+            .ThenByDescending(n => n.Id)
+            .Take(3)
+            .ToListAsync();
+
+        // Thông báo: cột bên phải
+        var announcements = await published
+            .Where(n => n.Category == AnnouncementCategory)
+            .OrderByDescending(n => n.PublishedDate)
+            .ThenByDescending(n => n.Id)
+            .Take(7)
+            .ToListAsync();
+
+        return View(new NewViewModel
         {
-            ViewBag.StatusCode = statusCode.Value;
-        }
-
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            FeaturedNews = featured,
+            LatestNews = latest,
+            Announcements = announcements
+        });
     }
 }

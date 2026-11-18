@@ -1,0 +1,40 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.ConductReplyViewModel
+@{
+    ViewData["Title"] = "Trả lời phản hồi sinh viên";
+}
+
+<div class="card" style="max-width:760px">
+    <div class="card-header"><b>Trả lời phản hồi của sinh viên</b></div>
+    <form asp-action="Reply" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ScoreId" />
+        <input type="hidden" asp-for="ReturnClassId" />
+        <input type="hidden" asp-for="ReturnSemesterId" />
+
+        <div class="card-body">
+            <table class="table table-sm table-borderless" style="max-width:520px">
+                <tr><td style="width:130px;color:#777">Sinh viên</td><td><b>@Model.StudentCode</b> - @Model.StudentName</td></tr>
+                <tr><td style="color:#777">Học kỳ</td><td>@Model.SemesterName</td></tr>
+                <tr><td style="color:#777">Điểm rèn luyện</td><td><b>@Model.Score</b></td></tr>
+            </table>
+
+            <div style="background:#fff8e1;border-left:4px solid #ffc107;padding:10px 14px;border-radius:4px;margin-bottom:16px">
+                <div style="color:#777;font-size:13px">Phản hồi của sinh viên</div>
+                @Model.Feedback
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Reply"></label>
+                <textarea asp-for="Reply" rows="4" class="form-control" maxlength="1000"
+                          placeholder="Ví dụ: Điểm của em được tính theo sổ rèn luyện của lớp, em liên hệ cố vấn học tập để đối chiếu thêm."></textarea>
+                <span asp-validation-for="Reply" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-success">Gửi câu trả lời</button>
+            <a asp-action="Index" asp-route-classId="@Model.ReturnClassId" asp-route-semesterId="@Model.ReturnSemesterId"
+               class="btn btn-default">Quay lại</a>
+        </div>
+    </form>
+</div>

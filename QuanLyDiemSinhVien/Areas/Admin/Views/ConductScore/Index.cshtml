@@ -1,0 +1,118 @@
+﻿@using QuanLyDiemSinhVien.Models
+@model List<ConductScoreModel>
+@{
+    ViewData["Title"] = "Danh sách điểm rèn luyện";
+    var classId = Context.Request.Query["classId"].ToString();
+    var semesterId = Context.Request.Query["semesterId"].ToString();
+    bool unanswered = ViewBag.Unanswered == true;
+    int unansweredCount = ViewBag.UnansweredCount ?? 0;
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="card">
+    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <b>Danh sách điểm rèn luyện</b>
+        <a asp-action="Entry" asp-route-classId="@classId" asp-route-semesterId="@semesterId"
+           class="btn btn-primary btn-sm">Nhập điểm theo lớp</a>
+    </div>
+    <div class="card-body">
+        <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+            <select name="classId" asp-items="(SelectList)ViewBag.Classes" class="form-control" style="max-width:220px">
+                <option value="">-- Tất cả lớp --</option>
+            </select>
+            <select name="semesterId" asp-items="(SelectList)ViewBag.Semesters" class="form-control" style="max-width:220px">
+                <option value="">-- Tất cả học kỳ --</option>
+            </select>
+            <label style="margin:0">
+                <input type="checkbox" name="unanswered" value="true" @(unanswered ? "checked" : "") />
+                Chỉ phản hồi chưa trả lời
+                @if (unansweredCount > 0)
+                {
+                    <span class="badge badge-danger">@unansweredCount</span>
+                }
+            </label>
+            <button class="btn btn-secondary">Lọc</button>
+        </form>
+
+        <div style="overflow-x:auto">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Mã SV</th>
+                        <th>Họ tên</th>
+                        <th>Học kỳ</th>
+                        <th style="text-align:right">Điểm</th>
+                        <th>Nhập bởi</th>
+                        <th>Sửa gần nhất</th>
+                        <th style="min-width:260px">Phản hồi của SV</th>
+                        <th style="width:190px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var c in Model)
+                    {
+                        bool hasFeedback = !string.IsNullOrWhiteSpace(c.Feedback);
+                        bool replied = !string.IsNullOrWhiteSpace(c.AdminReply);
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@c.Student!.StudentCode</td>
+                            <td>@c.Student.FullName</td>
+                            <td>@c.Semester!.DisplayName</td>
+                            <td style="text-align:right"><b>@c.Score</b></td>
+                            <td>@c.CreatedBy<br /><small style="color:#888">@c.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small></td>
+                            <td>@c.UpdatedBy<br /><small style="color:#888">@c.UpdatedAt.ToString("dd/MM/yyyy HH:mm")</small></td>
+                            <td>
+                                @if (hasFeedback)
+                                {
+                                    <div>@c.Feedback</div>
+                                    @if (replied)
+                                    {
+                                        <div style="margin-top:6px;padding:6px 10px;background:#e8f5e9;border-radius:6px;font-size:13px">
+                                            <b>Đã trả lời:</b> @c.AdminReply
+                                            <div style="color:#888;font-size:12px">@c.RepliedBy - @c.RepliedAt?.ToString("dd/MM/yyyy HH:mm")</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-warning" style="margin-top:4px">Chưa trả lời</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (hasFeedback)
+                                {
+                                    <a asp-action="Reply" asp-route-id="@c.Id" asp-route-classId="@classId" asp-route-semesterId="@semesterId"
+                                       class="btn btn-sm btn-info">@(replied ? "Sửa trả lời" : "Trả lời")</a>
+                                }
+                                <a asp-action="Entry" asp-route-classId="@c.Student.ClassId" asp-route-semesterId="@c.SemesterId"
+                                   class="btn btn-sm btn-warning">Sửa</a>
+                                <form asp-action="Delete" method="post" style="display:inline" onsubmit="return confirm('Xóa điểm này?')">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <input type="hidden" name="classId" value="@classId" />
+                                    <input type="hidden" name="semesterId" value="@semesterId" />
+                                    <button class="btn btn-sm btn-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="9" style="text-align:center;color:#888">Chưa có dữ liệu.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.NewsDetailViewModel
+@using System.Globalization
+@{
+    var a = Model.Article;
+    ViewData["Title"] = a.Title;
+
+    var vi = new CultureInfo("vi-VN");
+
+    // Nếu admin nhập HTML (từ trình soạn thảo) thì giữ nguyên, nếu là chữ thường thì tách đoạn theo dòng
+    var hasHtml = !string.IsNullOrEmpty(a.Content) && a.Content.Contains('<');
+
+    // Bài đã có ảnh trong nội dung thì không hiện thêm ảnh đại diện để tránh bị trùng
+    var contentHasImages = !string.IsNullOrEmpty(a.Content)
+        && a.Content.Contains("<img", StringComparison.OrdinalIgnoreCase);
+}
+
+<div class="nd-page">
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <nav class="nd-breadcrumb">
+            <a asp-controller="Home" asp-action="Index"><i class="bi bi-house-door-fill"></i> Trang chủ</a>
+            <span>›</span>
+            <a asp-controller="News" asp-action="Index">Tin tức</a>
+            <span>›</span>
+            <span class="nd-bc-current">@a.Category</span>
+        </nav>
+
+        <div class="nd-layout">
+
+            <!-- ========== BÀI VIẾT ========== -->
+            <article class="nd-article">
+
+                <h1 class="nd-title">@a.Title</h1>
+
+                <div class="nd-meta">
+                    <i class="bi bi-calendar3"></i>
+                    @a.PublishedDate.ToString("dddd, dd/MM/yyyy", vi)
+                    <span class="nd-meta-cat">@a.Category</span>
+                </div>
+
+                <p class="nd-summary">@a.Summary</p>
+
+                @if (!string.IsNullOrEmpty(a.ImageUrl) && !contentHasImages)
+                {
+                    <figure class="nd-figure">
+                        <img src="@Url.Content(a.ImageUrl)" alt="@a.Title" />
+                    </figure>
+                }
+
+                <div class="nd-content">
+                    @if (hasHtml)
+                    {
+                        @Html.Raw(a.Content)
+                    }
+                    else if (!string.IsNullOrWhiteSpace(a.Content))
+                    {
+                        foreach (var line in a.Content.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                        {
+                            <p>@line</p>
+                        }
+                    }
+                </div>
+
+            </article>
+
+
+            <!-- ========== CỘT PHẢI ========== -->
+            <aside class="nd-side">
+
+                @if (Model.SameCategory.Any())
+                {
+                    <section class="nd-box">
+                        <h2 class="nd-box-title">CÙNG CHUYÊN MỤC</h2>
+
+                        <ul class="nd-list">
+                            @foreach (var n in Model.SameCategory)
+                            {
+                                <li>
+                                    <a asp-action="Detail" asp-route-id="@n.Id">@n.Title</a>
+                                    <div class="nd-list-meta">
+                                        <span class="nd-list-cat">@n.Category</span>
+                                        <span>@n.PublishedDate.ToString("dd/MM/yyyy") <i class="bi bi-calendar3"></i></span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+
+                        <a asp-action="Index" class="nd-more">Xem thêm »</a>
+                    </section>
+                }
+
+                @if (Model.Related.Any())
+                {
+                    <section class="nd-box">
+                        <h2 class="nd-box-title">TIN LIÊN QUAN</h2>
+
+                        <ul class="nd-list">
+                            @foreach (var n in Model.Related)
+                            {
+                                <li>
+                                    <a asp-action="Detail" asp-route-id="@n.Id">@n.Title</a>
+                                    <div class="nd-list-meta">
+                                        <span class="nd-list-cat">@n.Category</span>
+                                        <span>@n.PublishedDate.ToString("dd/MM/yyyy") <i class="bi bi-calendar3"></i></span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+
+                        <a asp-action="Index" class="nd-more">Xem thêm »</a>
+                    </section>
+                }
+
+            </aside>
+
+        </div>
+
+    </div>
+</div>

@@ -403,112 +403,466 @@ a {
     }
 
 
-/* ========================================
+/* =========================
    NEWS
-======================================== */
-
-.news-grid {
-    display: grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 35px;
-}
-
-.featured-news {
-    border: 1px solid var(--border);
+========================= */
+.nw-section {
+    --nw-blue: #0b4a9e;
+    --nw-orange: #e67e22;
+    --nw-text: #1c1c1c;
+    --nw-muted: #666;
+    --nw-line: #e3e8ef;
+    padding: 40px 0 48px;
     background: #fff;
 }
 
-.news-image {
-    height: 330px;
-    overflow: hidden;
+    .nw-section a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+.nw-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 36px;
+    align-items: start;
 }
 
-    .news-image img {
+/* ----- tiêu đề khối ----- */
+.nw-title-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--nw-line);
+    margin-bottom: 22px;
+}
+
+.nw-title {
+    margin: 0;
+    padding-bottom: 8px;
+    margin-bottom: -1px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--nw-blue);
+    border-bottom: 2px solid var(--nw-blue);
+}
+
+.nw-viewall {
+    padding-bottom: 8px;
+    font-size: 14px;
+    color: var(--nw-blue) !important;
+}
+
+    .nw-viewall:hover {
+        text-decoration: underline !important;
+    }
+
+/* ----- tin nổi bật ----- */
+.nw-featured {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.nw-featured-img {
+    display: block;
+    aspect-ratio: 16 / 10; /* ảnh dọc hay ngang đều được cắt gọn */
+    overflow: hidden;
+    background: #eef2f7;
+}
+
+    .nw-featured-img img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: .4s;
+        display: block;
+        transition: transform .4s ease;
     }
 
-.featured-news:hover img {
-    transform: scale(1.04);
-}
+    .nw-featured-img:hover img {
+        transform: scale(1.04);
+    }
 
-.news-content {
-    padding: 25px;
-}
-
-.news-category {
-    color: var(--primary);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.news-content h3 {
-    color: #222;
-    font-size: 23px;
+.nw-featured-body h3 {
+    margin: 0 0 12px;
+    font-size: 22px;
     line-height: 1.35;
-    margin: 10px 0;
+    font-weight: 700;
+    color: var(--nw-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.news-content p {
-    color: #666;
+    .nw-featured-body h3 a:hover,
+    .nw-card h3 a:hover,
+    .nw-notice-list a:hover {
+        color: var(--nw-blue);
+    }
+
+.nw-featured-body p {
+    margin: 0 0 12px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--nw-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.news-date {
-    display: inline-block;
-    margin-top: 15px;
-    color: #888;
-    font-size: 13px;
-}
-
-.news-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.news-item {
+/* ----- 3 tin bên dưới ----- */
+.nw-cards {
     display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 18px;
-    padding: 0 0 25px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid var(--border);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--nw-line);
 }
 
-.news-date-box {
-    height: 75px;
-    background: #edf6f0;
-    color: var(--primary);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-    .news-date-box strong {
-        font-size: 27px;
-        line-height: 1;
-    }
-
-    .news-date-box span {
-        font-size: 11px;
-    }
-
-.news-item h3 {
+.nw-card h3 {
+    margin: 0 0 10px;
     font-size: 17px;
     line-height: 1.4;
-    color: #222;
-    margin: 4px 0;
+    font-weight: 700;
+    color: var(--nw-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.news-item p {
+.nw-card p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--nw-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ----- dòng chuyên mục + ngày ----- */
+.nw-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12.5px;
+}
+
+.nw-cat {
+    color: var(--nw-orange);
+    font-weight: 600;
+}
+
+.nw-date {
+    color: #888;
+}
+
+    .nw-date i {
+        margin-left: 4px;
+    }
+
+/* ----- cột thông báo ----- */
+.nw-notice-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 4px;
+    border-left: 1px solid var(--nw-line);
+}
+
+    .nw-notice-list li {
+        position: relative;
+        padding: 0 0 16px 20px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid var(--nw-line);
+    }
+
+        .nw-notice-list li:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .nw-notice-list li::before {
+            content: "";
+            position: absolute;
+            left: -9px;
+            top: 4px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--nw-orange);
+        }
+
+.nw-notice-date {
+    display: block;
+    margin-bottom: 4px;
     font-size: 13px;
-    color: #777;
+    font-weight: 700;
+    color: var(--nw-orange);
+}
+
+.nw-notice-list a {
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--nw-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ----- responsive ----- */
+@media (max-width: 992px) {
+    .nw-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nw-featured {
+        grid-template-columns: 1fr;
+    }
+
+    .nw-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .nw-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .nw-featured-body h3 {
+        font-size: 19px;
+    }
 }
 
 
+
+/* =========================
+   TRANG CHI TIẾT TIN
+========================= */
+.nd-page {
+    --nd-blue: #0b4a9e;
+    --nd-orange: #e67e22;
+    --nd-red: #c0392b;
+    --nd-text: #1c1c1c;
+    --nd-muted: #666;
+    --nd-line: #e3e8ef;
+    padding: 24px 0 56px;
+    background: #fff;
+}
+
+    .nd-page a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+/* ----- breadcrumb ----- */
+.nd-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--nd-muted);
+}
+
+    .nd-breadcrumb a {
+        color: var(--nd-blue);
+    }
+
+        .nd-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+.nd-bc-current {
+    color: var(--nd-muted);
+}
+
+/* ----- khung 2 cột ----- */
+.nd-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 40px;
+    align-items: start;
+}
+
+/* ----- bài viết ----- */
+.nd-title {
+    margin: 0 0 14px;
+    font-size: 28px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--nd-red);
+}
+
+.nd-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--nd-line);
+    font-size: 13px;
+    color: var(--nd-muted);
+    text-transform: capitalize;
+}
+
+.nd-meta-cat {
+    margin-left: 8px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #fdf1e6;
+    color: var(--nd-orange);
+    font-weight: 600;
+    text-transform: none;
+}
+
+.nd-summary {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 700;
+    color: var(--nd-text);
+    text-align: justify;
+}
+
+.nd-figure {
+    margin: 0 0 22px;
+    text-align: center;
+}
+
+    .nd-figure img {
+        max-width: 100%;
+        max-height: 520px; /* ảnh dọc không bị kéo dài cả màn hình */
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+.nd-content {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--nd-text);
+}
+
+    .nd-content p {
+        margin: 0 0 16px;
+        text-align: justify;
+    }
+
+    .nd-content img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 16px auto;
+    }
+
+    .nd-content a {
+        color: var(--nd-blue);
+        text-decoration: underline;
+    }
+
+/* ----- cột phải ----- */
+.nd-box {
+    margin-bottom: 32px;
+}
+
+.nd-box-title {
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--nd-blue);
+    border-bottom: 2px solid var(--nd-blue);
+}
+
+.nd-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .nd-list li {
+        position: relative;
+        padding: 0 0 14px 16px;
+        margin-bottom: 14px;
+        border-bottom: 1px solid var(--nd-line);
+    }
+
+        .nd-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--nd-orange);
+        }
+
+        .nd-list li > a {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 15px;
+            line-height: 1.45;
+            font-weight: 700;
+            color: var(--nd-text);
+        }
+
+            .nd-list li > a:hover {
+                color: var(--nd-blue);
+            }
+
+.nd-list-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: #888;
+}
+
+.nd-list-cat {
+    color: var(--nd-orange);
+    font-weight: 600;
+}
+
+.nd-more {
+    display: inline-block;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--nd-orange) !important;
+}
+
+    .nd-more:hover {
+        text-decoration: underline !important;
+    }
+
+/* ----- responsive ----- */
+@media (max-width: 992px) {
+    .nd-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+}
+
+@media (max-width: 560px) {
+    .nd-title {
+        font-size: 22px;
+    }
+}
 /* ========================================
    ADMISSION
 ======================================== */
@@ -927,5 +1281,88 @@ a {
 
     .about-badge {
         right: 10px;
+    }
+
+    .nd-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .nd-content figure {
+        margin: 20px auto;
+        text-align: center;
+    }
+
+        .nd-content figure img {
+            margin: 0 auto;
+        }
+
+    .nd-content figcaption {
+        margin-top: 6px;
+        font-size: 13px;
+        font-style: italic;
+        color: #666;
+    }
+
+    .nd-content table {
+        width: 100%;
+        margin: 16px 0;
+        border-collapse: collapse;
+    }
+
+        .nd-content table td,
+        .nd-content table th {
+            padding: 8px 10px;
+            border: 1px solid #d9dee7;
+        }
+
+    .nd-content h2,
+    .nd-content h3,
+    .nd-content h4 {
+        margin: 24px 0 12px;
+        line-height: 1.4;
+    }
+
+    .nd-content ul,
+    .nd-content ol {
+        padding-left: 24px;
+        margin: 0 0 16px;
+    }
+    .nd-content a[href*="/uploads/news/files/"] {
+        color: #0b66d4;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+        .nd-content a[href*="/uploads/news/files/"]::before {
+            content: "📎 ";
+            text-decoration: none;
+            display: inline-block;
+        }
+
+    /* =========================
+   BANNER NGANG
+========================= */
+    /*.banner-strip {
+        padding: 16px 0;
+        background: #fff;
+        overflow: hidden;*/ /* không cho ảnh tràn ra ngoài gây thanh cuộn ngang */
+    /*}
+
+        .banner-strip .container {
+            overflow: hidden;
+        }
+
+        .banner-strip img {
+            display: block !important;
+            width: 100% !important;*/ /* ngang bằng khung nội dung */
+            /*max-width: 100% !important;
+            height: 50px !important;*/ /* chiều cao dải ảnh, đổi số này nếu muốn */
+            /*object-fit: cover !important;*/ /* cắt gọn, không làm méo ảnh */
+            /*object-position: center !important;
+        }*/
+
+    .university-homepage .container {
+        max-width: 1272px;
     }
 }

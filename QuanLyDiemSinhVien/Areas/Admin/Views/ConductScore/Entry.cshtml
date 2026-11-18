@@ -1,0 +1,226 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.ConductEntryViewModel
+@{
+    ViewData["Title"] = "Nhập điểm rèn luyện theo lớp";
+}
+
+<style>
+    .cs-card { background:#fff; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.12); margin-bottom:16px; }
+    .cs-card-h { padding:14px 18px; border-bottom:1px solid #eee; font-weight:600; display:flex;
+                 justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+    .cs-card-b { padding:18px; }
+    .cs-filter { display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; }
+    .cs-filter label { display:block; font-size:13px; color:#666; margin-bottom:4px; }
+    .cs-filter select { min-width:200px; }
+
+    .cs-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:16px; }
+    .cs-stat { background:#fff; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.12); padding:14px 16px; border-left:4px solid #0d6efd; }
+    .cs-stat small { display:block; color:#777; }
+    .cs-stat b { font-size:26px; }
+    .cs-stat.ok { border-color:#198754; } .cs-stat.wait { border-color:#ffc107; } .cs-stat.avg { border-color:#6f42c1; }
+
+    .cs-tools { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px; color:#666; font-size:13px; }
+    .cs-tools input { width:80px; text-align:center; }
+
+    .cs-table { width:100%; border-collapse:collapse; }
+    .cs-table th { background:#f4f6f9; padding:10px 12px; text-align:left; font-size:13px; color:#555; }
+    .cs-table td { padding:8px 12px; border-top:1px solid #eee; vertical-align:middle; }
+    .cs-table tr:hover td { background:#fafcff; }
+    .cs-table tr.changed td { background:#fff8e1; }
+    .cs-score { width:90px; text-align:center; font-weight:700; font-size:16px; }
+    .cs-meta { font-size:12px; color:#888; line-height:1.4; }
+
+    .cs-rank { display:inline-block; min-width:92px; text-align:center; padding:3px 10px; border-radius:12px;
+               font-size:12px; font-weight:600; color:#fff; }
+    .cs-rank:empty { background:transparent; }
+    .r-xs { background:#198754; } .r-t { background:#0d6efd; } .r-k { background:#0aa2c0; }
+    .r-tb { background:#ffc107; color:#000; } .r-y { background:#fd7e14; } .r-km { background:#dc3545; }
+    .cs-dist .cs-rank { margin-left:6px; min-width:0; }
+
+    .cs-bar { position:sticky; bottom:0; background:#fff; padding:12px 18px; border-top:1px solid #eee;
+              display:flex; gap:10px; align-items:center; border-radius:0 0 10px 10px; z-index:5; }
+    .cs-alert { padding:12px 16px; border-radius:8px; margin-bottom:14px; }
+    .cs-alert.ok { background:#d1e7dd; color:#0f5132; } .cs-alert.err { background:#f8d7da; color:#842029; }
+</style>
+
+@if (TempData["Success"] != null)
+{
+    <div class="cs-alert ok">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="cs-alert err">@TempData["Error"]</div>
+}
+
+<div class="cs-card">
+    <div class="cs-card-h">Nhập điểm rèn luyện theo lớp hành chính</div>
+    <div class="cs-card-b">
+        <form method="get" class="cs-filter">
+            <div>
+                <label>Lớp hành chính</label>
+                <select name="classId" asp-items="(SelectList)ViewBag.Classes" class="form-control" required>
+                    <option value="">-- Chọn lớp --</option>
+                </select>
+            </div>
+            <div>
+                <label>Học kỳ</label>
+                <select name="semesterId" asp-items="(SelectList)ViewBag.Semesters" class="form-control" required>
+                    <option value="">-- Chọn học kỳ --</option>
+                </select>
+            </div>
+            <button class="btn btn-primary">Mở danh sách lớp</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Rows.Any())
+{
+    <div class="cs-stats">
+        <div class="cs-stat"><small>Sĩ số</small><b id="statTotal">0</b></div>
+        <div class="cs-stat ok"><small>Đã nhập</small><b id="statFilled">0</b></div>
+        <div class="cs-stat wait"><small>Chưa nhập</small><b id="statEmpty">0</b></div>
+        <div class="cs-stat avg"><small>Điểm trung bình lớp</small><b id="statAvg">-</b></div>
+    </div>
+
+    <div class="cs-card">
+        <div class="cs-card-h">
+            <span>Lớp <b>@Model.ClassName</b> &ndash; <b>@Model.SemesterName</b></span>
+            <span class="cs-dist" id="statDist"></span>
+        </div>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ClassId" />
+            <input type="hidden" asp-for="SemesterId" />
+
+            <div class="cs-card-b">
+                <div class="cs-tools">
+                    <span>Điền nhanh cho các ô còn trống:</span>
+                    <input type="number" id="fillValue" min="0" max="100" value="80" class="form-control form-control-sm" />
+                    <button type="button" id="btnFill" class="btn btn-sm btn-outline-secondary">Áp dụng</button>
+                    <span>&nbsp;|&nbsp; Enter: xuống dòng dưới &nbsp;|&nbsp; Dòng màu vàng: đã sửa, chưa lưu</span>
+                </div>
+
+                <div style="overflow-x:auto">
+                    <table class="cs-table">
+                        <thead>
+                            <tr>
+                                <th style="width:55px">STT</th>
+                                <th style="width:140px">Mã SV</th>
+                                <th>Họ và tên</th>
+                                <th style="width:120px">Điểm</th>
+                                <th style="width:130px">Xếp loại</th>
+                                <th style="width:200px">Nhập bởi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Rows.Count; i++)
+                            {
+                                var r = Model.Rows[i];
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td><b>@r.StudentCode</b><input type="hidden" asp-for="Rows[i].StudentId" /></td>
+                                    <td>@r.StudentName</td>
+                                    <td>
+                                        <input asp-for="Rows[i].Score" type="number" min="0" max="100"
+                                               class="form-control cs-score score-input" data-original="@r.Score" />
+                                    </td>
+                                    <td><span class="cs-rank rank-badge"></span></td>
+                                    <td class="cs-meta">
+                                        @if (r.UpdatedBy != null)
+                                        {
+                                            <span>@r.UpdatedBy<br />@r.UpdatedAt?.ToString("dd/MM/yyyy HH:mm")</span>
+                                        }
+                                        else
+                                        {
+
+                                            <span>&mdash;</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="cs-bar">
+                <button type="submit" class="btn btn-success">Lưu điểm cả lớp</button>
+                <a asp-action="Index" asp-route-classId="@Model.ClassId" asp-route-semesterId="@Model.SemesterId"
+                   class="btn btn-outline-secondary">Xem danh sách đã nhập</a>
+                <span class="cs-meta" id="dirtyNote"></span>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        (function () {
+          var RANKS = [[90, 'Xuất sắc', 'r-xs'], [80, 'Tốt', 'r-t'], [65, 'Khá', 'r-k'],
+                       [50, 'Trung bình', 'r-tb'], [35, 'Yếu', 'r-y'], [0, 'Kém', 'r-km']];
+          var inputs = Array.prototype.slice.call(document.querySelectorAll('.score-input'));
+          var dirty = false;
+
+          function rankOf(s) { return RANKS.find(function (r) { return s >= r[0]; }); }
+
+          function refresh() {
+            var filled = 0, sum = 0, dist = {}, changed = 0;
+            inputs.forEach(function (inp) {
+              var tr = inp.closest('tr');
+              var badge = tr.querySelector('.rank-badge');
+              var v = inp.value === '' ? null : parseInt(inp.value, 10);
+
+              if (v === null || isNaN(v) || v < 0 || v > 100) {
+                badge.className = 'cs-rank rank-badge'; badge.textContent = '';
+              } else {
+                var r = rankOf(v);
+                badge.className = 'cs-rank rank-badge ' + r[2]; badge.textContent = r[1];
+                filled++; sum += v; dist[r[1]] = (dist[r[1]] || 0) + 1;
+              }
+              var isChanged = (inp.value || '') !== (inp.getAttribute('data-original') || '');
+              tr.classList.toggle('changed', isChanged);
+              if (isChanged) changed++;
+            });
+
+            document.getElementById('statTotal').textContent = inputs.length;
+            document.getElementById('statFilled').textContent = filled;
+            document.getElementById('statEmpty').textContent = inputs.length - filled;
+            document.getElementById('statAvg').textContent = filled ? (sum / filled).toFixed(1) : '-';
+            document.getElementById('statDist').innerHTML = RANKS
+              .filter(function (r) { return dist[r[1]]; })
+              .map(function (r) { return '<span class="cs-rank ' + r[2] + '">' + r[1] + ': ' + dist[r[1]] + '</span>'; })
+              .join('');
+            document.getElementById('dirtyNote').textContent = changed ? ('Có ' + changed + ' dòng chưa lưu') : '';
+            dirty = changed > 0;
+          }
+
+          inputs.forEach(function (el, idx) {
+            el.addEventListener('input', refresh);
+            el.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter') {              // Enter = xuống ô điểm tiếp theo, không submit form
+                e.preventDefault();
+                var next = inputs[idx + 1] || el;
+                next.focus(); next.select();
+              }
+            });
+          });
+
+          document.getElementById('btnFill').addEventListener('click', function () {
+            var v = document.getElementById('fillValue').value;
+            if (v === '') return;
+            inputs.forEach(function (i) { if (i.value === '') i.value = v; });
+            refresh();
+          });
+
+          // cảnh báo khi rời trang mà chưa lưu
+          window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+          document.querySelector('form[method="post"]').addEventListener('submit', function () { dirty = false; });
+
+          refresh();
+          var firstEmpty = inputs.find(function (i) { return i.value === ''; });
+          (firstEmpty || inputs[0]).focus();
+        })();
+    </script>
+}
+else if (Model.ClassId.HasValue && Model.SemesterId.HasValue)
+{
+    <div class="cs-card"><div class="cs-card-b" style="color:#888">Lớp này chưa có sinh viên.</div></div>
+}

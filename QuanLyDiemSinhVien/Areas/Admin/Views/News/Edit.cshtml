@@ -1,0 +1,23 @@
+﻿@model QuanLyDiemSinhVien.Models.News
+@{
+    ViewData["Title"] = "Sửa tin tức";
+}
+
+<div class="card">
+    <div class="card-header"><h3 class="card-title">Sửa tin tức</h3></div>
+
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+        <div class="card-body">
+            <partial name="_NewsForm" model="Model" />
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a asp-action="Index" class="btn btn-default">Hủy</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_NewsEditorScripts" />
+}

@@ -810,8 +810,7 @@
                                 <!-- Điểm rèn luyện -->
                                 <li class="nav-item">
 
-                                    <a asp-controller="Attendance"
-                                       asp-action="Index"
+                                    <a asp-controller="ConductScore" asp-action="Entry"
                                        class="nav-link"
                                        style="color:black; padding-left:38px;">
 
@@ -819,18 +818,53 @@
                                            style="font-size:13px; width:20px;"></i>
 
                                         <p style="font-size:15px;">
-                                            Điểm rèn luyện
+                                            Nhập điểm rèn luyện
                                         </p>
 
                                     </a>
 
                                 </li>
 
+                                <!-- Điểm rèn luyện -->
+                                <li class="nav-item">
+
+                                    <a asp-controller="ConductScore" asp-action="Index"
+                                       class="nav-link"
+                                       style="color:black; padding-left:38px;">
+
+                                        <i class="fas fa-medal"
+                                           style="font-size:13px; width:20px;"></i>
+
+                                        <p style="font-size:15px;">
+                                            Danh sách điểm rèn luyện
+                                        </p>
+
+                                    </a>
+
+                                </li>
 
                             </ul>
 
                         </li>
+                        <!-- =====================================
+                             TIN TỨC
+                        ====================================== -->
+                        <li class="nav-item">
 
+                            <a asp-controller="News"
+                               asp-action="Index"
+                               class="nav-link"
+                               style="color:black;">
+
+                                <i class="nav-icon fas fa-newspaper fa-lg"></i>
+
+                                <p>
+                                    Quản lý tin tức
+                                </p>
+
+                            </a>
+
+                        </li>
                         <!-- =====================================
                              BÁO CÁO - THỐNG KÊ
                         ====================================== -->
@@ -961,9 +995,10 @@
                                 </li>
 
                             </ul>
-
                         </li>
 
+                        
+                            
                     </ul>
 
                 </nav>

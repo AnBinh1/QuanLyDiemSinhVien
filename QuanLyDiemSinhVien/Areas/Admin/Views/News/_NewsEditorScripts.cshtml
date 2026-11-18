@@ -1,0 +1,92 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    (function () {
+        var uploadImageUrl = '@Url.Action("UploadImage", "News", new { area = "Admin" })';
+        var uploadFileUrl  = '@Url.Action("UploadFile", "News", new { area = "Admin" })';
+
+        function getToken() {
+            var el = document.querySelector('input[name="__RequestVerificationToken"]');
+            return el ? el.value : '';
+        }
+
+        function postFile(url, file) {
+            var fd = new FormData();
+            fd.append('file', file);
+
+            return fetch(url, {
+                method: 'POST',
+                headers: { 'RequestVerificationToken': getToken() },
+                body: fd
+            }).then(function (res) {
+                if (res.ok) return res.json();
+                return res.json()
+                    .catch(function () { return {}; })
+                    .then(function (e) { throw (e.error || 'Upload thất bại (' + res.status + ')'); });
+            });
+        }
+
+        tinymce.init({
+            selector: 'textarea.js-editor',
+            license_key: 'gpl',
+            height: 650,
+            menubar: false,
+            branding: false,
+            promotion: false,
+            plugins: 'image link lists table code fullscreen',
+            toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright alignjustify | ' +
+                     'bullist numlist | link image table | removeformat code fullscreen',
+
+            // Ảnh: dán / kéo thả, tự upload lên server
+            automatic_uploads: true,
+            paste_data_images: true,
+            image_caption: true,
+            relative_urls: false,
+            remove_script_host: true,
+
+            // Liên kết: mở tab mới, cho chọn file từ máy
+            link_default_target: '_blank',
+            link_title: false,
+            link_assume_external_targets: true,
+            file_picker_types: 'file image',
+
+            file_picker_callback: function (callback, value, meta) {
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.accept = meta.filetype === 'image'
+                    ? '.jpg,.jpeg,.png,.webp,.gif'
+                    : '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip';
+
+                input.onchange = function () {
+                    var file = this.files && this.files[0];
+                    if (!file) return;
+
+                    var url = meta.filetype === 'image' ? uploadImageUrl : uploadFileUrl;
+
+                    postFile(url, file)
+                        .then(function (data) {
+                            if (meta.filetype === 'image') {
+                                callback(data.location, { alt: file.name });
+                            } else {
+                                callback(data.location, { text: file.name });
+                            }
+                        })
+                        .catch(function (err) {
+                            alert(typeof err === 'string' ? err : 'Upload thất bại');
+                        });
+                };
+
+                input.click();
+            },
+
+            content_style:
+                'body { font-family: Arial, sans-serif; font-size: 16px; line-height: 1.7; } ' +
+                'img { max-width: 100%; height: auto; }',
+
+            images_upload_handler: function (blobInfo) {
+                return postFile(uploadImageUrl, blobInfo.blob())
+                    .then(function (data) { return data.location; });
+            }
+        });
+    })();
+</script>
