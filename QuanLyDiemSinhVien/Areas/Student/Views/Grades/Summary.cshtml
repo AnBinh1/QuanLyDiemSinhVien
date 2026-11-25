@@ -1,0 +1,59 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.TranscriptSummaryViewModel
+@using System.Globalization
+@{
+    ViewData["Title"] = "Tra cứu bảng điểm";
+    var vi = new CultureInfo("vi-VN");
+    string F(double v) => v.ToString("0.##", vi); // 1,71 / 0 / 5,46
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 text-muted">Tra cứu bảng điểm</h4>
+    <div>
+        <a asp-action="Summary" class="btn btn-success">Tổng hợp</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Chi tiết</a>   @* SỬA: action hiện tại hiển thị điểm học phần *@
+    </div>
+</div>
+
+<div class="table-responsive bg-white border rounded">
+    <table class="table table-bordered table-striped text-center align-middle mb-0">
+        <thead class="font-weight-bold">
+            <tr>
+                <th rowspan="2" class="align-middle">STT</th>
+                <th rowspan="2" class="align-middle">Học Kỳ</th>
+                <th colspan="2">Điểm TBC</th>
+                <th colspan="2">Điểm TBC (Học kỳ)</th>
+                <th rowspan="2" class="align-middle">TC tích lũy</th>
+                <th rowspan="2" class="align-middle">TC nợ</th>
+                <th rowspan="2" class="align-middle">TC đăng ký</th>
+                <th rowspan="2" class="align-middle">Chưa tính</th>
+            </tr>
+            <tr>
+                <th>Hệ 4</th>
+                <th>Hệ 10</th>
+                <th>Hệ 4</th>
+                <th>Hệ 10</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Rows.Any())
+            {
+                <tr><td colspan="10" class="text-muted py-4">Chưa có dữ liệu điểm.</td></tr>
+            }
+            @foreach (var r in Model.Rows)
+            {
+                <tr>
+                    <td>@r.Index</td>
+                    <td>@r.SemesterName</td>
+                    <td>@F(r.CumGpa4)</td>
+                    <td>@F(r.CumGpa10)</td>
+                    <td>@F(r.SemGpa4)</td>
+                    <td>@F(r.SemGpa10)</td>
+                    <td>@r.AccumulatedCredits</td>
+                    <td>@r.DebtCredits</td>
+                    <td>@r.RegisteredCredits</td>
+                    <td>@(r.NotCountedCredits == 0 ? "" : r.NotCountedCredits.ToString())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

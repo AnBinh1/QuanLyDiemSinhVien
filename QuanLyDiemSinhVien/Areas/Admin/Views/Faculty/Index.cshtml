@@ -5,16 +5,40 @@
 }
 
 <div>
-    <div class="d-flex align-items-center justify-content-between" style="margin:0px 70px 15px 30px; padding-top:20px;">
-        <h3 class="mb-0">Quản lý khoa viện</h3>
-         
-        <form asp-action="Search" method="get" class="d-flex" style="max-width:400px;">
-            <input type="text" name="searchString" class="form-control me-2" placeholder="Tìm kiếm theo mã hoặc tên học phần" value="@ViewBag.SearchString" />
-            <button type="submit" class="btn btn-primary">Tìm</button>
-        </form>
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3 px-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+                <div class="d-flex align-items-center">
+                    <!-- ICON -->
+                    <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                         style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                        <i class="fas fa-university text-primary" style="font-size: 24px;"></i>
+                    </div>
+
+                    <!-- NỘI DUNG -->
+                    <h3 class="font-weight-bold text-dark mb-0" style="font-size: 22px;">
+                        Quản lý khoa viện
+                    </h3>
+                </div>
+
+                <!-- TÌM KIẾM -->
+                <form asp-action="Search" method="get" class="d-flex" style="min-width: 380px;">
+                    <input type="text" name="searchString" class="form-control mr-2"
+                           placeholder="Tìm theo mã hoặc tên khoa viện..."
+                           value="@ViewBag.SearchString" />
+                    <button type="submit" class="btn btn-primary text-nowrap">Tìm</button>
+                </form>
+
+            </div>
+        </div>
     </div>
-    <div style="margin-left:30px;padding-top:20px">
-        <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="Faculty">Thêm Khoa-viện</a>
+
+    <!-- NÚT THÊM -->
+    <div class="mb-3">
+        <a class="btn btn-success" asp-action="Create" asp-controller="Faculty">
+            <i class="fas fa-plus mr-1"></i> Thêm khoa viện
+        </a>
     </div>
     <div class="col-sm-12" style="margin-left:5px">
         <table class="table table-bordered table-hover" id="myTable">

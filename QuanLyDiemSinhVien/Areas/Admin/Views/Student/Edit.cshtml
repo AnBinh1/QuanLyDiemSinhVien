@@ -4,137 +4,190 @@
     ViewData["Title"] = "Cập nhật Sinh Viên";
 }
 
-<h3 style="padding:10px 0px 0px 10px">Cập nhật Sinh Viên</h3>
+<!-- TIÊU ĐỀ -->
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                 style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                <i class="fas fa-user-edit text-primary" style="font-size: 24px;"></i>
+            </div>
+            <h3 class="font-weight-bold text-dark mb-0" style="font-size: 22px;">
+                Cập nhật sinh viên
+            </h3>
+        </div>
+    </div>
+</div>
 
-<div class="col-md-11" style="margin-left:30px">
-    <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
+<!-- FORM -->
+<div class="card shadow-sm">
+    <div class="card-body px-4 py-4">
+        <p class="text-muted mb-4">
+            Các trường có dấu <span class="text-danger">*</span> là bắt buộc nhập (không được để trống).
+        </p>
 
-    <form asp-action="Edit" method="post" asp-controller="Student" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="StudentId" />
-        <div class="form-group">
-            <label asp-for="StudentCode">Mã sinh viên *</label>
-            <input asp-for="StudentCode" class="form-control" />
-            <span asp-validation-for="StudentCode" class="text-danger"></span>
-        </div>
+        <form asp-action="Edit" method="post" asp-controller="Student" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="StudentId" />
 
-        <div class="form-group">
-            <label asp-for="FullName">Họ và tên *</label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
-        </div>
+            <!-- THÔNG TIN CƠ BẢN -->
+            <h5 class="font-weight-bold text-primary border-bottom pb-2 mb-3">
+                <i class="fas fa-id-card mr-1"></i> Thông tin cơ bản
+            </h5>
 
-        <div class="form-group">
-            <label asp-for="Gender">Giới tính *</label>
-            <select asp-for="Gender" class="form-control">
-                <option value="">-- Chọn giới tính --</option>
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
-            </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="StudentCode">Mã sinh viên <span class="text-danger">*</span></label>
+                    <input asp-for="StudentCode" class="form-control" />
+                    <span asp-validation-for="StudentCode" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="FullName">Họ và tên <span class="text-danger">*</span></label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="DateOfBirth">Ngày sinh *</label>
-            <input asp-for="DateOfBirth" type="date" class="form-control" />
-            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Ethnicity">Dân tộc</label>
-            <input asp-for="Ethnicity" class="form-control" />
-            <span asp-validation-for="Ethnicity" class="text-danger"></span>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Gender">Giới tính <span class="text-danger">*</span></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="">-- Chọn giới tính --</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="DateOfBirth">Ngày sinh <span class="text-danger">*</span></label>
+                    <input asp-for="DateOfBirth" type="date" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Religion">Tôn giáo</label>
-            <input asp-for="Religion" class="form-control" />
-            <span asp-validation-for="Religion" class="text-danger"></span>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Ethnicity">Dân tộc</label>
+                    <input asp-for="Ethnicity" class="form-control" />
+                    <span asp-validation-for="Ethnicity" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Religion">Tôn giáo</label>
+                    <input asp-for="Religion" class="form-control" />
+                    <span asp-validation-for="Religion" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Nationality">Quốc tịch</label>
+                    <input asp-for="Nationality" class="form-control" />
+                    <span asp-validation-for="Nationality" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Nationality">Quốc tịch</label>
-            <input asp-for="Nationality" class="form-control" />
-            <span asp-validation-for="Nationality" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="IdentityNumber">Số CCCD/CMND</label>
+                <input asp-for="IdentityNumber" class="form-control" />
+                <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="IdentityNumber">Số CCCD/CMND</label>
-            <input asp-for="IdentityNumber" class="form-control" />
-            <span asp-validation-for="IdentityNumber" class="text-danger"></span>
-        </div>
+            <!-- LIÊN HỆ -->
+            <h5 class="font-weight-bold text-primary border-bottom pb-2 mb-3 mt-4">
+                <i class="fas fa-address-book mr-1"></i> Thông tin liên hệ
+            </h5>
 
-        <div class="form-group">
-            <label asp-for="Address">Địa chỉ *</label>
-            <input asp-for="Address" class="form-control" />
-            <span asp-validation-for="Address" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="Address">Địa chỉ <span class="text-danger">*</span></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="PhoneNumber">Số điện thoại *</label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="PhoneNumber">Số điện thoại <span class="text-danger">*</span></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Email">Email</label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+            <!-- HỌC TẬP -->
+            <h5 class="font-weight-bold text-primary border-bottom pb-2 mb-3 mt-4">
+                <i class="fas fa-graduation-cap mr-1"></i> Thông tin học tập
+            </h5>
 
-        <div class="form-group">
-            <label asp-for="YearOfStudy">Khoá đào tạo *</label>
-            <input asp-for="YearOfStudy" type="text" class="form-control" />
-            <span asp-validation-for="YearOfStudy" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="EnrollmentDate">Ngày nhập học *</label>
-            <input asp-for="EnrollmentDate" type="date" class="form-control" />
-            <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="FacultyId">Chọn Khoa/Viện *</label>
-            <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
-                <option value="">-- Chọn Khoa/Viện --</option>
-            </select>
-            <span asp-validation-for="Class.Major.Faculty.Id" class="text-danger"></span>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="YearOfStudy">Khoá đào tạo <span class="text-danger">*</span></label>
+                    <input asp-for="YearOfStudy" type="text" class="form-control" />
+                    <span asp-validation-for="YearOfStudy" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="EnrollmentDate">Ngày nhập học <span class="text-danger">*</span></label>
+                    <input asp-for="EnrollmentDate" type="date" class="form-control" />
+                    <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Ngành -->
-        <div class="form-group">
-            <label for="MajorId">Chọn Ngành Học *</label>
-            <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
-                <option value="">-- Chọn Ngành Học --</option>
-            </select>
-            <span asp-validation-for="Class.MajorId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="ClassId">Chọn Lớp *</label>
-            <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassList">
-                <option value="">-- Chọn lớp --</option>
-            </select>
-            <span asp-validation-for="ClassId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="UserId">Chọn tài khoản</label>
-            <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users">
-                <option value="">-- Chọn tài khoản --</option>
-            </select>
-            <span asp-validation-for="UserId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="IsActive">Trạng thái</label>
-            <select asp-for="IsActive" class="form-control">
-                <option value="true">Đang học</option>
-                <option value="false">Tạm nghỉ / Ra trường</option>
-            </select>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="FacultyId">Chọn khoa/viện <span class="text-danger">*</span></label>
+                    <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
+                        <option value="">-- Chọn khoa/viện --</option>
+                    </select>
+                    <span asp-validation-for="Class.Major.Faculty.Id" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="MajorId">Chọn ngành học <span class="text-danger">*</span></label>
+                    <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
+                        <option value="">-- Chọn ngành học --</option>
+                    </select>
+                    <span asp-validation-for="Class.MajorId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="ClassId">Chọn lớp <span class="text-danger">*</span></label>
+                    <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassList">
+                        <option value="">-- Chọn lớp --</option>
+                    </select>
+                    <span asp-validation-for="ClassId" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div class="form-group mt-3">
-            <button type="submit" class="btn btn-primary">Cập nhật Sinh Viên</button>
-            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-        </div>
-    </form>
+            <!-- TÀI KHOẢN -->
+            <h5 class="font-weight-bold text-primary border-bottom pb-2 mb-3 mt-4">
+                <i class="fas fa-user-cog mr-1"></i> Tài khoản và trạng thái
+            </h5>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="UserId">Chọn tài khoản</label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users">
+                        <option value="">-- Chọn tài khoản --</option>
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="IsActive">Trạng thái</label>
+                    <select asp-for="IsActive" class="form-control">
+                        <option value="true">Đang học</option>
+                        <option value="false">Tạm nghỉ / Ra trường</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save mr-1"></i> Cập nhật sinh viên
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
@@ -146,8 +199,8 @@
             var majorSelect = $('#MajorId');
             var classSelect = $('#ClassId');
 
-            majorSelect.empty().append('<option value="">-- Chọn Ngành Học --</option>');
-            classSelect.empty().append('<option value="">-- Chọn Lớp --</option>');
+            majorSelect.empty().append('<option value="">-- Chọn ngành học --</option>');
+            classSelect.empty().append('<option value="">-- Chọn lớp --</option>');
 
             if (facultyId) {
                 $.getJSON('/Admin/Student/GetMajorsByFaculty?facultyId=' + facultyId, function (data) {
@@ -163,7 +216,7 @@
             var majorId = $(this).val();
             var classSelect = $('#ClassId');
 
-            classSelect.empty().append('<option value="">-- Chọn Lớp --</option>');
+            classSelect.empty().append('<option value="">-- Chọn lớp --</option>');
             if (majorId) {
                 $.getJSON('/Admin/Student/GetClassesByMajor?majorId=' + majorId, function (data) {
                     $.each(data, function (i, item) {

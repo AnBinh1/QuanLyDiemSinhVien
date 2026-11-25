@@ -1,628 +1,362 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model QuanLyDiemSinhVien.Models.LecturerDashboardViewModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Tổng quan";
+    var today = DateTime.Today;
+    var vi = new CultureInfo("vi-VN");
 }
 
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+<!-- ========== TỔNG QUAN + HỒ SƠ CÁ NHÂN ========== -->
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+            <div class="d-flex align-items-center">
+                @if (!string.IsNullOrEmpty(Model.AvatarUrl))
+                {
+                    <img src="@Model.AvatarUrl" alt="Avatar" class="rounded-circle mr-3"
+                         style="width: 64px; height: 64px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="d-flex align-items-center justify-content-center rounded-circle mr-3"
+                         style="width: 64px; height: 64px; background-color: #e8f1ff; flex-shrink: 0;">
+                        <i class="fas fa-user text-primary" style="font-size: 28px;"></i>
+                    </div>
+                }
+                <div>
+                    <h3 class="font-weight-bold text-dark mb-1" style="font-size: 22px;">
+                        Xin chào, @Model.FullName
+                    </h3>
+                    <p class="text-muted mb-0" style="font-size: 14px;">
+                        @Model.Position · Mã GV: @Model.LecturerCode · @Model.FacultyName
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-right mt-2 mt-md-0">
+                <div class="text-muted mb-2">
+                    <i class="far fa-calendar-alt mr-1"></i>
+                    @DateTime.Now.ToString("dddd, dd/MM/yyyy", vi)
+                </div>
+                <a asp-controller="Profile" asp-action="Index" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-user mr-1"></i> Hồ sơ cá nhân
+                </a>
+            </div>
+
+        </div>
+    </div>
 </div>
-<!-- /.content-header -->
-<!-- Main content -->
-<section class="content">
-    <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3 style="padding-left:80px;color:red">@ViewBag.TotalStudents</h3>
 
-                        <p style="padding-left:50px">Tổng số Sinh viên</p>
-                    </div>
-
-                </div>
+<!-- ========== THỐNG KÊ NHANH ========== -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.Sections.Count</h3>
+                <p>Lớp học phần phụ trách</p>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalLecturers</h3>
-
-                        <p style="padding-left:50px">Tổng số Giảng viên</p>
-                    </div>
-                    
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalFaculties </h3>
-
-                        <p style="padding-left:50px">Tổng số Khoa-viện</p>
-                    </div>
- 
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3 style="padding-left:90px;color:red">@ViewBag.TotalMajors </h3>
-
-                        <p style="padding-left:50px">Tổng số Ngành học</p>
-                    </div>
-                   
-                </div>
-            </div>
-            <!-- ./col -->
+            <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-chart-pie mr-1"></i>
-                            Thống kê sinh viên
-                        </h3>
-                        <div class="card-tools">
-                            <ul class="nav nav-pills ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Theo khoa</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#sales-chart" data-toggle="tab">Giới tính</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="tab-content p-0">
-
-                            <!-- Biểu đồ sinh viên theo khoa -->
-                            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-                                <canvas id="revenue-chart-canvas" height="300"></canvas>
-                            </div>
-
-                            <!-- Biểu đồ giới tính -->
-                            <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                                <canvas id="sales-chart-canvas" height="300"></canvas>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- /.card -->
-                <!-- DIRECT CHAT -->
-                <div class="card direct-chat direct-chat-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Direct Chat</h3>
-
-                        <div class="card-tools">
-                            <span title="3 New Messages" class="badge badge-primary">3</span>
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                <i class="fas fa-comments"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages">
-                            <!-- Message. Default to the left -->
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    Is this template really for free? That's unbelievable!
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message to the right -->
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    You better believe it!
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message. Default to the left -->
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    Working with AdminLTE on a great new app! Wanna join?
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-                            <!-- Message to the right -->
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                                </div>
-                                <!-- /.direct-chat-infos -->
-                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-                                <!-- /.direct-chat-img -->
-                                <div class="direct-chat-text">
-                                    I would love to.
-                                </div>
-                                <!-- /.direct-chat-text -->
-                            </div>
-                            <!-- /.direct-chat-msg -->
-
-                        </div>
-                        <!--/.direct-chat-messages-->
-                        <!-- Contacts are loaded here -->
-                        <div class="direct-chat-contacts">
-                            <ul class="contacts-list">
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user1-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Count Dracula
-                                                <small class="contacts-list-date float-right">2/28/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">How have you been? I was...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user7-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Sarah Doe
-                                                <small class="contacts-list-date float-right">2/23/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I will be waiting for...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user3-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nadia Jolie
-                                                <small class="contacts-list-date float-right">2/20/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I'll call you back at...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user5-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nora S. Vans
-                                                <small class="contacts-list-date float-right">2/10/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Where is your new...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user6-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                John K.
-                                                <small class="contacts-list-date float-right">1/27/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Can I take a look at...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="dist/img/user8-128x128.jpg" alt="User Avatar">
-
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Kenneth M.
-                                                <small class="contacts-list-date float-right">1/4/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Never mind I found...</span>
-                                        </div>
-                                        <!-- /.contacts-list-info -->
-                                    </a>
-                                </li>
-                                <!-- End Contact Item -->
-                            </ul>
-                            <!-- /.contacts-list -->
-                        </div>
-                        <!-- /.direct-chat-pane -->
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <form action="#" method="post">
-                            <div class="input-group">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                                <span class="input-group-append">
-                                    <button type="button" class="btn btn-primary">Send</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.card-footer-->
-                </div>
-                <!--/.direct-chat -->
-                <!-- TO DO List -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="ion ion-clipboard mr-1"></i>
-                            To Do List
-                        </h3>
-
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm">
-                                <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <ul class="todo-list" data-widget="todo-list">
-                            <li>
-                                <!-- drag handle -->
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <!-- checkbox -->
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                    <label for="todoCheck1"></label>
-                                </div>
-                                <!-- todo text -->
-                                <span class="text">Design a nice theme</span>
-                                <!-- Emphasis label -->
-                                <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
-                                <!-- General tools such as edit or delete-->
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                                    <label for="todoCheck2"></label>
-                                </div>
-                                <span class="text">Make the theme responsive</span>
-                                <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                                    <label for="todoCheck3"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                                    <label for="todoCheck4"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo5" id="todoCheck5">
-                                    <label for="todoCheck5"></label>
-                                </div>
-                                <span class="text">Check your messages and notifications</span>
-                                <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="handle">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </span>
-                                <div class="icheck-primary d-inline ml-2">
-                                    <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                                    <label for="todoCheck6"></label>
-                                </div>
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
-                                <div class="tools">
-                                    <i class="fas fa-edit"></i>
-                                    <i class="fas fa-trash-o"></i>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                        <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
-                    </div>
-                </div>
-                <!-- /.card -->
-            </section>
-            <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-                <!-- Map card -->
-                <div class="card bg-gradient-primary">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            Visitors
-                        </h3>
-                        <!-- card tools -->
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
-                                <i class="far fa-calendar-alt"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                        <!-- /.card-tools -->
-                    </div>
-                    <div class="card-body">
-                        <div id="world-map" style="height: 250px; width: 100%;"></div>
-                    </div>
-                    <!-- /.card-body-->
-                    <div class="card-footer bg-transparent">
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <div id="sparkline-1"></div>
-                                <div class="text-white">Visitors</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <div id="sparkline-2"></div>
-                                <div class="text-white">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <div id="sparkline-3"></div>
-                                <div class="text-white">Sales</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                </div>
-                <!-- /.card -->
-                <!-- solid sales graph -->
-                <div class="card bg-gradient-info">
-                    <div class="card-header border-0">
-                        <h3 class="card-title">
-                            <i class="fas fa-th mr-1"></i>
-                            Sales Graph
-                        </h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer bg-transparent">
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="text-white">Mail-Orders</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="text-white">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="text-white">In-Store</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-                <!-- /.card -->
-                <!-- Calendar -->
-                <div class="card bg-gradient-success">
-                    <div class="card-header border-0">
-
-                        <h3 class="card-title">
-                            <i class="far fa-calendar-alt"></i>
-                            Calendar
-                        </h3>
-                        <!-- tools card -->
-                        <div class="card-tools">
-                            <!-- button with a dropdown -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                                    <i class="fas fa-bars"></i>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                    <a href="#" class="dropdown-item">Add new event</a>
-                                    <a href="#" class="dropdown-item">Clear events</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">View calendar</a>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <!-- /. tools -->
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body pt-0">
-                        <!--The calendar -->
-                        <div id="calendar" style="width: 100%"></div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </section>
-            <!-- right col -->
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.TodaySchedule.Count</h3>
+                <p>Buổi dạy hôm nay</p>
+            </div>
+            <div class="icon"><i class="fas fa-calendar-day"></i></div>
         </div>
-        <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@Model.SectionsPendingGrade</h3>
+                <p>Lớp chưa nhập xong điểm</p>
+            </div>
+            <div class="icon"><i class="fas fa-star"></i></div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.SessionsNotTaken</h3>
+                <p>Buổi chưa điểm danh</p>
+            </div>
+            <div class="icon"><i class="fas fa-clipboard-check"></i></div>
+        </div>
+    </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="row">
 
-<script>
-    // Dữ liệu từ controller
-    var facultyLabels = @Html.Raw(Json.Serialize(ViewBag.FacultyLabels));
-    var facultyCounts = @Html.Raw(Json.Serialize(ViewBag.FacultyCounts));
+    <!-- ================= CỘT TRÁI ================= -->
+    <div class="col-lg-8">
 
-    var genderLabels = @Html.Raw(Json.Serialize(ViewBag.GenderLabels));
-    var genderCounts = @Html.Raw(Json.Serialize(ViewBag.GenderCounts));
+        <!-- GIẢNG DẠY: LỊCH HÔM NAY -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex align-items-center justify-content-between py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-calendar-day text-primary mr-2"></i> Lịch giảng dạy hôm nay
+                </h5>
+                <a asp-area="Lecturer" asp-controller="Teaching" asp-action="Classes" class="btn btn-sm btn-outline-primary">
+                    Xem tất cả lớp <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            <div class="card-body px-4 py-3">
+                @if (!Model.TodaySchedule.Any())
+                {
+                    <div class="text-center text-muted py-4">
+                        <i class="far fa-smile fa-2x mb-2"></i>
+                        <div>Hôm nay bạn không có lịch giảng dạy.</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Tiết học</th>
+                                    <th>Lớp học phần</th>
+                                    <th>Phòng</th>
+                                    <th class="text-center">Sĩ số</th>
+                                    <th class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var s in Model.TodaySchedule.OrderBy(x => x.StartPeriod))
+                                {
+                                    <tr>
+                                        <td class="align-middle text-nowrap">
+                                            <strong>Tiết @s.StartPeriod - @s.EndPeriod</strong>
+                                        </td>
+                                        <td class="align-middle">
+                                            <strong>@s.SectionCode</strong><br />
+                                            <small class="text-muted">@s.CourseName</small>
+                                        </td>
+                                        <td class="align-middle">@s.Room</td>
+                                        <td class="align-middle text-center">@s.StudentCount</td>
+                                        <td class="align-middle text-center text-nowrap">
+                                            <a asp-controller="Attendance" asp-action="Create" asp-route-sectionId="@s.SectionId"
+                                               class="btn btn-sm btn-success">
+                                                <i class="fas fa-clipboard-check mr-1"></i> Điểm danh
+                                            </a>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
 
-    // Biểu đồ AREA / BAR theo khoa
-    new Chart(document.getElementById('revenue-chart-canvas'), {
-        type: 'bar',
-        data: {
-            labels: facultyLabels,
-            datasets: [{
-                label: 'Số lượng sinh viên',
-                data: facultyCounts
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+        <!-- CÔNG VIỆC: SẮP HẠN / QUÁ HẠN -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm card-outline card-warning">
+                    <div class="card-header bg-white py-3 px-4">
+                        <h5 class="font-weight-bold text-dark mb-0">
+                            <i class="fas fa-hourglass-half text-warning mr-2"></i> Sắp đến hạn
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (!Model.UpcomingTasks.Any())
+                        {
+                            <div class="text-center text-muted py-4">Không có công việc sắp đến hạn.</div>
+                        }
+                        else
+                        {
+                            <ul class="list-group list-group-flush">
+                                @foreach (var t in Model.UpcomingTasks.OrderBy(x => x.DueDate))
+                                {
+                                    var daysLeft = (t.DueDate.Date - today).Days;
+                                    <li class="list-group-item px-4">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <div class="font-weight-bold">
+                                                    <i class="fas @(t.Type == "Attendance" ? "fa-clipboard-check" : "fa-star") text-muted mr-1"></i>
+                                                    @t.Title
+                                                </div>
+                                                <small class="text-muted">@t.SectionCode · Hạn: @t.DueDate.ToString("dd/MM/yyyy")</small>
+                                            </div>
+                                            <span class="badge @(daysLeft <= 2 ? "badge-danger" : "badge-warning") ml-2 text-nowrap">
+                                                @(daysLeft == 0 ? "Hôm nay" : $"Còn {daysLeft} ngày")
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
 
-    // Biểu đồ Donut giới tính
-    new Chart(document.getElementById('sales-chart-canvas'), {
-        type: 'doughnut',
-        data: {
-            labels: genderLabels,
-            datasets: [{
-                data: genderCounts
-            }]
-        },
-        options: { responsive: true }
-    });
-</script>
+            <div class="col-md-6">
+                <div class="card shadow-sm card-outline card-danger">
+                    <div class="card-header bg-white py-3 px-4">
+                        <h5 class="font-weight-bold text-dark mb-0">
+                            <i class="fas fa-exclamation-triangle text-danger mr-2"></i> Đã quá hạn
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (!Model.OverdueTasks.Any())
+                        {
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-check-circle text-success mr-1"></i> Bạn không có công việc quá hạn.
+                            </div>
+                        }
+                        else
+                        {
+                            <ul class="list-group list-group-flush">
+                                @foreach (var t in Model.OverdueTasks.OrderBy(x => x.DueDate))
+                                {
+                                    var daysLate = (today - t.DueDate.Date).Days;
+                                    <li class="list-group-item px-4">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <div class="font-weight-bold">
+                                                    <i class="fas @(t.Type == "Attendance" ? "fa-clipboard-check" : "fa-star") text-muted mr-1"></i>
+                                                    @t.Title
+                                                </div>
+                                                <small class="text-muted">@t.SectionCode · Hạn: @t.DueDate.ToString("dd/MM/yyyy")</small>
+                                            </div>
+                                            <span class="badge badge-danger ml-2 text-nowrap">Trễ @daysLate ngày</span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ĐIỂM DANH GẦN ĐÂY -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white d-flex align-items-center justify-content-between py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-clipboard-check text-success mr-2"></i> Điểm danh gần đây
+                </h5>
+                <a asp-controller="Attendance" asp-action="Index" class="btn btn-sm btn-outline-success">
+                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            <div class="card-body px-4 py-3">
+                @if (!Model.RecentAttendances.Any())
+                {
+                    <div class="text-center text-muted py-3">Chưa có buổi điểm danh nào.</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Lớp học phần</th>
+                                    <th class="text-center">Buổi</th>
+                                    <th>Ngày</th>
+                                    <th style="min-width: 160px;">Có mặt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in Model.RecentAttendances.OrderByDescending(x => x.Date))
+                                {
+                                    var rate = a.Total == 0 ? 0 : (int)Math.Round(a.Present * 100.0 / a.Total);
+                                    <tr>
+                                        <td class="align-middle"><strong>@a.SectionCode</strong></td>
+                                        <td class="align-middle text-center">@a.SessionNumber</td>
+                                        <td class="align-middle">@a.Date.ToString("dd/MM/yyyy")</td>
+                                        <td class="align-middle">
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar @(rate >= 80 ? "bg-success" : "bg-warning")" style="width: @rate%"></div>
+                                            </div>
+                                            <small class="text-muted">@a.Present/@a.Total (@rate%)</small>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CỘT PHẢI ================= -->
+    <div class="col-lg-4">
+
+        <!-- LỐI TẮT THEO MENU -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-bolt text-primary mr-2"></i> Chức năng nhanh
+                </h5>
+            </div>
+            <div class="card-body px-4 py-3">
+                <a asp-controller="Profile" asp-action="Index" class="btn btn-outline-secondary btn-block text-left">
+                    <i class="fas fa-user mr-2"></i> Hồ sơ cá nhân
+                </a>
+                <a asp-area="Lecturer" asp-controller="Teaching" asp-action="Classes" class="btn btn-outline-info btn-block text-left">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i> Giảng dạy
+                </a>
+                <a asp-area="Lecturer" asp-controller="StudentGrade" asp-action="Sections" class="btn btn-outline-primary btn-block text-left">
+                    <i class="fas fa-star mr-2"></i> Điểm số
+                </a>
+                <a asp-controller="Attendance" asp-action="Index" class="btn btn-outline-success btn-block text-left">
+                    <i class="fas fa-clipboard-check mr-2"></i> Điểm danh
+                </a>
+            </div>
+        </div>
+
+        <!-- ĐIỂM SỐ: TIẾN ĐỘ NHẬP ĐIỂM -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-tasks text-primary mr-2"></i> Tiến độ nhập điểm
+                </h5>
+            </div>
+            <div class="card-body px-4 py-3">
+                @if (!Model.Sections.Any())
+                {
+                    <div class="text-center text-muted">Bạn chưa được phân công lớp học phần nào.</div>
+                }
+                else
+                {
+                    foreach (var sec in Model.Sections)
+                    {
+                        var percent = sec.TotalStudents == 0 ? 0 : (int)Math.Round(sec.GradedStudents * 100.0 / sec.TotalStudents);
+                        var barClass = percent >= 100 ? "bg-success" : (percent >= 50 ? "bg-primary" : "bg-warning");
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>@sec.SectionCode</strong>
+                                    <small class="text-muted d-block">@sec.CourseName</small>
+                                </div>
+                                <div class="text-right">
+                                    @if (sec.IsGradeLocked)
+                                    {
+                                        <span class="badge badge-danger"><i class="fas fa-lock mr-1"></i> Đã khóa</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success"><i class="fas fa-unlock mr-1"></i> Chưa khóa</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="progress mt-1" style="height: 8px;">
+                                <div class="progress-bar @barClass" style="width: @percent%"></div>
+                            </div>
+                            <small class="text-muted">@sec.GradedStudents/@sec.TotalStudents sinh viên đã có điểm (@percent%)</small>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

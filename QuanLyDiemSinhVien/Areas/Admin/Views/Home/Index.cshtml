@@ -1,437 +1,264 @@
 ﻿@model QuanLyDiemSinhVien.ViewModels.AdminDashboardViewModel
+@using System.Globalization
+@using System.Text.Json
 
 @{
     ViewData["Title"] = "Tổng quan";
+    var vi = new CultureInfo("vi-VN");
 }
 
-<!-- Tiêu đề trang -->
-<section class="content-header">
-    <div class="container-fluid">
-        <h1 class="font-weight-bold">
-            Tổng quan hệ thống
-        </h1>
-        <p class="text-muted">
-            Theo dõi tình hình quản lý và đào tạo
-        </p>
-    </div>
-</section>
-
-<section class="content">
-    <div class="container-fluid">
-
-        <!-- 1. LỜI CHÀO ADMIN -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-body">
-                <h3 class="font-weight-bold text-primary">
-                    Xin chào, @Model.AdminName!
-                    <i class="fas fa-hand-sparkles"></i>
-                </h3>
-                <p class="text-muted mb-0">
-                    Chào mừng bạn đến với Hệ thống quản lý điểm sinh viên.
-                    Hôm nay là ngày
-                    <strong>@Model.Today.ToString("dd/MM/yyyy")</strong>.
-                </p>
-            </div>
-        </div>
-
-        <!-- 2. THỐNG KÊ TỔNG QUAN -->
-        <div class="row">
-
-            <!-- Sinh viên -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>@Model.TotalStudents</h3>
-                        <p>Tổng số sinh viên</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
+<!-- ========== LỜI CHÀO ========== -->
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                     style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                    <i class="fas fa-tachometer-alt text-primary" style="font-size: 24px;"></i>
                 </div>
-            </div>
-
-            <!-- Giảng viên -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>@Model.TotalLecturers</h3>
-                        <p>Tổng số giảng viên</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lớp học phần -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>@Model.TotalCourseSections</h3>
-                        <p>Tổng số lớp học phần</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Khoa -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>@Model.TotalFaculties</h3>
-                        <p>Tổng số khoa - viện</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-university"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ngành -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-primary">
-                    <div class="inner">
-                        <h3>@Model.TotalMajors</h3>
-                        <p>Tổng số ngành học</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lượt đăng ký -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="small-box bg-secondary">
-                    <div class="inner">
-                        <h3>@Model.TotalEnrollments</h3>
-                        <p>Tổng lượt đăng ký học phần</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- 3. CÔNG VIỆC CẦN XỬ LÝ -->
-        <div class="card card-outline card-danger shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold">
-                    <i class="fas fa-exclamation-triangle text-danger mr-2"></i>
-                    Công việc cần xử lý
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="info-box bg-light">
-                            <span class="info-box-icon bg-danger">
-                                <i class="fas fa-file-excel"></i>
-                            </span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">
-                                    Lớp còn thiếu điểm
-                                </span>
-                                <span class="info-box-number">
-                                    @Model.IncompleteGradeSections.Count lớp
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @if (Model.IncompleteGradeSections.Any())
-                {
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã lớp học phần</th>
-                                    <th>Học kỳ</th>
-                                    <th>Số sinh viên đăng ký</th>
-                                    <th>Số sinh viên thiếu điểm</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int index = 1;
-                                }
-
-                                @foreach (var item in Model.IncompleteGradeSections)
-                                {
-                                    <tr>
-                                        <td>@index</td>
-                                        <td>
-                                            <strong>@item.SectionCode</strong>
-                                        </td>
-                                        <td>
-                                            @item.Semester - @item.AcademicYear
-                                        </td>
-                                        <td>@item.EnrolledCount</td>
-                                        <td>
-                                            <span class="badge badge-danger">
-                                                @item.MissingCount sinh viên
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if (item.IsGradeLocked)
-                                            {
-                                                <span class="badge badge-secondary">
-                                                    Đã khóa điểm
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-warning">
-                                                    Cần kiểm tra
-                                                </span>
-                                            }
-                                        </td>
-                                    </tr>
-                                    index++;
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <div class="alert alert-success mb-0">
-                        <i class="fas fa-check-circle mr-2"></i>
-                        Hiện tại tất cả lớp học phần đã có đủ bản ghi điểm.
-                    </div>
-                }
-
-            </div>
-        </div>
-
-        <!-- 4. CÁC MỐC THỜI GIAN CẦN CHÚ Ý -->
-        <div class="card card-outline card-warning shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold">
-                    <i class="fas fa-calendar-alt text-warning mr-2"></i>
-                    Các mốc thời gian cần chú ý
-                </h3>
-            </div>
-
-            <div class="card-body">
-
-                @if (Model.UpcomingSections.Any())
-                {
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Lớp học phần</th>
-                                    <th>Ngày kết thúc</th>
-                                    <th>Điểm còn thiếu</th>
-                                    <th>Trạng thái thời gian</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int deadlineIndex = 1;
-                                }
-
-                                @foreach (var item in Model.UpcomingSections)
-                                {
-                                    var days = (item.EndDate.Date - Model.Today.Date).Days;
-
-                                    <tr>
-                                        <td>@deadlineIndex</td>
-                                        <td>
-                                            <strong>@item.SectionCode</strong>
-                                        </td>
-                                        <td>
-                                            @item.EndDate.ToString("dd/MM/yyyy")
-                                        </td>
-                                        <td>
-                                            @if (item.MissingCount > 0)
-                                            {
-                                                <span class="text-danger font-weight-bold">
-                                                    @item.MissingCount sinh viên
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-success">
-                                                    Đã đủ điểm
-                                                </span>
-                                            }
-                                        </td>
-                                        <td>
-                                            @if (days < 0)
-                                            {
-                                                <span class="badge badge-danger">
-                                                    Đã kết thúc @Math.Abs(days) ngày
-                                                </span>
-                                            }
-                                            else if (days == 0)
-                                            {
-                                                <span class="badge badge-warning">
-                                                    Kết thúc hôm nay
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge badge-info">
-                                                    Còn @days ngày
-                                                </span>
-                                            }
-                                        </td>
-                                    </tr>
-
-                                    deadlineIndex++;
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <p class="text-muted mb-0">
-                        Không có lớp học phần nào có ngày kết thúc
-                        trong khoảng thời gian theo dõi.
+                <div>
+                    <h3 class="font-weight-bold text-dark mb-1" style="font-size: 22px;">
+                        Xin chào, @Model.AdminName
+                    </h3>
+                    <p class="text-muted mb-0" style="font-size: 14px;">
+                        Tổng quan hoạt động của hệ thống quản lý điểm sinh viên.
                     </p>
+                </div>
+            </div>
+            <div class="text-muted mt-2 mt-md-0">
+                <i class="far fa-calendar-alt mr-1"></i>
+                @DateTime.Now.ToString("dddd, dd/MM/yyyy", vi)
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== THỐNG KÊ THEO MENU ========== -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@Model.TotalStudents</h3>
+                <p>Sinh viên (@Model.ActiveStudents đang học)</p>
+            </div>
+            <div class="icon"><i class="fas fa-user-graduate"></i></div>
+            <a asp-area="Admin" asp-controller="Student" asp-action="Index" class="small-box-footer">
+                Quản lý sinh viên <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.TotalLecturers</h3>
+                <p>Giảng viên (@Model.ActiveLecturers đang công tác)</p>
+            </div>
+            <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
+            <a asp-area="Admin" asp-controller="Lecturer" asp-action="Index" class="small-box-footer">
+                Quản lý giảng viên <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@Model.TotalFaculties</h3>
+                <p>Khoa-viện · @Model.TotalMajors ngành · @Model.TotalClasses lớp</p>
+            </div>
+            <div class="icon"><i class="fas fa-university"></i></div>
+            <a asp-area="Admin" asp-controller="Faculty" asp-action="Index" class="small-box-footer">
+                Quản lý đào tạo <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@Model.TotalSections</h3>
+                <p>Lớp học phần · @Model.TotalCourses học phần</p>
+            </div>
+            <div class="icon"><i class="fas fa-book-open"></i></div>
+            <a asp-area="Admin" asp-controller="CourseSection" asp-action="Index" class="small-box-footer">
+                Quản lý học tập <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- ================= CỘT TRÁI ================= -->
+    <div class="col-lg-8">
+
+        <!-- VIỆC CẦN XỬ LÝ -->
+        <div class="card shadow-sm card-outline card-warning">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-bell text-warning mr-2"></i> Việc cần xử lý
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                @if (!Model.Todos.Any())
+                {
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-check-circle text-success mr-1"></i> Không có việc cần xử lý.
+                    </div>
                 }
-
-                <small class="text-muted">
-                    * Thông tin được lấy từ ngày kết thúc lớp học phần,
-                    không phải hạn nộp điểm chính thức.
-                </small>
-
+                else
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var t in Model.Todos)
+                        {
+                            <li class="list-group-item px-4">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center justify-content-center rounded mr-3 bg-@t.Color"
+                                             style="width: 40px; height: 40px; flex-shrink: 0;">
+                                            <i class="fas @t.Icon text-white"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-weight-bold">@t.Title</div>
+                                            <small class="text-muted">@t.Description</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-nowrap ml-2">
+                                        <span class="badge badge-@t.Color mr-2" style="font-size: 14px;">@t.Count</span>
+                                        <a asp-area="Admin" asp-controller="@t.Controller" asp-action="@t.Action"
+                                           class="btn btn-sm btn-outline-primary">Xử lý</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
             </div>
         </div>
 
-        <!-- 5. BIỂU ĐỒ THỐNG KÊ -->
-        <div class="row">
-
-            <!-- Sinh viên theo khoa -->
-            <div class="col-lg-7">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h3 class="card-title font-weight-bold">
-                            <i class="fas fa-chart-bar mr-2 text-primary"></i>
-                            Thống kê sinh viên theo khoa
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div style="height:320px">
-                            <canvas id="facultyChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+        <!-- BIỂU ĐỒ SINH VIÊN THEO KHOA-VIỆN -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-chart-bar text-primary mr-2"></i> Sinh viên theo khoa-viện
+                </h5>
             </div>
-
-            <!-- Sinh viên theo giới tính -->
-            <div class="col-lg-5">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h3 class="card-title font-weight-bold">
-                            <i class="fas fa-chart-pie mr-2 text-success"></i>
-                            Thống kê sinh viên theo giới tính
-                        </h3>
+            <div class="card-body px-4 py-3">
+                @if (!Model.StudentsByFaculty.Any())
+                {
+                    <div class="text-center text-muted py-4">Chưa có dữ liệu sinh viên.</div>
+                }
+                else
+                {
+                    <div style="position: relative; height: 280px;">
+                        <canvas id="facultyChart"></canvas>
                     </div>
-                    <div class="card-body">
-                        <div style="height:320px">
-                            <canvas id="genderChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
-
         </div>
 
     </div>
-</section>
+    <!-- ================= HẾT CỘT TRÁI ================= -->
+    <!-- ================= CỘT PHẢI ================= -->
+    <div class="col-lg-4">
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- CHỨC NĂNG NHANH THEO MENU -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-bolt text-primary mr-2"></i> Chức năng nhanh
+                </h5>
+            </div>
+            <div class="card-body px-4 py-3">
+                <a asp-area="Admin" asp-controller="User" asp-action="Index" class="btn btn-outline-secondary btn-block text-left">
+                    <i class="fas fa-users-cog mr-2"></i> Quản lý tài khoản
+                    <span class="badge badge-secondary float-right mt-1">@Model.TotalUsers</span>
+                </a>
+                <a asp-area="Admin" asp-controller="Faculty" asp-action="Index" class="btn btn-outline-warning btn-block text-left">
+                    <i class="fas fa-university mr-2"></i> Quản lý đào tạo
+                </a>
+                <a asp-area="Admin" asp-controller="Student" asp-action="Index" class="btn btn-outline-info btn-block text-left">
+                    <i class="fas fa-user-graduate mr-2"></i> Quản lý sinh viên
+                </a>
+                <a asp-area="Admin" asp-controller="Lecturer" asp-action="Index" class="btn btn-outline-success btn-block text-left">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i> Quản lý giảng viên
+                </a>
+                <a asp-area="Admin" asp-controller="CourseSection" asp-action="Index" class="btn btn-outline-danger btn-block text-left">
+                    <i class="fas fa-book-open mr-2"></i> Quản lý học tập
+                </a>
+                <a asp-area="Admin" asp-controller="News" asp-action="Index" class="btn btn-outline-primary btn-block text-left">
+                    <i class="fas fa-newspaper mr-2"></i> Quản lý tin tức
+                    <span class="badge badge-primary float-right mt-1">@Model.TotalNews</span>
+                </a>
+            </div>
+        </div>
 
-<script>
-    // Dữ liệu biểu đồ sinh viên theo khoa
-    const facultyLabels = @Html.Raw(
-                System.Text.Json.JsonSerializer.Serialize(Model.FacultyNames)
-        );
-
-    const facultyCounts = @Html.Raw(
-                System.Text.Json.JsonSerializer.Serialize(Model.FacultyCounts)
-        );
-
-    // Dữ liệu biểu đồ sinh viên theo giới tính
-    const genderLabels = @Html.Raw(
-                System.Text.Json.JsonSerializer.Serialize(Model.GenderLabels)
-        );
-
-    const genderCounts = @Html.Raw(
-                System.Text.Json.JsonSerializer.Serialize(Model.GenderCounts)
-        );
-
-    // Biểu đồ cột theo khoa
-    new Chart(document.getElementById('facultyChart'), {
-        type: 'bar',
-        data: {
-            labels: facultyLabels,
-            datasets: [{
-                label: 'Số lượng sinh viên',
-                data: facultyCounts,
-                backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1,
-                borderRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
+        <!-- GIỚI TÍNH SINH VIÊN -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3 px-4">
+                <h5 class="font-weight-bold text-dark mb-0">
+                    <i class="fas fa-venus-mars text-primary mr-2"></i> Giới tính sinh viên
+                </h5>
+            </div>
+            <div class="card-body px-4 py-3">
+                @if (!Model.StudentsByGender.Any())
+                {
+                    <div class="text-center text-muted py-4">Chưa có dữ liệu sinh viên.</div>
                 }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
+                else
+                {
+                    <div style="position: relative; height: 220px;">
+                        <canvas id="genderChart"></canvas>
+                    </div>
                 }
-            }
+            </div>
+        </div>
+
+    </div>
+    <!-- ================= HẾT CỘT PHẢI ================= -->
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var facultyLabels = @Html.Raw(JsonSerializer.Serialize(Model.StudentsByFaculty.Select(x => x.Label)));
+        var facultyValues = @Html.Raw(JsonSerializer.Serialize(Model.StudentsByFaculty.Select(x => x.Value)));
+        var genderLabels  = @Html.Raw(JsonSerializer.Serialize(Model.StudentsByGender.Select(x => x.Label)));
+        var genderValues  = @Html.Raw(JsonSerializer.Serialize(Model.StudentsByGender.Select(x => x.Value)));
+
+        var facultyCanvas = document.getElementById('facultyChart');
+        if (facultyCanvas) {
+            new Chart(facultyCanvas, {
+                type: 'bar',
+                data: {
+                    labels: facultyLabels,
+                    datasets: [{
+                        label: 'Số sinh viên',
+                        data: facultyValues,
+                        backgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
         }
-    });
 
-    // Biểu đồ tròn theo giới tính
-    new Chart(document.getElementById('genderChart'), {
-        type: 'doughnut',
-        data: {
-            labels: genderLabels,
-            datasets: [{
-                data: genderCounts,
-                backgroundColor: [
-                    '#007bff',
-                    '#e83e8c',
-                    '#6c757d'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
+        var genderCanvas = document.getElementById('genderChart');
+        if (genderCanvas) {
+            new Chart(genderCanvas, {
+                type: 'doughnut',
+                data: {
+                    labels: genderLabels,
+                    datasets: [{
+                        data: genderValues,
+                        backgroundColor: ['#17a2b8', '#e83e8c', '#6c757d']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
         }
-    });
-</script>
+    </script>
+}

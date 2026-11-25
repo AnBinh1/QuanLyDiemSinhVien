@@ -6,36 +6,33 @@
 
 <div class="container-fluid">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="card card-outline card-primary shadow-sm mb-4">
+        <div class="card-body py-3 px-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
 
-        <div>
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                         style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                        <i class="fas fa-user-plus text-primary" style="font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-weight-bold text-dark mb-1" style="font-size: 22px;">
+                            Phân công giảng dạy
+                        </h3>
+                        <p class="text-muted mb-0" style="font-size: 14px;">
+                            Chọn giảng viên phụ trách lớp học phần.
+                        </p>
+                    </div>
+                </div>
+                <a asp-area="Admin"
+                   asp-controller="TeachingAssignment"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại
+                </a>
 
-            <h3 class="text-primary mb-1">
-
-                <i class="fas fa-user-plus mr-2"></i>
-
-                Phân công giảng dạy
-
-            </h3>
-
-            <p class="text-muted mb-0">
-                Chọn giảng viên phụ trách lớp học phần
-            </p>
-
+            </div>
         </div>
-
-
-        <a asp-area="Admin"
-           asp-controller="TeachingAssignment"
-           asp-action="Index"
-           class="btn btn-secondary">
-
-            <i class="fas fa-arrow-left mr-1"></i>
-
-            Quay lại
-
-        </a>
-
     </div>
 
 

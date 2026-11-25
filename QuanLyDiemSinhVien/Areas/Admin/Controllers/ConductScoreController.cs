@@ -30,6 +30,73 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
             ViewBag.Semesters = new SelectList(semesters, "Id", "DisplayName", semesterId);
         }
 
+        // ===== Trang chính: danh sách lớp hành chính kèm tiến độ nhập điểm =====
+        public async Task<IActionResult> Classes(int? semesterId, string? keyword, bool onlyIncomplete = false)
+        {
+            var semesters = await _db.Semesters.AsNoTracking()
+                .OrderByDescending(s => s.StartYear).ThenByDescending(s => s.Term)
+                .ToListAsync();
+            var semester = semesters.FirstOrDefault(s => s.Id == semesterId) ?? semesters.FirstOrDefault();
+
+            var vm = new ConductClassListViewModel
+            {
+                Keyword = keyword?.Trim(),
+                OnlyIncomplete = onlyIncomplete
+            };
+            ViewBag.Semesters = new SelectList(semesters, "Id", "DisplayName", semester?.Id);
+
+            if (semester == null) return View(vm);      // chưa có học kỳ nào
+            vm.SemesterId = semester.Id;
+            vm.SemesterName = semester.DisplayName;
+
+            // danh sách lớp (có tìm theo tên)
+            var classQuery = _db.Classes
+                .Include(c => c.Major).ThenInclude(m => m!.Faculty)
+                .AsNoTracking().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(vm.Keyword))
+                classQuery = classQuery.Where(c => c.ClassName!.Contains(vm.Keyword));
+            var classes = await classQuery.OrderBy(c => c.ClassName).ToListAsync();
+
+            // sĩ số từng lớp
+            var studentClassIds = await _db.Students.AsNoTracking()
+                .Select(s => s.ClassId).ToListAsync();
+            var totals = studentClassIds.Where(x => x != null)
+                .GroupBy(x => x!.Value).ToDictionary(g => g.Key, g => g.Count());
+
+            // số điểm đã nhập và điểm trung bình từng lớp trong học kỳ đang chọn
+            var scoreRows = await _db.ConductScores.AsNoTracking()
+                .Where(c => c.SemesterId == semester.Id)
+                .Select(c => new { ClassId = c.Student!.ClassId, c.Score })
+                .ToListAsync();
+            var scoreByClass = scoreRows.Where(x => x.ClassId != null)
+                .GroupBy(x => x.ClassId!.Value)
+                .ToDictionary(g => g.Key, g => new { Count = g.Count(), Avg = g.Average(x => x.Score) });
+
+            var rows = classes.Select(c =>
+            {
+                totals.TryGetValue(c.ClassId, out var total);
+                scoreByClass.TryGetValue(c.ClassId, out var sc);
+                return new ConductClassRowViewModel
+                {
+                    ClassId = c.ClassId,
+                    ClassName = c.ClassName ?? "",
+                    MajorName = c.Major?.MajorName ?? "",
+                    FacultyName = c.Major?.Faculty?.FacultyName ?? "",
+                    Total = total,
+                    Scored = sc?.Count ?? 0,
+                    Average = sc?.Avg
+                };
+            }).ToList();
+
+            vm.ClassCount = rows.Count(r => r.Total > 0);
+            vm.CompleteCount = rows.Count(r => r.Total > 0 && r.Scored >= r.Total);
+            vm.Rows = onlyIncomplete
+                ? rows.Where(r => r.Total > 0 && r.Scored < r.Total).ToList()
+                : rows;
+
+            return View(vm);
+        }
+
         // ===== Danh sách điểm đã nhập =====
         public async Task<IActionResult> Index(int? classId, int? semesterId, bool unanswered = false)
         {
@@ -55,43 +122,50 @@ namespace QuanLyDiemSinhVien.Areas.Admin.Controllers
         }
 
         // ===== Nhập điểm theo lớp hành chính =====
+        // ===== Nhập điểm cho một lớp hành chính (mở từ danh sách lớp) =====
         public async Task<IActionResult> Entry(int? classId, int? semesterId)
         {
-            await LoadFiltersAsync(classId, semesterId);
-            var vm = new ConductEntryViewModel { ClassId = classId, SemesterId = semesterId };
+            if (!classId.HasValue || !semesterId.HasValue)
+                return RedirectToAction(nameof(Classes));
 
-            if (classId.HasValue && semesterId.HasValue)
+            var cls = await _db.Classes.AsNoTracking().FirstOrDefaultAsync(c => c.ClassId == classId);
+            var sem = await _db.Semesters.AsNoTracking().FirstOrDefaultAsync(s => s.Id == semesterId);
+            if (cls == null || sem == null) return NotFound();
+
+            var vm = new ConductEntryViewModel
             {
-                var cls = await _db.Classes.AsNoTracking().FirstOrDefaultAsync(c => c.ClassId == classId);
-                var sem = await _db.Semesters.AsNoTracking().FirstOrDefaultAsync(s => s.Id == semesterId);
-                if (cls == null || sem == null) return NotFound();
-                vm.ClassName = cls.ClassName ?? "";
-                vm.SemesterName = sem.DisplayName;
+                ClassId = classId,
+                SemesterId = semesterId,
+                ClassName = cls.ClassName ?? "",
+                SemesterName = sem.DisplayName
+            };
 
-                var students = await _db.Students
-                    .Where(s => s.ClassId == classId)
-                    .OrderBy(s => s.StudentCode)
-                    .AsNoTracking().ToListAsync();
+            var students = await _db.Students
+                .Where(s => s.ClassId == classId)
+                .OrderBy(s => s.StudentCode)
+                .AsNoTracking().ToListAsync();
 
-                var ids = students.Select(s => s.StudentId).ToList();
-                var existing = await _db.ConductScores
-                    .Where(c => c.SemesterId == semesterId && ids.Contains(c.StudentId))
-                    .AsNoTracking().ToDictionaryAsync(c => c.StudentId);
+            var ids = students.Select(s => s.StudentId).ToList();
+            var existing = await _db.ConductScores
+                .Where(c => c.SemesterId == semesterId && ids.Contains(c.StudentId))
+                .AsNoTracking().ToDictionaryAsync(c => c.StudentId);
 
-                vm.Rows = students.Select(s =>
+            vm.Rows = students.Select(s =>
+            {
+                existing.TryGetValue(s.StudentId, out var sc);
+                return new ConductEntryRowViewModel
                 {
-                    existing.TryGetValue(s.StudentId, out var sc);
-                    return new ConductEntryRowViewModel
-                    {
-                        StudentId = s.StudentId,
-                        StudentCode = s.StudentCode,
-                        StudentName = s.FullName,
-                        Score = sc?.Score,
-                        UpdatedBy = sc?.UpdatedBy,
-                        UpdatedAt = sc?.UpdatedAt
-                    };
-                }).ToList();
-            }
+                    StudentId = s.StudentId,
+                    StudentCode = s.StudentCode,
+                    StudentName = s.FullName,
+                    Score = sc?.Score,
+                    UpdatedBy = sc?.UpdatedBy,
+                    UpdatedAt = sc?.UpdatedAt
+                };
+            }).ToList();
+            var semesters = await _db.Semesters.AsNoTracking()
+            .OrderByDescending(s => s.StartYear).ThenByDescending(s => s.Term).ToListAsync();
+            ViewBag.Semesters = new SelectList(semesters, "Id", "DisplayName", semesterId);
             return View(vm);
         }
 

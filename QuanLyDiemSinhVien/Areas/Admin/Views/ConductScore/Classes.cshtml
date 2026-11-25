@@ -1,0 +1,130 @@
+﻿@model QuanLyDiemSinhVien.Models.ViewModel.ConductClassListViewModel
+@{
+    ViewData["Title"] = "Quản lý điểm rèn luyện";
+}
+
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                 style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                <i class="fas fa-star text-primary" style="font-size: 24px;"></i>
+            </div>
+            <div>
+                <h3 class="font-weight-bold text-dark mb-1" style="font-size: 22px;">
+                    Quản lý điểm rèn luyện
+                </h3>
+                <p class="text-muted mb-0" style="font-size: 14px;">
+                    Quản lý điểm rèn luyện theo lớp hành chính.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="card">
+    <div class="card-header bg-primary">
+        <h3 class="card-title"><i class="fas fa-list mr-2"></i>Danh sách lớp hành chính</h3>
+        <div class="card-tools">
+            <a asp-action="Index" class="btn btn-sm btn-light"><i class="fas fa-table"></i> Xem tất cả điểm đã nhập</a>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <form method="get" class="d-flex flex-wrap align-items-center mb-3" style="gap:10px">
+            <div class="d-flex align-items-center" style="gap:8px">
+                <label class="mb-0">Học kỳ</label>
+                <select name="semesterId" asp-items="(SelectList)ViewBag.Semesters" class="form-control"
+                        style="min-width:210px" onchange="this.form.submit()"></select>
+            </div>
+            <input type="text" name="keyword" value="@Model.Keyword" class="form-control" style="max-width:240px"
+                   placeholder="Tìm theo tên lớp..." />
+            <label class="mb-0">
+                <input type="checkbox" name="onlyIncomplete" value="true" @(Model.OnlyIncomplete ? "checked" : "") />
+                Chỉ lớp chưa nhập đủ
+            </label>
+            <button class="btn btn-secondary"><i class="fas fa-search"></i> Tìm</button>
+        </form>
+
+        @if (Model.SemesterId == null)
+        {
+            <div class="alert alert-warning mb-0">Chưa có học kỳ nào. Hãy thêm học kỳ vào bảng Semesters trước.</div>
+        }
+        else
+        {
+            <div class="mb-3">
+                <span class="badge badge-info" style="font-size:13px">@Model.SemesterName</span>
+                <span class="ml-2">Đã nhập đủ <b>@Model.CompleteCount</b>/<b>@Model.ClassCount</b> lớp</span>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead style="background:#e9ecef">
+                        <tr>
+                            <th style="width:60px;text-align:center">STT</th>
+                            <th>Lớp hành chính</th>
+                            <th>Ngành</th>
+                            <th>Khoa / Viện</th>
+                            <th style="text-align:center">Sĩ số</th>
+                            <th style="min-width:190px">Tiến độ nhập điểm</th>
+                            <th style="text-align:center">Điểm TB</th>
+                            <th style="text-align:center;width:190px">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var i = 1;
+                        }
+                        @foreach (var r in Model.Rows)
+                        {
+                            string barClass = r.Scored == 0 ? "bg-danger" : (r.Scored >= r.Total ? "bg-success" : "bg-warning");
+                            <tr>
+                                <td style="text-align:center">@(i++)</td>
+                                <td><b>@r.ClassName</b></td>
+                                <td>@r.MajorName</td>
+                                <td>@r.FacultyName</td>
+                                <td style="text-align:center"><span class="badge badge-info">@r.Total sinh viên</span></td>
+                                <td>
+                                    @if (r.Total == 0)
+                                    {
+                                        <span class="text-muted">Lớp chưa có sinh viên</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="progress" style="height:14px">
+                                            <div class="progress-bar @barClass" style="width:@(r.Percent)%"></div>
+                                        </div>
+                                        <small class="text-muted">@r.Scored/@r.Total sinh viên đã có điểm</small>
+                                    }
+                                </td>
+                                <td style="text-align:center">@(r.Average.HasValue? r.Average.Value.ToString("0.0") : "—")</td>
+                                <td style="text-align:center">
+                                    @if (r.Total > 0)
+                                    {
+                                        <a asp-action="Entry" asp-route-classId="@r.ClassId" asp-route-semesterId="@Model.SemesterId"
+                                           class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> Nhập điểm</a>
+                                        <a asp-action="Index" asp-route-classId="@r.ClassId" asp-route-semesterId="@Model.SemesterId"
+                                           class="btn btn-info btn-sm"><i class="fas fa-eye"></i> Xem điểm</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if (!Model.Rows.Any())
+                        {
+                            <tr><td colspan="8" class="text-center text-muted">Không có lớp nào phù hợp.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,300 @@
+﻿
+/* =========================================================
+   CHATBOT - TRỢ LÝ ẢO ĐẠI HỌC VINH
+   File: wwwroot/css/chatbot.css
+   ========================================================= */
+
+
+/* =========================================================
+   1. KHUNG CHATBOT
+   ========================================================= */
+
+#vinh-chatbot,
+#vinh-chatbot * {
+    box-sizing: border-box;
+}
+
+    #vinh-chatbot .vinh-chatbot-panel {
+        min-width: 0;
+    }
+
+    #vinh-chatbot .vinh-chatbot-body {
+        width: 100%;
+        min-width: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+
+    /* =========================================================
+   2. TIN NHẮN
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message {
+        display: flex;
+        width: 100%;
+        min-width: 0;
+        margin-bottom: 14px;
+    }
+
+    #vinh-chatbot .vinh-chatbot-assistant {
+        justify-content: flex-start;
+    }
+
+    #vinh-chatbot .vinh-chatbot-user {
+        justify-content: flex-end;
+    }
+
+    /* Tin nhắn AI */
+
+    #vinh-chatbot .vinh-chatbot-assistant .vinh-chatbot-message-content {
+        display: block;
+        width: 94%;
+        max-width: 94%;
+        min-width: 0;
+        padding: 11px 13px;
+        border-radius: 12px;
+        background: #f1f5f9;
+        color: #263445;
+        font-size: 14px;
+        line-height: 1.65;
+        overflow-wrap: anywhere;
+    }
+
+    /* Tin nhắn người dùng */
+
+    #vinh-chatbot .vinh-chatbot-user .vinh-chatbot-message-content {
+        display: block;
+        width: fit-content;
+        max-width: 82%;
+        min-width: 0;
+        padding: 10px 13px;
+        border-radius: 12px;
+        background: #1769aa;
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+   3. TIÊU ĐỀ VÀ ĐOẠN VĂN
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message-content
+    :is(h1, h2, h3, h4, h5, h6) {
+        max-width: 100%;
+        margin: 12px 0 8px;
+        color: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content > :first-child {
+        margin-top: 0;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content > :last-child {
+        margin-bottom: 0;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content p {
+        max-width: 100%;
+        margin: 0 0 10px;
+        overflow-wrap: anywhere;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content strong {
+        font-weight: 700;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content em {
+        font-style: italic;
+    }
+
+
+    /* =========================================================
+   4. BẢNG MARKDOWN
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message-content table {
+        display: table;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        table-layout: fixed;
+        border-collapse: collapse;
+        margin: 10px 0 12px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: inherit;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content th,
+    #vinh-chatbot .vinh-chatbot-message-content td {
+        max-width: 100%;
+        min-width: 0;
+        padding: 7px 6px;
+        border: 1px solid #d5dce5;
+        text-align: left;
+        vertical-align: top;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content th {
+        background: #e7edf5;
+        color: #263445;
+        font-weight: 700;
+    }
+
+        #vinh-chatbot .vinh-chatbot-message-content td p,
+        #vinh-chatbot .vinh-chatbot-message-content th p {
+            margin: 0;
+        }
+
+
+    /* =========================================================
+   5. DANH SÁCH
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message-content ul,
+    #vinh-chatbot .vinh-chatbot-message-content ol {
+        max-width: 100%;
+        margin: 8px 0 12px;
+        padding-left: 22px;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content li {
+        margin-bottom: 5px;
+        padding-left: 2px;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+   6. KHỐI CODE
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message-content pre {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 10px 0;
+        padding: 12px;
+        border-radius: 8px;
+        background: #172033;
+        color: #e5e7eb;
+        font-size: 12px;
+        line-height: 1.55;
+        white-space: pre;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+        #vinh-chatbot .vinh-chatbot-message-content pre code {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font-size: inherit;
+            white-space: pre;
+        }
+
+    #vinh-chatbot .vinh-chatbot-message-content :not(pre) > code {
+        padding: 2px 5px;
+        border-radius: 4px;
+        background: #e2e8f0;
+        color: #c2410c;
+        font-size: 0.9em;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+   7. LIÊN KẾT VÀ TRÍCH DẪN
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-message-content a {
+        color: #1769aa;
+        text-decoration: underline;
+        overflow-wrap: anywhere;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content blockquote {
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 7px 0 7px 12px;
+        border-left: 3px solid #1769aa;
+        color: #64748b;
+        overflow-wrap: anywhere;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content hr {
+        max-width: 100%;
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #d5dce5;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+    }
+
+
+    /* =========================================================
+   8. TRẠNG THÁI VÀ THÔNG BÁO LỖI
+   ========================================================= */
+
+    #vinh-chatbot .vinh-chatbot-typing {
+        color: #64748b;
+        font-size: 13px;
+        font-style: italic;
+    }
+
+    #vinh-chatbot .vinh-chatbot-error {
+        color: #dc2626;
+    }
+
+    #vinh-chatbot .vinh-chatbot-input button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+
+/* =========================================================
+   9. RESPONSIVE - ĐIỆN THOẠI
+   ========================================================= */
+
+@media (max-width: 576px) {
+
+    #vinh-chatbot .vinh-chatbot-assistant .vinh-chatbot-message-content {
+        width: 97%;
+        max-width: 97%;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    #vinh-chatbot .vinh-chatbot-user .vinh-chatbot-message-content {
+        max-width: 88%;
+        font-size: 13px;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content table {
+        font-size: 11px;
+    }
+
+    #vinh-chatbot .vinh-chatbot-message-content th,
+    #vinh-chatbot .vinh-chatbot-message-content td {
+        padding: 6px 4px;
+    }
+}

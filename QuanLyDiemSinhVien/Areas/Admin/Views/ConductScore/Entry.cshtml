@@ -50,7 +50,7 @@
 {
     <div class="cs-alert err">@TempData["Error"]</div>
 }
-
+@* 
 <div class="cs-card">
     <div class="cs-card-h">Nhập điểm rèn luyện theo lớp hành chính</div>
     <div class="cs-card-b">
@@ -70,6 +70,18 @@
             <button class="btn btn-primary">Mở danh sách lớp</button>
         </form>
     </div>
+</div> *@
+
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+    <a asp-action="Classes" asp-route-semesterId="@Model.SemesterId" class="btn btn-outline-secondary btn-sm">
+        &larr; Danh sách lớp hành chính
+    </a>
+    <form method="get" style="display:flex;align-items:center;gap:8px;margin:0">
+        <input type="hidden" name="classId" value="@Model.ClassId" />
+        <label style="margin:0">Học kỳ</label>
+        <select name="semesterId" asp-items="(SelectList)ViewBag.Semesters"
+                class="form-control form-control-sm" onchange="this.form.submit()"></select>
+    </form>
 </div>
 
 @if (Model.Rows.Any())

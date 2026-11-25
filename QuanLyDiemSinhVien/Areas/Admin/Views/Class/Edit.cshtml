@@ -1,46 +1,73 @@
 ﻿@model ClassModel
 @{
     ViewData["title"] = "Cập nhật lớp học";
-
 }
 
-<h3 style="padding:10px 0px 0px 10px">Cập Nhật Ngành Học</h3>
+<!-- TIÊU ĐỀ -->
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                 style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                <i class="fas fa-edit text-primary" style="font-size: 24px;"></i>
+            </div>
+            <h3 class="font-weight-bold text-dark mb-0" style="font-size: 22px;">
+                Cập nhật lớp học
+            </h3>
+        </div>
+    </div>
+</div>
 
-<div class="col-md-11" style="margin-left:30px">
-    <h6>Những form có * là yêu cầu bắt buộc nhập(không đươc để trống)</h6>
-    <form asp-action="Edit" asp-controller="Class" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="ClassId" />
-        <div class="form-group">
-            <label>Tên Lớp Học*</label>
-            <input asp-for="ClassName" required class="form-control" placeholder="Mời nhập tên lớp học" />
-            <span asp-validation-for="ClassName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Mô tả Lớp Học*</label>
-            <input asp-for="ClassDescription" class="form-control" placeholder="Yêu cầu nhập mô tả lớp học" />
-            <span asp-validation-for="ClassDescription" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="FacultyId">Chọn Khoa/Viện *</label>
-            <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
-                <option value="">-- Chọn Khoa/Viện --</option>
-            </select>
-            <span asp-validation-for="Major.Faculty.Id" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label for="MajorId">Chọn Ngành Học *</label>
-            <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
-                <option value="">-- Chọn Ngành Học --</option>
-            </select>
-            <span asp-validation-for="MajorId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary">Cập nhật Ngành Học</button>
-        </div>
-    </form>
-    <a asp-action="Index">Quay Lại</a>
+<!-- FORM -->
+<div class="card shadow-sm">
+    <div class="card-body px-4 py-4">
+        <p class="text-muted mb-4">
+            Các trường có dấu <span class="text-danger">*</span> là bắt buộc nhập (không được để trống).
+        </p>
+
+        <form asp-action="Edit" asp-controller="Class" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ClassId" />
+
+            <div class="form-group">
+                <label asp-for="ClassName">Tên lớp học <span class="text-danger">*</span></label>
+                <input asp-for="ClassName" required class="form-control" placeholder="Mời nhập tên lớp học" />
+                <span asp-validation-for="ClassName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ClassDescription">Mô tả lớp học <span class="text-danger">*</span></label>
+                <textarea asp-for="ClassDescription" rows="3" class="form-control" placeholder="Yêu cầu nhập mô tả lớp học"></textarea>
+                <span asp-validation-for="ClassDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="FacultyId">Chọn khoa/viện <span class="text-danger">*</span></label>
+                <select id="FacultyId" class="form-control" asp-items="ViewBag.FacultyList">
+                    <option value="">-- Chọn khoa/viện --</option>
+                </select>
+                <span asp-validation-for="Major.Faculty.Id" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="MajorId">Chọn ngành học <span class="text-danger">*</span></label>
+                <select asp-for="MajorId" id="MajorId" class="form-control" asp-items="ViewBag.MajorList">
+                    <option value="">-- Chọn ngành học --</option>
+                </select>
+                <span asp-validation-for="MajorId" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save mr-1"></i> Cập nhật lớp học
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts
@@ -49,4 +76,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

@@ -4,33 +4,51 @@
     ViewData["Title"] = "Thêm mới lớp học phần";
 }
 
-<h3 style="padding:10px 0px 0px 10px">Thêm mới lớp học phần</h3>
+<!-- TIÊU ĐỀ -->
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body py-3 px-4">
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center justify-content-center rounded mr-3"
+                 style="width: 52px; height: 52px; background-color: #e8f1ff; flex-shrink: 0;">
+                <i class="fas fa-plus text-primary" style="font-size: 24px;"></i>
+            </div>
+            <h3 class="font-weight-bold text-dark mb-0" style="font-size: 22px;">
+                Thêm mới lớp học phần
+            </h3>
+        </div>
+    </div>
+</div>
 
-<div class="col-md-11" style="margin-left:30px">
-    <h6>Những form có * là yêu cầu bắt buộc nhập (không được để trống)</h6>
+<!-- FORM -->
+<div class="card shadow-sm">
+    <div class="card-body px-4 py-4">
+        <p class="text-muted mb-4">
+            Các trường có dấu <span class="text-danger">*</span> là bắt buộc nhập (không được để trống).
+        </p>
+
          <form asp-action="Create" method="post" asp-controller="CourseSection" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                     <label for="CourseId">Chọn Học Phần *</label>
+                <label for="CourseId">Chọn Học Phần <span class="text-danger">*</span></label>
                         <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courses">
                               <option value="">-- Chọn Học Phần --</option>
                          </select>
                     <span asp-validation-for="CourseId" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Lớp học phần</label>
+                <label class="form-label">Lớp học phần <span class="text-danger">*</span></label>
                     <input asp-for="SectionCode" class="form-control" />
                     <span asp-validation-for="SectionCode" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Năm học</label>
+                <label class="form-label">Năm học <span class="text-danger">*</span></label>
                     <input asp-for="AcademicYear" class="form-control" placeholder="2025-2026" />
                     <span asp-validation-for="AcademicYear" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Semester">Học Kỳ*</label>
+                <label asp-for="Semester">Học Kỳ<span class="text-danger">*</span></label>
                     <select asp-for="Semester" class="form-control">
                         <option value="">-- Chọn Học Kỳ --</option>
                             <option value="HK 1">HK 1</option>
@@ -40,12 +58,12 @@
                      <span asp-validation-for="Semester" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Số lượng tối đa</label>
+                <label class="form-label">Số lượng tối đa <span class="text-danger">*</span></label>
                     <input asp-for="MaxStudents" type="number" class="form-control" />
                     <span asp-validation-for="MaxStudents" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="LecturerId">Giảng viên phụ trách *</label>
+                <label for="LecturerId">Giảng viên phụ trách <span class="text-danger">*</span></label>
                     <select asp-for="LecturerId" class="form-control" asp-items="ViewBag.Lecturers">
                         <option value="">-- Chọn Giảng Viên Phụ Trách --</option>
                     </select>
@@ -58,12 +76,12 @@
                     </select>
                 </div> *@
                 <div class="mb-3">
-                    <label class="form-label">Phòng học</label>
+                <label class="form-label">Phòng học <span class="text-danger">*</span></label>
                     <input asp-for="Room" class="form-control" />
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Số giờ giảng</label>
+                <label class="form-label">Số giờ giảng <span class="text-danger">*</span></label>
                     <div class="row">
                         <div class="col">
                             <input asp-for="LectureHours" type="number" class="form-control" placeholder="Giờ lý thuyết" />
@@ -77,17 +95,17 @@
                     </div>
                 </div>
                 <div class="mb-3" id="registrationDates" style="display:none;">
-                    <label class="form-label">Ngày bắt đầu đăng ký *</label>
+                <label class="form-label">Ngày bắt đầu đăng ký <span class="text-danger">*</span></label>
                     <input asp-for="StartDate" type="date" class="form-control" />
                     <span asp-validation-for="StartDate" class="text-danger"></span>
 
-                    <label class="form-label">Ngày kết thúc đăng ký *</label>
+                <label class="form-label">Ngày kết thúc đăng ký <span class="text-danger">*</span></label>
                     <input asp-for="EndDate" type="date" class="form-control" />
                     <span asp-validation-for="EndDate" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Status">Trạng thái</label>
+                <label asp-for="Status">Trạng thái <span class="text-danger">*</span></label>
                     <select asp-for="Status" class="form-control">
                         <option value="Closed">Đóng</option>
                         <option value="Open">Mở</option>
